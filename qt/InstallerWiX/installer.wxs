@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<Wix
+  xmlns="http://schemas.microsoft.com/wix/2006/wi"
+  xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <Product
+    Id="{9fc4d185-1a4b-4d44-8f96-ef3fd7af3a49}" 
+    Name="Test App"
+    Language="1033"
+    Version="1.0"
+    Manufacturer="Marek Cel" 
+    UpgradeCode="{48adf836-38c4-4093-b04e-6d07c26e08d7}">
+        
+    <Package
+      Description="MScSim Windows Installer Package"
+      Manufacturer="Marek Cel (marekcel.pl)"
+      InstallerVersion="300"
+      Compressed="yes" />
+
+    <Media Id="1" Cabinet="mscsim.cab" EmbedCab="yes" />
+    
+    <WixVariable Id="WixUILicenseRtf" Value="LICENSE.rtf" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      
+      <!-- installation dir -->
+      <Directory Id="ProgramFilesFolder" Name="PFiles">
+        <Directory Id="dir_main" Name="TestApp">
+          
+        </Directory>
+      </Directory>
+            
+      <!-- start menu shortcuts -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="TestApp">
+          <Component Id="menu_shortcuts" Guid="{256081f8-5c03-46b0-bd64-629b71423e25}">
+            <Shortcut
+              Id="menu_launcher" 
+              Name="Test App" 
+              Icon="test.ico"
+              Target="[dir_main]\bin\test.exe"
+              WorkingDirectory="dir_main" />
+            <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall"/>
+            <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+          </Component>
+        </Directory>
+      </Directory>
+      
+    </Directory>
+
+    <!-- main program -->
+    <Feature Id="mscsim_main" Title="MScSim" Level="1">
+      <ComponentGroupRef Id="cg_dir_bin" />
+      <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
+    </Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="dir_main" />
+    <UIRef Id="WixUI_InstallDir" />
+    
+    <Icon Id="test.ico" SourceFile="test.ico" />
+    
+  </Product>
+</Wix>
