@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layers>
+  
+  <landmass>
+    <file>data/layers/bnd_polbnd.osgb</file>
+  </landmass>
+  
+  <coastline>
+    <file>data/layers/v0eur_5_bnd_coastl.osgb</file>
+  </coastline>
+  
+</layers>
