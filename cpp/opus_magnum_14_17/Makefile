@@ -1,0 +1,32 @@
+CXX = g++
+
+LIBS = 
+
+LNKFLAGS = 
+CXXFLAGS = -Wall -g -O2 -std=c++17
+
+# C++11: c++11 (c++0x)
+# C++14: c++14 (c++1y) 
+# C++17: c++17 (c++1z)
+# C++20: c++20 (c++2a)
+
+SOURCES = \
+	src/02_attributes.cpp \
+	src/02_auto_return_type.cpp
+
+################################################################################
+
+.SUFFIXES: .cpp
+
+all: cppfiles
+
+cppfiles: $(SOURCES:.cpp=)
+
+.cpp:
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $*.cpp -o bin/$(notdir $*) $(LNKFLAGS)
+
+################################################################################
+
+clean:
+	@rm -f src/*.o
+	@rm -f bin/*
