@@ -19,7 +19,7 @@ src/04_reinterpret_cast.cpp
 src/04_static_assert.cpp
 src/04_static_cast.cpp
 src/05_std_string.cpp
-src/06_function_c++11.cpp
+src/06_function_cpp_11.cpp
 src/06_function_default_arguments.cpp
 src/06_rvalue_ref.cpp
 src/06_static_function.cpp
