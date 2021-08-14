@@ -140,6 +140,8 @@ then
         doxygen-gui \
         freeglut3-dev \
         gcc-avr \
+        git \
+        git-gui \
         google-perftools \
         idle \
         kdesvn \
@@ -203,6 +205,12 @@ then
         vtk7 \
         vtk7-examples \
         wireshark
+    
+    sudo pip3 install \
+        numpy \
+        pendulum \
+        pyfoam \
+        scipy
         
     # QT EXAMPLES
     # /usr/lib/x86_64-linux-gnu/qt5/examples1
