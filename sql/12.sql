@@ -1,0 +1,2 @@
+SELECT * FROM osoby (READPAST)
+SELECT * FROM osoby (NOLOCK)
