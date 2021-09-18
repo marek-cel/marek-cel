@@ -1,8 +1,8 @@
-### Hi there 👋
+### Hello there 👋
 
 I am an aerospace engineer with a strong software engineering background. I graduated from Faculty of Power and Aeronautical Engineering of Warsaw University of Technology and since then I work on flight simulators as a flight dynamics specialist.
       
-I am interested in scientific computing, flight dynamics, 3D printing, scale modeling, electronics, role-playing games, photography, cooking and horticulture.
+I am interested in 3D printing, scale modeling, electronics, role-playing games, science fiction, photography, cooking and horticulture.
 
 <!--
 **marek-cel/marek-cel** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
@@ -19,11 +19,11 @@ Here are some ideas to get you started:
 - ⚡ Fun fact: ...
 -->
 
-## Contact
+### Contact
 
 You can contact me by [e-mail](mailto:contact@marekcel.pl?subject=[GitHub]).
 
-## Statistics
+### Statistics
 
 <img height="200px" alt="GitHub Stats" src="https://github-readme-stats.vercel.app/api?username=marek-cel&show_icons=true&hide_border=true" />
 <img height="200px" alt="Top Langs" src="https://github-readme-stats.vercel.app/api/top-langs/?username=marek-cel&hide_border=true&hide=javascript,html" />
