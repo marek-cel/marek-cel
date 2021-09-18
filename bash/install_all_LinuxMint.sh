@@ -151,6 +151,7 @@ then
         libalut-dev \
         libboost-all-dev \
         libbullet-dev \
+        libeigen3-dev \
         libfltk1.3-dev \
         libgdal-dev \
         libmarble-dev \
@@ -171,6 +172,7 @@ then
         libqt5x11extras5-dev \
         libqwt-qt5-6 \
         libqwt-qt5-dev \
+        libtbb-dev \
         libtinfo5 \
         libtool \
         libvtk7.1p \
@@ -184,6 +186,7 @@ then
         openscenegraph \
         openscenegraph-doc \
         openscenegraph-plugin-osgearth \
+        osgearth \
         python \
         python-all \
         python-all-dev \
