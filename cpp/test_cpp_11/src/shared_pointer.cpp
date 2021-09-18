@@ -11,15 +11,19 @@ class MyClass
 {
 public:
 
-    MyClass()
+    MyClass( int i ) :
+        _i ( i )
     {
-        cout << "MyClass()" << endl;
+        cout << "MyClass() " << _i << endl;
     }
 
     ~MyClass()
     {
-        cout << "~MyClass()" << endl;
+        cout << "~MyClass() " << _i << endl;
     }
+
+private:
+    const int _i;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,8 +34,8 @@ public:
 
     Storage()
     {
-        _mc1 = std::make_shared< MyClass >();
-        _mc2 = std::make_shared< MyClass >();
+        _mc1 = std::make_shared< MyClass >( 1 );
+        _mc2 = std::make_shared< MyClass >( 2 );
     }
 
     std::shared_ptr< MyClass > getMC1() { return _mc1; }
@@ -44,8 +48,10 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-int main()
+void test1()
 {
+    cout << endl << __func__ << endl;
+
     Storage *s = new Storage();
 
     cout << __FILE__ << "(" << __LINE__ << ")" << endl;
@@ -55,6 +61,29 @@ int main()
     delete s;
 
     cout << __FILE__ << "(" << __LINE__ << ")" << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void test2()
+{
+    cout << endl << __func__ << endl;
+
+    std::shared_ptr< MyClass > mc1 = std::make_shared< MyClass >( 0 );
+
+    cout << __FILE__ << "(" << __LINE__ << ")" << endl;
+
+    mc1 = nullptr;
+
+    cout << __FILE__ << "(" << __LINE__ << ")" << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+int main()
+{
+    test1();
+    test2();
 
     return 0;
 }

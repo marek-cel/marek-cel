@@ -13,9 +13,11 @@ CXXFLAGS = -Wall -g -O2 -std=c++11
 SOURCES = \
 	src/00_test.cpp \
 	src/auto.cpp \
+    src/noexcept.cpp \
 	src/range_for.cpp \
 	src/shared_pointer.cpp \
-	src/unique_pointer.cpp
+	src/unique_pointer.cpp \
+	src/user_defined_literals.cpp
 
 ################################################################################
 
