@@ -1,4 +1,9 @@
 <map>
+    <options>
+        <profile>global-geodetic</profile>
+        <!--<profile>spherical-mercator</profile>-->
+    </options>
+    
     <image name="World GeoTIFF" driver="gdal">
         <url>world.tif</url>
     </image>
