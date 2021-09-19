@@ -142,7 +142,10 @@ then
         gcc-avr \
         git \
         git-gui \
+        google-mock \
         google-perftools \
+        googletest \
+        googletest-tools \
         idle \
         kdesvn \
         kdevelop \
