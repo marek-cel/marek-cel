@@ -71,7 +71,10 @@ SOURCES = \
 
 .SUFFIXES: .cpp
 
-all: bin/06_static_function cppfiles
+all: bindir bin/06_static_function cppfiles
+
+bindir:
+	@if [ ! -d "./bin" ]; then mkdir bin; fi
 
 bin/06_static_function: 
 	$(CXX) -c $(INCLUDES) $(CXXFLAGS) src/06_static_function.cpp -o src/06_static_function.o
@@ -88,3 +91,4 @@ cppfiles: $(SOURCES:.cpp=)
 clean:
 	@rm -f src/*.o
 	@rm -f bin/*
+	@if [ -d "./bin" ]; then rm -r bin; fi

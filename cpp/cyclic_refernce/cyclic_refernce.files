@@ -1,0 +1,4 @@
+Makefile
+src/main.cpp
+src/MyClassA.h
+src/MyClassB.h

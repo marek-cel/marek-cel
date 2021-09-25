@@ -13,7 +13,7 @@ CXXFLAGS = -Wall -g -O2 -std=c++11
 SOURCES = \
 	src/00_test.cpp \
 	src/auto.cpp \
-    src/noexcept.cpp \
+	src/noexcept.cpp \
 	src/range_for.cpp \
 	src/shared_pointer.cpp \
 	src/unique_pointer.cpp \
@@ -23,7 +23,10 @@ SOURCES = \
 
 .SUFFIXES: .cpp
 
-all: cppfiles
+all: bindir cppfiles
+
+bindir:
+	@if [ ! -d "./bin" ]; then mkdir bin; fi
 
 cppfiles: $(SOURCES:.cpp=)
 
@@ -35,3 +38,4 @@ cppfiles: $(SOURCES:.cpp=)
 clean:
 	@rm -f src/*.o
 	@rm -f bin/*
+	@if [ -d "./bin" ]; then rm -r bin; fi

@@ -18,7 +18,10 @@ SOURCES = \
 
 .SUFFIXES: .cpp
 
-all: cppfiles
+all: bindir cppfiles
+
+bindir:
+	@if [ ! -d "./bin" ]; then mkdir bin; fi
 
 cppfiles: $(SOURCES:.cpp=)
 
@@ -30,3 +33,4 @@ cppfiles: $(SOURCES:.cpp=)
 clean:
 	@rm -f src/*.o
 	@rm -f bin/*
+	@if [ -d "./bin" ]; then rm -r bin; fi
