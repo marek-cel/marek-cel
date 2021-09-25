@@ -125,122 +125,26 @@ then
     printGreen "Installing DEVELOPMENT ESSENTIALS ..."
 
     sudo apt install -y \
-        android-tools-fastboot \
-        android-tools-adb \
-        android-sdk-platform-tools-common \
-        autoconf \
-        automake \
-        avr-libc \
-        avrdude \
-        build-essential \
         cloc \
-        cmake \
-        cmake-qt-gui \
-        cppcheck \
-        doxygen-gui \
-        freeglut3-dev \
-        gcc-avr \
         git \
         git-gui \
-        google-mock \
-        google-perftools \
-        googletest \
-        googletest-tools \
-        idle \
         kdesvn \
-        kdevelop \
-        kdevelop-php \
         kdiff3 \
-        libalut-dev \
-        libboost-all-dev \
-        libbullet-dev \
-        libeigen3-dev \
-        libfltk1.3-dev \
-        libgdal-dev \
-        libmarble-dev \
-        libmarblewidget-qt5-28 \
-        libopenscenegraph-dev \
-        liboce-foundation-dev \
-        liboce-modeling-dev \
-        liboce-visualization-dev \
-        libopenal-dev \
-        libosgearth-dev \
-        libqt5charts5-dev \
-        libqt5gamepad5-dev \
-        libqt5opengl5-dev \
-        libqt5sensors5-dev \
-        libqt5serialport5-dev \
-        libqt5svg5-dev \
-        libqt5texttospeech5-dev \
-        libqt5x11extras5-dev \
-        libqwt-qt5-6 \
-        libqwt-qt5-dev \
-        libtbb-dev \
-        libtinfo5 \
-        libtool \
-        libvtk7.1p \
-        libvtk7.1p-qt \
-        libvtk7-dev \
-        libvtk7-qt-dev \
-        libxft-dev \
-        libxinerama-dev \
-        libxml2-dev \
-        libxss-dev \
-        openscenegraph \
-        openscenegraph-doc \
-        openscenegraph-plugin-osgearth \
-        osgearth \
-        python \
-        python-all \
-        python-all-dev \
-        python-pip-whl \
-        python3-all \
-        python3-all-dev \
-        python3-fluids \
-        python3-matplotlib \
-        python3-numpy \
-        python3-pip \
-        python3-pyqt5 \
-        python3-scipy \
-        python3-setuptools \
-        python3-vtk7 \
-        qtbase5-dev \
-        qtcreator \
         subversion \
-        valgrind \
-        vtk7 \
-        vtk7-examples \
         wireshark
     
-    sudo pip3 install \
-        numpy \
-        pendulum \
-        pyfoam \
-        scipy
-        
-    # QT EXAMPLES
-    # /usr/lib/x86_64-linux-gnu/qt5/examples1
-    readBold "Do you want to install QT EXAMPLES? y or n"
+    # ANDROID TOOLS
+    readBold "Do you want to install ANDROID TOOLS? y or n"
 
     if [[ $REPLY =~ ^[Yy]$ ]]
     then   
 
-        printGreen "Installing QT EXAMPLES ..."
+        printGreen "Installing ANDROID TOOLS ..."
 
         sudo apt install -y \
-            qtbase5-examples \
-            qtcharts5-examples \
-            qtdatavisualization5-examples \
-            qtgamepad5-examples \
-            qtlocation5-examples \
-            qtmultimedia5-examples \
-            qtsensors5-examples \
-            qtspeech5-examples \
-            qtsvg5-examples \
-            qttools5-examples
-            
-        cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
-            
+            android-tools-fastboot \
+            android-tools-adb \
+            android-sdk-platform-tools-common
     fi
     
     # ARDUINO IDE
@@ -257,8 +161,213 @@ then
             arduino-mk
 
         sudo gpasswd -a cel dialout
-            
     fi
+    
+    # AVR TOOLS
+    readBold "Do you want to install AVR TOOLS? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing AVR TOOLS ..."
+
+        sudo apt install -y \
+            avr-libc \
+            avrdude \
+            gcc-avr
+    fi
+    
+    # C++ TOOLS
+    readBold "Do you want to install C++ TOOLS? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing C++ TOOLS ..."
+        
+        sudo apt install -y \
+            autoconf \
+            automake \
+            build-essential \
+            cmake \
+            cmake-qt-gui \
+            cppcheck \
+            doxygen-gui \
+            valgrind
+    fi
+    
+    # C++ EXTRA LIBS
+    readBold "Do you want to install C++ EXTRA LIBS? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing C++ EXTRA LIBS ..."
+        
+        sudo apt install -y \
+            freeglut3-dev \
+            libalut-dev \
+            libboost-all-dev \
+            libbullet-dev \
+            libeigen3-dev \
+            libfltk1.3-dev \
+            libgdal-dev \
+            liboce-foundation-dev \
+            liboce-modeling-dev \
+            liboce-visualization-dev \
+            libopenal-dev \
+            libtbb-dev \
+            libtinfo5 \
+            libtool \
+            libxft-dev \
+            libxinerama-dev \
+            libxml2-dev \
+            libxss-dev  
+    fi
+    
+    # JAVA
+    readBold "Do you want to install JAVA? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing JAVA ..."
+        
+        sudo apt install -y \
+            default-jdk \
+            default-jre
+    fi
+    
+    # GOOGLE TOOLS
+    readBold "Do you want to install GOOGLE TOOLS? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing GOOGLE TOOLS ..."
+        
+        sudo apt install -y \
+            google-mock \
+            google-perftools \
+            googletest \
+            googletest-tools
+    fi
+
+    # OSG
+    readBold "Do you want to install OSG? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing OSG ..."
+        
+        sudo apt install -y \
+            libopenscenegraph-dev \
+            libosgearth-dev \
+            openscenegraph \
+            openscenegraph-doc \
+            openscenegraph-plugin-osgearth \
+            osgearth
+    fi
+        
+    # PYTHON
+    readBold "Do you want to install PYTHON? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing PYTHON ..."
+        
+        sudo apt install -y \
+            idle \
+            python \
+            python-all \
+            python-all-dev \
+            python-pip-whl \
+            python3-all \
+            python3-all-dev \
+            python3-fluids \
+            python3-matplotlib \
+            python3-numpy \
+            python3-pip \
+            python3-pyqt5 \
+            python3-scipy \
+            python3-setuptools \
+            python3-vtk7
+
+        sudo pip3 install \
+            numpy \
+            pendulum \
+            pyfoam \
+            scipy
+    fi
+    
+    # QT
+    readBold "Do you want to install QT? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing QT ..."
+        
+        sudo apt install -y \
+            libmarble-dev \
+            libmarblewidget-qt5-28 \
+            libqt5charts5-dev \
+            libqt5gamepad5-dev \
+            libqt5opengl5-dev \
+            libqt5sensors5-dev \
+            libqt5serialport5-dev \
+            libqt5svg5-dev \
+            libqt5texttospeech5-dev \
+            libqt5x11extras5-dev \
+            libqwt-qt5-6 \
+            libqwt-qt5-dev \
+            qtbase5-dev \
+            qtcreator
+        
+        # QT EXAMPLES
+        # /usr/lib/x86_64-linux-gnu/qt5/examples1
+        readBold "Do you want to install QT EXAMPLES? y or n"
+
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then   
+
+            printGreen "Installing QT EXAMPLES ..."
+
+            sudo apt install -y \
+                qtbase5-examples \
+                qtcharts5-examples \
+                qtdatavisualization5-examples \
+                qtgamepad5-examples \
+                qtlocation5-examples \
+                qtmultimedia5-examples \
+                qtsensors5-examples \
+                qtspeech5-examples \
+                qtsvg5-examples \
+                qttools5-examples
+                
+            cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
+        fi
+    fi
+    
+    # VTK
+    readBold "Do you want to install VTK? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing VTK ..."
+        
+        sudo apt install -y \
+            libvtk7.1p \
+            libvtk7.1p-qt \
+            libvtk7-dev \
+            libvtk7-qt-dev \
+            vtk7 \
+            vtk7-examples
+    fi
+
 fi
 
 ################################################################################
