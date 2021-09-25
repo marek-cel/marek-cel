@@ -18,6 +18,7 @@ all: $(TARGET)
 $(TARGET): cfiles
 	@echo
 	@echo '    Linking $(TARGET) ...'
+	@if [ ! -d "./bin" ]; then mkdir bin; fi
 	@$(CC) -o $(TARGET) $(LNKFLAGS) src/*.o $(LIBS)
 
 cfiles: $(SOURCES:.c=.o)
@@ -33,3 +34,4 @@ cfiles: $(SOURCES:.c=.o)
 clean:
 	@rm -f src/*.o
 	@rm -f $(TARGET)
+	@if [ -d "./bin" ]; then rm -r bin; fi
