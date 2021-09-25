@@ -9,7 +9,7 @@
         <javac srcdir="src" destdir="build/classes"/>
     </target>
 
-    <target name="jar">
+    <target name="jar" depends="compile">
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/LiskovSubstitution.jar" basedir="build/classes">
             <manifest>
@@ -17,8 +17,8 @@
             </manifest>
         </jar>
     </target>
-
-    <target name="run">
+    
+    <target name="run" depends="jar">
         <java jar="build/jar/LiskovSubstitution.jar" fork="true"/>
     </target>
 

@@ -6,20 +6,20 @@
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"/>
+        <javac srcdir="src" includeantruntime="false" destdir="build/classes"/>
     </target>
 
     <target name="jar" depends="compile">
         <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/DependencyInversion.jar" basedir="build/classes">
+        <jar destfile="build/jar/IDEA.jar" basedir="build/classes">
             <manifest>
-                <attribute name="Main-Class" value="pl.marekcel.dev.cel.java.solid.DependencyInversion.Main"/>
+                <attribute name="Main-Class" value="pl.marekcel.dev.cel.java.test.idea.Main"/>
             </manifest>
         </jar>
     </target>
     
     <target name="run" depends="jar">
-        <java jar="build/jar/DependencyInversion.jar" fork="true"/>
+        <java jar="build/jar/IDEA.jar" fork="true"/>
     </target>
 
 </project>
