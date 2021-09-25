@@ -69,7 +69,8 @@ void test2()
 {
     cout << endl << __func__ << endl;
 
-    std::shared_ptr< MyClass > mc1 = std::make_shared< MyClass >( 0 );
+    std::shared_ptr< MyClass > mc1 = std::make_shared< MyClass >( 1 );
+    std::shared_ptr< MyClass > mc2 = std::make_shared< MyClass >( 2 );
 
     cout << __FILE__ << "(" << __LINE__ << ")" << endl;
 
@@ -80,10 +81,62 @@ void test2()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void test3()
+{
+    cout << endl << __func__ << endl;
+
+    std::shared_ptr< MyClass > mc1;
+
+    if ( mc1 )
+        cout << "mc1 is NOT null" << endl;
+    else
+        cout << "mc1 is null" << endl;
+
+    if ( !mc1 )
+        cout << "mc1 is null" << endl;
+    else
+        cout << "mc1 is NOT null" << endl;
+
+    if ( mc1 == nullptr )
+        cout << "mc1 is null" << endl;
+    else
+        cout << "mc1 is NOT null" << endl;
+
+    if ( mc1 != nullptr )
+        cout << "mc1 is NOT null" << endl;
+    else
+        cout << "mc1 is null" << endl;
+
+    mc1 = std::make_shared< MyClass >( 0 );
+
+    if ( mc1 )
+        cout << "mc1 is NOT null" << endl;
+    else
+        cout << "mc1 is null" << endl;
+
+    if ( !mc1 )
+        cout << "mc1 is null" << endl;
+    else
+        cout << "mc1 is NOT null" << endl;
+
+    if ( mc1 == nullptr )
+        cout << "mc1 is null" << endl;
+    else
+        cout << "mc1 is NOT null" << endl;
+
+    if ( mc1 != nullptr )
+        cout << "mc1 is NOT null" << endl;
+    else
+        cout << "mc1 is null" << endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main()
 {
     test1();
     test2();
+    test3();
 
     return 0;
 }

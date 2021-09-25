@@ -29,9 +29,9 @@ int main()
         mc->fun();
         delete mc;
     }
-    catch ( const std::exception *e )
+    catch ( const std::exception &ex )
     {
-        cout << ">>> Exception: " << e->what() << endl;
+        cout << ">>> Exception: " << ex.what() << endl;
     }
 
     return 0;
