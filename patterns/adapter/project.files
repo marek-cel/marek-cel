@@ -1,0 +1,5 @@
+Makefile
+cpp/main.cpp
+cpp/Adapter.h
+cpp/WhatIHave.h
+cpp/WhatIWant.h

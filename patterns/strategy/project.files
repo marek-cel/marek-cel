@@ -1,0 +1,6 @@
+Makefile
+cpp/main.cpp
+cpp/Context.h
+cpp/Strategy.h
+cpp/StrategyMax.h
+cpp/StrategyMin.h

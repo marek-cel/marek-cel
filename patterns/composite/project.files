@@ -1,0 +1,5 @@
+Makefile
+cpp/main.cpp
+cpp/Component.h
+cpp/Composite.h
+cpp/Leaf.h
