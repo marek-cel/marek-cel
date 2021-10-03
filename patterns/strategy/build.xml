@@ -13,7 +13,7 @@
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/exec.jar" basedir="build/classes">
             <manifest>
-                <attribute name="Main-Class" value="pl.marekcel.dev.cel.patterns.java.strategy.Main"/>
+                <attribute name="Main-Class" value="Main"/>
             </manifest>
         </jar>
     </target>

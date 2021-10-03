@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.adapter;
-
 import java.util.*;
 
 public class Main

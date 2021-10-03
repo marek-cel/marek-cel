@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.facade;
-
 public class Facade
 {
     private ElementA mElementA = new ElementA( 1 );

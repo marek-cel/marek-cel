@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.adapter;
-
 public class WhatIHave
 {
     public void g()

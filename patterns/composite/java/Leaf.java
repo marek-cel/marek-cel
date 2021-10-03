@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.composite;
-
 public class Leaf
     implements Component
 {

@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.strategy;
-
 public class StrategyMax
     implements Strategy
 {

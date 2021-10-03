@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.facade;
-
 class ElementA
 {
     private int mX;

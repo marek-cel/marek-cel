@@ -1,12 +1,10 @@
-package pl.marekcel.dev.cel.patterns.java.composite;
-
 import java.util.*;
 
 public class Main
 {
     public static void main( String[] args )
     {
-        Composite root = new Composite();
+        Composite root  = new Composite();
         Composite group = new Composite();
         
         Leaf a = new Leaf( "A" );

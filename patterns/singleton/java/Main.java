@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.patterns.java.singleton;
-
 import java.util.*;
 
 public class Main
