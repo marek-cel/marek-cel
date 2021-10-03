@@ -16,8 +16,9 @@ SOURCES = \
 	src/noexcept.cpp \
 	src/range_for.cpp \
 	src/shared_pointer.cpp \
-	src/unique_pointer.cpp \
-	src/user_defined_literals.cpp
+    src/unique_pointer.cpp \
+    src/user_defined_literals.cpp \
+    src/weak_ptr.cpp
 
 ################################################################################
 
