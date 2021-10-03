@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.java.solid.LiskovSubstitution;
-
 public class Rectangle implements Shape
 {
     private boolean mVisible = true;

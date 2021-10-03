@@ -1,5 +1,3 @@
-package pl.marekcel.dev.cel.java.solid.LiskovSubstitution;
-
 public class Square implements Shape
 {
     private Rectangle mRectangle = null;
