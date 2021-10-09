@@ -12,9 +12,14 @@ public:
 
     A() {}
 
-    virtual void fun()
+    virtual void foo()
     {
-        cout << "A::fun()" << endl;
+        cout << "A::foo()" << endl;
+    }
+
+    virtual void bar()
+    {
+        cout << "A::bar()" << endl;
     }
 };
 
@@ -26,17 +31,26 @@ public:
 
     B() {}
 
-    virtual void fun() override
+    virtual void foo() override
+    {
+        cout << "B::foo()" << endl;
+    }
+
+    virtual void bar() override;
+
+    //virtual void fun() override // error!
+    virtual void fun()
     {
         cout << "B::fun()" << endl;
     }
-
-    //virtual void fun( int a ) override // error!
-    virtual void fun( int a )
-    {
-        cout << "B::fun(int) " << a << endl;
-    }
 };
+
+//void B::bar() override // error!
+//virtual void B::bar() // error!
+void B::bar()
+{
+    cout << "B::bar()" << endl;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -45,8 +59,9 @@ int main()
     cout << "Hello World!" << endl;
 
     B b;
+    b.foo();
+    b.bar();
     b.fun();
-    b.fun( 1 );
 
     return 0;
 }

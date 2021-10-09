@@ -1,4 +1,0 @@
-Makefile
-src/00_test.cpp
-src/digits_separator.cpp
-src/unique_pointer.cpp
