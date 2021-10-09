@@ -60,6 +60,33 @@ then
 fi
 
 ################################################################################
+# BRAVE BROWSER
+################################################################################
+
+readBold "Do you want to install BRAVE BROWSER? y or n"
+
+if [[ $REPLY =~ ^[Yy]$ ]]
+then   
+
+    printGreen "Installing BRAVE BROWSER ..."
+    
+    sudo apt install \
+        apt-transport-https \
+        curl
+        
+    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+        https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"| \
+        sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+    sudo apt update
+    sudo apt install brave-browser
+        
+fi
+
+
+################################################################################
 # CREATIVE TOOLS
 ################################################################################
 
@@ -223,6 +250,17 @@ then
             libxinerama-dev \
             libxml2-dev \
             libxss-dev  
+    fi
+    
+    # DIA2CODE
+    readBold "Do you want to install DIA2CODE? y or n"
+
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then   
+
+        printGreen "Installing DIA2CODE ..."
+
+        sudo apt install -y dia2code
     fi
     
     # JAVA
@@ -497,21 +535,19 @@ then
 
         printGreen "Installing OPENFOAM ..."
 
-        sudo sh -c "wget -O - http://dl.openfoam.org/gpg.key | apt-key add -"
-        sudo add-apt-repository "http://dl.openfoam.org/ubuntu dev"
-        sudo apt update
-        sudo apt install -y \
-            openfoam8 \
-            paraviewopenfoam56
+        sudo sh -c "wget -O - https://dl.openfoam.org/gpg.key | apt-key add -"
+        sudo add-apt-repository http://dl.openfoam.org/ubuntu
+        sudo apt-get update
+        sudo apt-get -y install openfoam9 paraviewopenfoam56
 
         echo -e "\e[1;33m"
         echo "To use OpenFOAM please add:"
-        echo "source /opt/openfoam7/etc/bashrc"
+        echo "source /opt/openfoam9/etc/bashrc"
         echo "to your ~/.bashrc"
         echo -e "\e[0m"
         read -p "Press any key to continue... " -n1 -s
 
-        source /opt/openfoam7/etc/bashrc
+        source /opt/openfoam9/etc/bashrc
         mkdir -p $FOAM_RUN
 
         echo "Installing PyFoam"
