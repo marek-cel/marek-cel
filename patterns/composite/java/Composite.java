@@ -6,13 +6,13 @@ public class Composite
     private List<Component> mComponents = new ArrayList<Component>();
     
     @Override
-    public void doSomething()
+    public void operation()
     {
         Iterator it = mComponents.iterator();
         
         while( it.hasNext() )
         {
-            ( (Component)it.next() ).doSomething();
+            ( (Component)it.next() ).operation();
         }
     }
     

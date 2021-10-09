@@ -6,7 +6,7 @@ class Component
 {
 public:
 
-    virtual void doSomething() = 0;
+    virtual void operation() = 0;
 };
 
 using ComponentPtr = std::shared_ptr<Component>;

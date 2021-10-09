@@ -1,19 +1,18 @@
 #pragma once
 
-#include "WhatIHave.h"
-#include "WhatIWant.h"
+#include "Adaptee.h"
+#include "Target.h"
 
-class Adapter : public WhatIWant
+class Adapter : public Target
 {
 public:
 
-    virtual void f() override
+    virtual void request() override
     {
-        whatIHave.g();
-        whatIHave.h();
+        _adaptee.specificRequest();
     }
 
 private:
 
-    WhatIHave whatIHave;
+    Adaptee _adaptee;
 };

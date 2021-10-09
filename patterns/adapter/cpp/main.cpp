@@ -1,12 +1,11 @@
 #include <iostream>
 
-#include "Adapter.h"
+#include "Client.h"
 
 int main( int argc, char *argv[] )
 {
-    Adapter whatIUse;
-
-    whatIUse.f();
+    Client c;
+    c.action();
 
     return 0;
 }

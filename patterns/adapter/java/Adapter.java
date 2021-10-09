@@ -1,12 +1,11 @@
 public class Adapter 
-    implements WhatIWant
+    implements Target
 {
-    private WhatIHave mWhatIHave = new WhatIHave();
+    private Adaptee mAdaptee = new Adaptee();
     
     @Override
-    public void f()
+    public void request()
     {
-        mWhatIHave.h();
-        mWhatIHave.g();
+        mAdaptee.specificRequest();
     }
 }

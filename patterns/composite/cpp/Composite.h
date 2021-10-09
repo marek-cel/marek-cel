@@ -8,11 +8,11 @@ class Composite : public Component
 {
 public:
 
-    virtual void doSomething() override
+    virtual void operation() override
     {
         for ( auto component : _components )
         {
-            component->doSomething();
+            component->operation();
         }
     }
 

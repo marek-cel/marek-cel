@@ -1,7 +1,0 @@
-Makefile
-cpp/main.cpp
-cpp/Observer.h
-cpp/Subject.h
-cpp/ConcreteSubject.h
-cpp/ConcreteObserver1.h
-cpp/ConcreteObserver2.h

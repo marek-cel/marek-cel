@@ -4,14 +4,18 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class Singleton final
+class Singleton
 {
 public:
 
-    static Singleton& getInstance()
+    static Singleton* getInstance()
     {
-        static Singleton instance {};
-        return instance;
+        if ( _instance == nullptr )
+        {
+            _instance = new Singleton();
+        }
+
+        return _instance;
     }
 
     void doSomething()
@@ -19,11 +23,15 @@ public:
         std::cout << "Singleton::doSomething()" << std::endl;
     }
 
-private:
+protected:
 
     Singleton() = default;
     Singleton( const Singleton& ) = delete;
     Singleton( Singleton && ) = delete;
     Singleton& operator=( const Singleton& ) = delete;
     Singleton& operator=( Singleton&& ) = delete;
+
+private:
+
+    static Singleton *_instance;
 };

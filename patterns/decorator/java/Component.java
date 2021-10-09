@@ -1,0 +1,6 @@
+interface Component
+{
+    void operation (  );
+
+}
+

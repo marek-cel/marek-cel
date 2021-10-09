@@ -1,0 +1,4 @@
+interface Product 
+{
+    void doSomething();
+}

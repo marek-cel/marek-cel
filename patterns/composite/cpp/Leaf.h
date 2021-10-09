@@ -14,9 +14,9 @@ public:
         _name = name;
     }
 
-    virtual void doSomething()
+    virtual void operation() override
     {
-        std::cout << "My name is " << _name << std::endl;
+        std::cout << "Leaf::operation() name= " << _name << std::endl;
     }
 
 private:

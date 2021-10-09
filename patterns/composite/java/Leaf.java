@@ -9,8 +9,8 @@ public class Leaf
     }
 
     @Override
-    public void doSomething()
+    public void operation()
     {
-        System.out.println( "My name is " + mName );
+        System.out.println( "Leaf::operation() name= " + mName );
     }
 }

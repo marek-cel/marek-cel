@@ -18,7 +18,7 @@ int main( int argc, char *argv[] )
     group->add( b );
     group->add( c );
 
-    root->doSomething();
+    root->operation();
 
     return 0;
 }

@@ -1,4 +1,4 @@
 public interface Component
 {
-    void doSomething();
+    void operation();
 }

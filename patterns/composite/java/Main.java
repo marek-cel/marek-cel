@@ -17,6 +17,6 @@ public class Main
         group.add( b );
         group.add( c );
         
-        root.doSomething();
+        root.operation();
     }
 }
