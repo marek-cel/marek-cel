@@ -1,20 +1,9 @@
-#include <memory>
-
-#include "Macro.h"
-#include "Hello.h"
-#include "World.h"
+#include "Client.h"
 
 int main( int argc, char *argv[] )
 {
-    std::unique_ptr<Macro> macro = std::make_unique<Macro>();
-
-    CommandPtr hello = std::make_shared<Hello>();
-    CommandPtr world = std::make_shared<World>();
-
-    macro->addCommand( hello );
-    macro->addCommand( world );
-
-    macro->execute();
+    Client c;
+    c.doSomething();
 
     return 0;
 }

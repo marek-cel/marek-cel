@@ -1,6 +1,7 @@
 import java.util.*;
 
-public class Macro
+/** Invoker */
+public class MacroCommand
     implements Command
 {
     private List<Command> mCommands = new ArrayList<Command>();

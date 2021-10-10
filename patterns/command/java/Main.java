@@ -4,14 +4,7 @@ public class Main
 {
     public static void main( String[] args )
     {
-        Command hello = new Hello();
-        Command world = new World();
-        
-        Macro macro = new Macro();
-        
-        macro.addCommand( hello );
-        macro.addCommand( world );
-        
-        macro.execute();
+        Client c = new Client();
+        c.doSomething();
     }
 }

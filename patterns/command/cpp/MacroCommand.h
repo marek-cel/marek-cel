@@ -4,7 +4,8 @@
 
 #include "Command.h"
 
-class Macro : public Command
+/** Invoker */
+class MacroCommand : public Command
 {
 public:
 
