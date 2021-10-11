@@ -6,13 +6,17 @@ public class Main
     {
         Context context = new Context();
         
-        Strategy strategyMin = new StrategyMin();
-        Strategy strategyMax = new StrategyMax();
+        Strategy sa = new ConcreteStrategyA();
+        Strategy sb = new ConcreteStrategyB();
+        Strategy sc = new ConcreteStrategyC();
         
-        context.setStrategy( strategyMin );
-        context.doSomething();
-        
-        context.setStrategy( strategyMax );
-        context.doSomething();
+        context.setStrategy( sa );
+        context.contextInterface();
+
+        context.setStrategy( sb );
+        context.contextInterface();
+
+        context.setStrategy( sc );
+        context.contextInterface();
     }
 }

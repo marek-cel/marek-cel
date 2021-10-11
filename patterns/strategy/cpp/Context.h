@@ -8,9 +8,9 @@ class Context
 {
 public:
 
-    void doSomething()
+    void contextInterface()
     {
-        _strategy->execute( _data );
+        _strategy->algorithmInterface();
     }
 
     void setStrategy( StrategyPtr strategy )
@@ -21,6 +21,4 @@ public:
 private:
 
     StrategyPtr _strategy;
-
-    std::vector< int > _data { 1, 2, 3, 4 };
 };

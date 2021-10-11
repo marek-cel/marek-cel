@@ -8,14 +8,12 @@ class Subject
 {
 public:
     
-    void addObserver( ObserverPtr observer )
+    void attach( ObserverPtr observer )
     {
         _observers.push_back( observer );
     }
-    
-protected:
 
-    void notifyObservers()
+    void notify()
     {
         for ( auto observer : _observers )
         {

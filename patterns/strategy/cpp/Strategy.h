@@ -7,7 +7,7 @@ class Strategy
 {
 public:
 
-    virtual void execute( std::vector< int > data ) = 0;
+    virtual void algorithmInterface() = 0;
 };
 
 using StrategyPtr = std::shared_ptr<Strategy>;

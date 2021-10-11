@@ -6,8 +6,17 @@ class ConcreteSubject : public Subject
 {
 public:
 
-    void event()
+    int getState() { return _subjectState; }
+
+    void setState( int state )
     {
-        notifyObservers();
+        _subjectState = state;
+        notify();
     }
+
+private:
+
+    int _subjectState { 0 };
 };
+
+using ConcreteSubjectPtr = std::shared_ptr<ConcreteSubject>;

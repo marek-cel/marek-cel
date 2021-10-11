@@ -2,11 +2,9 @@ public class Context
 {
     private Strategy mStrategy = null;
     
-    private int mData[] = { 1, 2, 3, 4 };
-    
-    public void doSomething()
+    public void contextInterface()
     {
-        mStrategy.execute( mData );
+        mStrategy.algorithmInterface();
     }
     
     public void setStrategy( Strategy strategy )

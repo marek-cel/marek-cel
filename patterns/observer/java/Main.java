@@ -6,12 +6,12 @@ public class Main
     {
         ConcreteSubject subject = new ConcreteSubject();
         
-        ConcreteObserver1 observer1 = new ConcreteObserver1();
-        ConcreteObserver2 observer2 = new ConcreteObserver2();
+        Observer oa = new ConcreteObserverA();
+        Observer ob = new ConcreteObserverB();
         
-        subject.addObserver( observer1 );
-        subject.addObserver( observer2 );
+        subject.addObserver( oa );
+        subject.addObserver( ob );
         
-        subject.event();
+        subject.setState( 666 );
     }
 }
