@@ -1,4 +1,4 @@
-### Hello there 👋
+### [Hello there](https://www.youtube.com/watch?v=rEq1Z0bjdwc). 👋
 
 I am an aerospace engineer with a strong software engineering background. I graduated from Faculty of Power and Aeronautical Engineering of Warsaw University of Technology and since then I work on flight simulators as a flight dynamics specialist.
       
