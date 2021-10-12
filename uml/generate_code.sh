@@ -1,3 +1,3 @@
 #!/bin/bash
 
-dia2code -t cpp class_diagram.dia
+dia2code -t cpp uml_class_diagram.dia
