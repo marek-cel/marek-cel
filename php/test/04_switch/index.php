@@ -1,7 +1,5 @@
 <!doctype html>
-<?php
-    ini_set( 'display_errors', 'On' );
-?>
+<?php ini_set( 'display_errors', 'On' ); ?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
