@@ -1,15 +1,13 @@
 #ifndef MYCLASS_H
 #define MYCLASS_H
 
-#include <QObject>
+#include <QString>
 
-class MyClass : public QObject
+class MyClass
 {
-    Q_OBJECT
-
 public:
 
-    MyClass(const QString &name, QObject *parent = Q_NULLPTR);
+    MyClass(const QString &name);
 
     ~MyClass();
 

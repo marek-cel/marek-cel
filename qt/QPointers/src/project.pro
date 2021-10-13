@@ -21,9 +21,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     MyClass.cpp \
+    MyQObject.cpp \
     main.cpp
 
 HEADERS += \
-    MyClass.h
+    MyClass.h \
+    MyQObject.h
 
 FORMS += \

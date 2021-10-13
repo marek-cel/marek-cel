@@ -2,8 +2,7 @@
 
 #include <iostream>
 
-MyClass::MyClass(const QString &name, QObject *parent) :
-    QObject(parent)
+MyClass::MyClass(const QString &name)
 {
     _name = name;
     std::cout << "MyClass::MyClass() " + _name.toStdString() << std::endl;
