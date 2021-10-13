@@ -1,4 +1,4 @@
-QT += core gui
+QT += core
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,17 +20,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 ################################################################################
 
 SOURCES += \
-    main.cpp \
-    MainWindow.cpp
+    MyClass.cpp \
+    main.cpp
 
 HEADERS += \
-    MainWindow.h
+    MyClass.h
 
 FORMS += \
-    MainWindow.ui
-
-RESOURCES += \
-    project.qrc
-
-TRANSLATIONS = \
-    project_pl.ts
