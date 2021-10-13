@@ -1,0 +1,5 @@
+interface State
+{
+    void handle (  );
+}
+
