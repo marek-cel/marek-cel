@@ -272,8 +272,10 @@ then
         printGreen "Installing JAVA ..."
         
         sudo apt install -y \
+            ant \
             default-jdk \
-            default-jre
+            default-jre \
+            maven
     fi
     
     # GOOGLE TOOLS
@@ -374,16 +376,24 @@ then
             printGreen "Installing QT EXAMPLES ..."
 
             sudo apt install -y \
+                qt3d5-examples \
+                qt5serialport-examples \
                 qtbase5-examples \
+                qtconnectivity5-examples \
                 qtcharts5-examples \
+                qtdeclarative5-examples \
                 qtdatavisualization5-examples \
                 qtgamepad5-examples \
                 qtlocation5-examples \
                 qtmultimedia5-examples \
+                qtquickcontrols2-5-examples \
+                qtquickcontrols5-examples \
                 qtsensors5-examples \
+                qtserialbus5-examples \
                 qtspeech5-examples \
                 qtsvg5-examples \
-                qttools5-examples
+                qttools5-examples \
+                qtvirtualkeyboard5-examples
                 
             cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
         fi
