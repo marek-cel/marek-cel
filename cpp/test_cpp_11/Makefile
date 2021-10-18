@@ -10,15 +10,27 @@ CXXFLAGS = -Wall -g -O2 -std=c++11
 # C++17: c++17 (c++1z)
 # C++20: c++20 (c++2a)
 
+################################################################################
+
+ifeq ($(findstring Linux,$(shell uname -s)),Linux)
+	CXXFLAGS += -D_LINUX_
+endif
+
+################################################################################
+
+INCLUDES = -I./src
+
+################################################################################
+
 SOURCES = \
 	src/00_test.cpp \
 	src/auto.cpp \
 	src/noexcept.cpp \
 	src/range_for.cpp \
 	src/shared_pointer.cpp \
-    src/unique_pointer.cpp \
-    src/user_defined_literals.cpp \
-    src/weak_ptr.cpp
+	src/unique_pointer.cpp \
+	src/user_defined_literals.cpp \
+	src/weak_ptr.cpp
 
 ################################################################################
 

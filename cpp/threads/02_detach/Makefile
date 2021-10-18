@@ -4,7 +4,7 @@ LIBS    =
 
 TARGET  = ./bin/exec
 
-LNKFLAGS = 
+LNKFLAGS = -pthread
 CXXFLAGS = -Wall -g -O2 -std=c++17
 
 # C++11: c++11 (c++0x)
@@ -12,17 +12,7 @@ CXXFLAGS = -Wall -g -O2 -std=c++17
 # C++17: c++17 (c++1z)
 # C++20: c++20 (c++2a)
 
-################################################################################
-
-ifeq ($(findstring Linux,$(shell uname -s)),Linux)
-	CXXFLAGS += -D_LINUX_
-endif
-
-################################################################################
-
 INCLUDES = -I./src
-
-################################################################################
 
 SOURCES = \
 	src/main.cpp
