@@ -56,35 +56,51 @@ then
         vsftpd \
         webp \
         whois
-        
+
+	# BRAVE BROWSER
+	readBold "Do you want to install BRAVE BROWSER? y or n"
+
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then   
+
+		printGreen "Installing BRAVE BROWSER ..."
+		
+		sudo apt install \
+			apt-transport-https \
+			curl
+			
+		sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
+			https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+
+		echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"| \
+			sudo tee /etc/apt/sources.list.d/brave-browser-release.list
+
+		sudo apt update
+		sudo apt install brave-browser
+			
+	fi
 fi
 
 ################################################################################
-# BRAVE BROWSER
+# AI TOOLS
 ################################################################################
 
-readBold "Do you want to install BRAVE BROWSER? y or n"
+readBold "Do you want to install AI TOOLS? y or n"
 
 if [[ $REPLY =~ ^[Yy]$ ]]
 then   
 
-    printGreen "Installing BRAVE BROWSER ..."
-    
-    sudo apt install \
-        apt-transport-https \
-        curl
-        
-    sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
-        https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    printGreen "Installing AI TOOLS ..."
 
-    echo "deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main"| \
-        sudo tee /etc/apt/sources.list.d/brave-browser-release.list
-
-    sudo apt update
-    sudo apt install brave-browser
+	echo "Installing PyFoam"
+	sudo apt install -y \
+		python3-all \
+		python3-all-dev \
+		python3-pip \
+		python3-setuptools
+	sudo pip3 install deep-daze
         
 fi
-
 
 ################################################################################
 # CREATIVE TOOLS
