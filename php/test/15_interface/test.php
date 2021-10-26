@@ -1,12 +1,18 @@
 <?php
 
-interface MyInterface
+interface MyInterfaceA
 {
     public function foo( $var );
     public function bar( $var );
 }
 
-class MyClass implements MyInterface
+interface MyInterfaceB
+{
+    public function foobar( $var );
+}
+
+class MyClass
+  implements MyInterfaceA, MyInterfaceB
 {
     public function foo( $var )
     {
@@ -17,11 +23,17 @@ class MyClass implements MyInterface
     {
         echo "MyClass::bar( $var ) <br/>";
     }
+    
+    public function foobar( $var )
+    {
+        echo "MyClass::foobar( $var ) <br/>";
+    }
 }
 
 $mc = new MyClass();
 
 $mc->foo( 1 );
 $mc->bar( 2 );
+$mc->foobar( 3 );
 
 ?>
