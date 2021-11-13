@@ -1,0 +1,40 @@
+#include <iostream>
+
+////////////////////////////////////////////////////////////////////////////////
+
+using namespace std;
+
+////////////////////////////////////////////////////////////////////////////////
+
+class BaseClass
+{
+public:
+
+    void fun( int a )
+    {
+        cout << "BaseClass::fun(int) a=" << a << endl;
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+class DerivedClass : public BaseClass
+{
+public:
+
+    void fun()
+    {
+        cout << "DerivedClass::fun()" << endl;
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+int main()
+{
+    DerivedClass dc;
+    dc.fun(1); // error: no matching function for call to ‘DerivedClass::fun(int)’
+
+
+    return 0;
+}

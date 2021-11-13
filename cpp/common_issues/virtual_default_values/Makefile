@@ -1,9 +1,11 @@
-CXX = g++
+CXX     = g++
 
-LIBS = 
+LIBS    = 
+
+TARGET  = ./bin/exec
 
 LNKFLAGS = 
-CXXFLAGS = -Wall -g -O2 -std=c++11
+CXXFLAGS = -Wall -g -O2 -std=c++17
 
 # C++11: c++11 (c++0x)
 # C++14: c++14 (c++1y) 
@@ -23,29 +25,25 @@ INCLUDES = -I./src
 ################################################################################
 
 SOURCES = \
-	src/00_test.cpp \
-	src/auto.cpp \
-	src/lambda.cpp \
-	src/noexcept.cpp \
-	src/range_for.cpp \
-	src/shared_pointer.cpp \
-	src/unique_pointer.cpp \
-	src/user_defined_literals.cpp \
-	src/weak_ptr.cpp
+	src/main.cpp
 
 ################################################################################
 
-.SUFFIXES: .cpp
+all: $(TARGET)
 
-all: bindir cppfiles
-
-bindir:
+$(TARGET): cppfiles
+	@echo
+	@echo '    Linking $(TARGET) ...'
 	@if [ ! -d "./bin" ]; then mkdir bin; fi
+	@$(CXX) -o $(TARGET) $(LNKFLAGS) src/*.o $(LIBS)
 
-cppfiles: $(SOURCES:.cpp=)
+cppfiles: $(SOURCES:.cpp=.o)
 
-.cpp:
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $*.cpp -o bin/$(notdir $*) $(LNKFLAGS)
+.SUFFIXES: .cpp .o
+
+.cpp.o: $(SOURCES)
+	@echo '    Compiling file: $*.cpp'
+	@$(CXX) $(INCLUDES) -o $*.o -c $(CXXFLAGS) $*.cpp
 
 ################################################################################
 

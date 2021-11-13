@@ -9,7 +9,15 @@ class MyClass
 {
 public:
 
-    MyClass() {}
+    MyClass()
+    {
+        std::cout << "MyClass::CONSTRUCTOR" << std::endl;
+    }
+
+    virtual ~MyClass()
+    {
+        std::cout << "MyClass::DESTRUCTOR" << std::endl;
+    }
 
     void doSomething()
     {
@@ -19,7 +27,7 @@ public:
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void fun( std::weak_ptr<MyClass> wp )
+void fun1( std::weak_ptr<MyClass> wp )
 {
     if ( !wp.expired() )
     {
@@ -30,11 +38,22 @@ void fun( std::weak_ptr<MyClass> wp )
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void fun2( std::weak_ptr<MyClass> wp )
+{
+    if ( !wp.expired() )
+    {
+        wp.lock()->doSomething();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main()
 {
     std::shared_ptr<MyClass> mc = std::make_shared<MyClass>();
 
-    fun( mc );
+    fun1( mc );
+    fun2( mc );
 
     return 0;
 }
