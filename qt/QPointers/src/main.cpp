@@ -59,6 +59,15 @@ void fun4()
 
 ////////////////////////////////////////////////////////////////////////////////
 
+void fun5(QSharedPointer<MyClass> ptr)
+{
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    ptr->doSomething();
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 int main( int argc, char *argv[] )
 {
     fun1();
@@ -68,6 +77,14 @@ int main( int argc, char *argv[] )
     fun3();
     std::cout << std::endl;
     fun4();
+    std::cout << std::endl;
+
+    QSharedPointer<MyClass> ptr( new MyClass("5") );
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    fun5(ptr);
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    ptr->doSomething();
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
     std::cout << std::endl;
 
     return 0;
