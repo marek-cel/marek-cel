@@ -18,7 +18,7 @@ void funNoThrow()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertThrow)
+TEST(GTest_AssertException, AssertThrow)
 {
     ASSERT_THROW( funThrow(), std::exception );
     // ASSERT_THROW( funNoThrow(), std::exception ); // Fails
@@ -26,7 +26,7 @@ TEST(GTest_Tests, AssertThrow)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertAnyThrow)
+TEST(GTest_AssertException, AssertAnyThrow)
 {
     ASSERT_ANY_THROW( funThrow() );
     // ASSERT_ANY_THROW( funNoThrow() ); // Fails
@@ -34,7 +34,7 @@ TEST(GTest_Tests, AssertAnyThrow)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertNoThrow)
+TEST(GTest_AssertException, AssertNoThrow)
 {
     // ASSERT_NO_THROW( funThrow() ); // Fails
     ASSERT_NO_THROW( funNoThrow() );

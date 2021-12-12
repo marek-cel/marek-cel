@@ -1,11 +1,13 @@
-CXX = g++
+CXX     = g++
 
 LIBS = \
-	gtest \
-	gtest_main
+	-lgtest \
+	-lgtest_main
 
-LNKFLAGS = -pthread $(addprefix -l, $(LIBS))
-CXXFLAGS = -Wall -g -O2 -std=c++11
+TARGET  = ./bin/exec
+
+LNKFLAGS = -pthread
+CXXFLAGS = -Wall -g -O2 -std=c++17
 
 # C++11: c++11 (c++0x)
 # C++14: c++14 (c++1y) 
@@ -20,7 +22,7 @@ endif
 
 ################################################################################
 
-INCLUDES = -I./src
+INCLUDES = -I./cpp
 
 ################################################################################
 
@@ -34,17 +36,21 @@ SOURCES = \
 
 ################################################################################
 
-.SUFFIXES: .cpp
+all: $(TARGET)
 
-all: bindir cppfiles
-
-bindir:
+$(TARGET): cppfiles
+	@echo
+	@echo '    Linking $(TARGET) ...'
 	@if [ ! -d "./bin" ]; then mkdir bin; fi
+	@$(CXX) -o $(TARGET) $(LNKFLAGS) src/*.o $(LIBS)
 
-cppfiles: $(SOURCES:.cpp=)
+cppfiles: $(SOURCES:.cpp=.o)
 
-.cpp:
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $*.cpp -o bin/$(notdir $*) $(LNKFLAGS)
+.SUFFIXES: .cpp .o
+
+.cpp.o: $(SOURCES)
+	@echo '    Compiling file: $*.cpp'
+	@$(CXX) $(INCLUDES) -o $*.o -c $(CXXFLAGS) $*.cpp
 
 ################################################################################
 

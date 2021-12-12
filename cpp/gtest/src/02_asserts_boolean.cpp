@@ -4,7 +4,7 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertTrue)
+TEST(GTest_AssertBool, AssertTrue)
 {
     ASSERT_TRUE(1==1);
     //ASSERT_TRUE(1==2); // Fails
@@ -12,7 +12,7 @@ TEST(GTest_Tests, AssertTrue)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertFalse)
+TEST(GTest_AssertBool, AssertFalse)
 {
     //ASSERT_FALSE(1==1); // Fails
     ASSERT_FALSE(1==2);

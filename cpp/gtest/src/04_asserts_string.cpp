@@ -5,21 +5,21 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertEQ)
+TEST(GTest_AssertStr, AssertEQ)
 {
     ASSERT_EQ(std::string("1"), std::string("1"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertNE)
+TEST(GTest_AssertStr, AssertNE)
 {
     ASSERT_NE(std::string("1"), std::string("2"));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertStrEQ)
+TEST(GTest_AssertStr, AssertStrEQ)
 {
     ASSERT_STREQ("a", "a");
     //ASSERT_STREQ("A", "a"); // Fails
@@ -27,21 +27,21 @@ TEST(GTest_Tests, AssertStrEQ)
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertStrNE)
+TEST(GTest_AssertStr, AssertStrNE)
 {
     ASSERT_STRNE("a", "b");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertStrCaseEQ)
+TEST(GTest_AssertStr, AssertStrCaseEQ)
 {
     ASSERT_STRCASEEQ("A", "a");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertStrCaseNE)
+TEST(GTest_AssertStr, AssertStrCaseNE)
 {
     ASSERT_STRCASENE("A", "b");
 }

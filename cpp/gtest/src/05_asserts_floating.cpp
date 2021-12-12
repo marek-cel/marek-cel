@@ -4,21 +4,21 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertFloatEQ)
+TEST(GTest_AssertFloat, AssertFloatEQ)
 {
     ASSERT_FLOAT_EQ(1.0001f, 1.0001f);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertDoubleEQ)
+TEST(GTest_AssertFloat, AssertDoubleEQ)
 {
     ASSERT_DOUBLE_EQ(1.0001, 1.0001);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
-TEST(GTest_Tests, AssertNear)
+TEST(GTest_AssertFloat, AssertNear)
 {
     ASSERT_NEAR(1.0001, 1.0001, 0.0001);
     // ASSERT_NEAR(1.0001, 1.0003, 0.0001); // Fails
