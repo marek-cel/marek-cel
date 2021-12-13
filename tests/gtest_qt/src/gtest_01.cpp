@@ -1,0 +1,10 @@
+#include <iostream>
+
+#include <gtest/gtest.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST(GTest_Test01, AssertTrue)
+{
+    ASSERT_TRUE(true);
+}
