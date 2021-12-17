@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dgml xmlns="http://edu.kde.org/marble/dgml/2.0">
+  <document>
+    <head>
+      <!-- The license here applies to the actual map content, not this dgml file. See the license header above for the dgml file license -->
+      <!-- The content that this license refers to is not distributed with this package -->
+      <license short="© OpenStreetMap contributors">Source: © OpenStreetMap contributors, License: Creative Commons Attribution-ShareAlike 2.0 (CC BY-SA)</license>
+      <name>OpenStreetMap</name>
+      <target>earth</target>
+      <theme>openstreetmap</theme>
+      <icon pixmap="openstreetmap-preview.png"/>
+      <visible>true</visible>
+      <description><![CDATA[<p>A <i>global roadmap</i> created by the OpenStreetMap (OSM) project.</p><p>OSM is an open community which creates free editable maps. The OSM data was rendered using Mapnik.</p>]]></description>
+      <zoom>
+        <minimum>  1100  </minimum>
+        <maximum>  3500  </maximum>
+        <discrete> true </discrete>
+      </zoom>
+    </head>
+    <map bgcolor="#000000">
+      <canvas/>
+      <target/>
+      <layer name="openstreetmap" backend="texture">
+        <!-- OpenStreetMap mapnik rendered tiles expire after seven days
+                     or 604800 seconds -->
+        <texture name="mapnik_data" expire="604800">
+          <sourcedir format="PNG"> earth/openstreetmap </sourcedir>
+          <tileSize width="256" height="256"/>
+          <storageLayout levelZeroColumns="1" levelZeroRows="1" maximumTileLevel="19" mode="OpenStreetMap"/>
+          <projection name="Mercator"/>
+          <downloadUrl protocol="https" host="a.tile.openstreetmap.org" path="/"/>
+          <downloadUrl protocol="https" host="b.tile.openstreetmap.org" path="/"/>
+          <downloadUrl protocol="https" host="c.tile.openstreetmap.org" path="/"/>
+          <downloadPolicy usage="Browse" maximumConnections="20"/>
+          <downloadPolicy usage="Bulk" maximumConnections="2"/>
+        </texture>
+      </layer>
+      <layer name="standardplaces" backend="geodata">
+        <geodata name="cityplacemarks">
+          <sourcefile>cityplacemarks.cache</sourcefile>
+        </geodata>
+        <geodata name="baseplacemarks">
+          <sourcefile>baseplacemarks.cache</sourcefile>
+        </geodata>
+        <geodata name="elevplacemarks">
+          <sourcefile>elevplacemarks.cache</sourcefile>
+        </geodata>
+        <geodata name="otherplacemarks">
+          <sourcefile>otherplacemarks.cache</sourcefile>
+        </geodata>
+        <geodata name="boundaryplacemarks">
+          <sourcefile>boundaryplacemarks.cache</sourcefile>
+        </geodata>
+      </layer>
+    </map>
+    <settings>
+      <property name="coordinate-grid">
+        <value>false</value>
+        <available>true</available>
+      </property>
+      <property name="crosshairs">
+        <value>false</value>
+        <available>true</available>
+      </property>
+      <property name="overviewmap">
+        <value>false</value>
+        <available>true</available>
+      </property>
+      <property name="compass">
+        <value>false</value>
+        <available>true</available>
+      </property>
+      <property name="scalebar">
+        <value>true</value>
+        <available>true</available>
+      </property>
+      <group name="Places">
+        <property name="places">
+          <value>true</value>
+          <available>true</available>
+        </property>
+        <property name="cities">
+          <value>false</value>
+          <available>false</available>
+        </property>
+        <property name="terrain">
+          <value>false</value>
+          <available>false</available>
+        </property>
+        <property name="otherplaces">
+          <value>false</value>
+          <available>false</available>
+        </property>
+       </group>
+    </settings>
+    <legend/>
+  </document>
+</dgml>

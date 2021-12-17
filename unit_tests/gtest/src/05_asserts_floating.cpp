@@ -1,0 +1,25 @@
+#include <iostream>
+
+#include <gtest/gtest.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST(GTestAssertFloat, AssertFloatEQ)
+{
+    ASSERT_FLOAT_EQ(1.0001f, 1.0001f);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST(GTestAssertFloat, AssertDoubleEQ)
+{
+    ASSERT_DOUBLE_EQ(1.0001, 1.0001);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST(GTestAssertFloat, AssertNear)
+{
+    ASSERT_NEAR(1.0001, 1.0001, 0.0001);
+    // ASSERT_NEAR(1.0001, 1.0003, 0.0001); // Fails
+}
