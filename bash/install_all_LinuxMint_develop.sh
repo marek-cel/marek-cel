@@ -14,8 +14,9 @@ function installDevelopEssentials()
             cloc \
             dia \
             git \
-            git-gui \
+            git-cola \
             git-flow \
+            git-gui \
             kdesvn \
             kdiff3 \
             lcov \

@@ -8,7 +8,7 @@ source install_all_LinuxMint_aitools.sh
 source install_all_LinuxMint_celestia.sh
 source install_all_LinuxMint_creativetools.sh
 source install_all_LinuxMint_extras.sh
-source install_all_LinuxMint_dev.sh
+source install_all_LinuxMint_develop.sh
 source install_all_LinuxMint_webserver.sh
 source install_all_LinuxMint_docker.sh
 source install_all_LinuxMint_cax.sh
