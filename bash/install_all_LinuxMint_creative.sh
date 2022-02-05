@@ -17,6 +17,7 @@ function installCreativeTools()
             gummi \
             inkscape \
             kazam \
+            obs-studio \
             openctm-tools \
             openshot \
             qpdf \

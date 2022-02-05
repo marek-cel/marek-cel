@@ -6,7 +6,7 @@ source install_all_LinuxMint_common.sh
 source install_all_LinuxMint_essentials.sh
 source install_all_LinuxMint_aitools.sh
 source install_all_LinuxMint_celestia.sh
-source install_all_LinuxMint_creativetools.sh
+source install_all_LinuxMint_creative.sh
 source install_all_LinuxMint_extras.sh
 source install_all_LinuxMint_develop.sh
 source install_all_LinuxMint_webserver.sh
