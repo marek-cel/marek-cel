@@ -2,6 +2,8 @@
 # assigning variables
 ################################################################################
 
+# variables are case sensitive
+
 a = 2; # semicolon prevents output
 b = 3;
 c = a + b
