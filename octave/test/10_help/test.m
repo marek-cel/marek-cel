@@ -1,21 +1,15 @@
+% This line will show if you type: help FILE_NAME
+
 ################################################################################
-# 09_formating
+# 10_help
 ################################################################################
 
-a = pi
-b = 1.0e12 * pi
+a = 2;
+b = 3;
+c = 2 * 3
 
-format long
+%% Section 1
 
-a = pi
-b = 1.0e12 * pi
+d = 7
 
-format longg
-
-a = pi
-b = 1.0e12 * pi
-
-format short
-
-a = pi
-b = 1.0e12 * pi
+%%
