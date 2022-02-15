@@ -1,6 +1,6 @@
-################################################################################
-# 05_matrices
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 05_matrices
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 display(">>> Initializing smaple data\n");
 
@@ -12,12 +12,12 @@ m2 = [ 1 2 3 ; ...
 
 pause       
 
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 display(">>> rand\n");
 
-m_rand = rand(3)    # creates 3x3 with random values
-m_rand = rand(3,4)  # creates 3x4 (rows x cols) with random values
+m_rand = rand(3)    % creates 3x3 with random values
+m_rand = rand(3,4)  % creates 3x4 (rows x cols) with random values
 m_randi = randi([0 9],3,3)
 
 display(">>> zeros\n");
@@ -32,11 +32,11 @@ m_ones = ones(3,4)
 
 pause
 
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 display(">>> Indices\n");
 
-m2(2,3) # index_row, index_col 6
+m2(2,3) % index_row, index_col 6
 m2(2,3) = 66
 
 m2(:,3)
@@ -53,23 +53,23 @@ m1(1,end)
 
 pause
 
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 display(">>> length\n");
-length(m1) # returns largest dimension (in case of 3x4 matrix it gives 4)
+length(m1) % returns largest dimension (in case of 3x4 matrix it gives 4)
 
 display(">>> numel\n");
-numel(m1)  # returns number of elements
+numel(m1)  % returns number of elements
 
 display(">>> Size\n");
-size(m1)   # return 2D vector [ rows cols ]
+size(m1)   % return 2D vector [ rows cols ]
 
 display(">>> Assigning elements to variables\n");
 [ r c ] = size(m1)
 
 pause
 
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 display(">>> reshape\n");
 
@@ -82,7 +82,7 @@ m0_reshaped = reshape(m0, 2, 6 )
 
 pause
 
-################################################################################
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 m04 = [ 1 2 3 ; ...
        4 5 6 ; ...
