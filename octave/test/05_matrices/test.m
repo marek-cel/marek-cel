@@ -2,7 +2,7 @@
 % 05_matrices
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Initializing smaple data\n");
+display('>>> Initializing smaple data\n');
 
 m1 = [ 1 2 3 ; 4 5 6 ; 7 8 9 ]
 
@@ -14,18 +14,18 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> rand\n");
+display('>>> rand\n');
 
 m_rand = rand(3)    % creates 3x3 with random values
 m_rand = rand(3,4)  % creates 3x4 (rows x cols) with random values
 m_randi = randi([0 9],3,3)
 
-display(">>> zeros\n");
+display('>>> zeros\n');
 
 m_zeros = zeros(3)
 m_zeros = zeros(3,4)
 
-display(">>> ones\n");
+display('>>> ones\n');
 
 m_ones = ones(3)
 m_ones = ones(3,4)
@@ -34,7 +34,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Indices\n");
+display('>>> Indices\n');
 
 m2(2,3) % index_row, index_col 6
 m2(2,3) = 66
@@ -55,23 +55,23 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> length\n");
+display('>>> length\n');
 length(m1) % returns largest dimension (in case of 3x4 matrix it gives 4)
 
-display(">>> numel\n");
+display('>>> numel\n');
 numel(m1)  % returns number of elements
 
-display(">>> Size\n");
+display('>>> Size\n');
 size(m1)   % return 2D vector [ rows cols ]
 
-display(">>> Assigning elements to variables\n");
+display('>>> Assigning elements to variables\n');
 [ r c ] = size(m1)
 
 pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> reshape\n");
+display('>>> reshape\n');
 
 m0 = [ 1 2 3 4 ; ...
        5 6 7 8 ; ...
@@ -88,11 +88,11 @@ m04 = [ 1 2 3 ; ...
        4 5 6 ; ...
        7 8 9 ]
 
-display(">>> rot90\n");
+display('>>> rot90\n');
 m_rot90 = rot90(m04)
 
-display(">>> flip\n");
+display('>>> flip\n');
 m_flip = flip(m04)
 
-display(">>> flipud\n");
+display('>>> flipud\n');
 m_flipud = flipud(m04)

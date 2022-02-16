@@ -2,7 +2,7 @@
 % 06_matrix_operations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> Initializing sample data\n");
+disp('>>> Initializing sample data\n');
 
 v = [ 1 2 3 ]
 
@@ -14,7 +14,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> max/min\n");
+disp('>>> max/min\n');
 
 max(v)
 max(m)
@@ -28,7 +28,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> sum\n");
+disp('>>> sum\n');
 
 sum(v)
 sum(m)
@@ -38,7 +38,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> prod\n");
+disp('>>> prod\n');
 
 prod(v)
 prod(m)
@@ -48,7 +48,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> sqrt\n");
+disp('>>> sqrt\n');
 
 sqrt(m)
 
@@ -56,7 +56,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> Scalar operations\n");
+disp('>>> Scalar operations\n');
 
 m + 10
 m * 2
@@ -65,7 +65,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> Matrix operations\n");
+disp('>>> Matrix operations\n');
 
 m1 = [ 1 2 3 ; ...
        4 5 6 ; ...
@@ -84,7 +84,7 @@ pause
 % element by element operations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> Matrix operations. Continue...\n");
+disp('>>> Matrix operations. Continue...\n');
 
 m1 .* m2  % multiplication element by element
 m1 ./ m2  % divison element by element
@@ -96,7 +96,7 @@ pause
 % matrix multiplication
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-disp(">>> Matrix by matrix multiplication\n");
+disp('>>> Matrix by matrix multiplication\n');
 
 ma = [ 1 2 3 ; 4 5 6 ]
 mb = [ 1 2 ; 3 4 ; 5 6 ];

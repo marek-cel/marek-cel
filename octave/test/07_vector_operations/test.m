@@ -2,7 +2,7 @@
 % 07_vector_operations
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Initializing smaple data\n");
+display('>>> Initializing smaple data\n');
 
 va3 = [ 1 2 3 ]
 vb3 = [ 4 5 6 ]
@@ -14,7 +14,7 @@ vb4 = [ 5 6 7 8 ]
 % vector dor product
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> dot product\n");
+display('>>> dot product\n');
 
 dot( va3, vb3 )
 dot( va4, vb4 )
@@ -23,7 +23,7 @@ dot( va4, vb4 )
 % vector cross product
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> cross product\n");
+display('>>> cross product\n');
 
 cross( va3, vb3 )
 
@@ -31,14 +31,14 @@ cross( va3, vb3 )
 % magnitude of the vector
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> norm (magnitude)\n");
+display('>>> norm (magnitude)\n');
 
 norm( va3 )
 norm( va4 )
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> logical operations\n");
+display('>>> logical operations\n');
 
 va4_logic = va4 < 3
 va4(va4_logic)

@@ -2,7 +2,7 @@
 % 04_column_vectors
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Initializing\n");
+display('>>> Initializing\n');
 
 colvec = [1; 3; 5]
 
@@ -10,7 +10,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Transposing\n");
+display('>>> Transposing\n');
 
 rowvec1 = 1:2:5
 colvec1 = transpose(rowvec1)
@@ -22,7 +22,7 @@ pause
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-display(">>> Indices\n");
+display('>>> Indices\n');
 
 colvec3 = [1; 3; 5]
 colvec3(2) = 300
