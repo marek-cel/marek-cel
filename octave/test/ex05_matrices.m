@@ -96,3 +96,11 @@ m_flip = flip(m04)
 
 display('>>> flipud\n');
 m_flipud = flipud(m04)
+
+pause
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+display('>>> vector as index\n');
+m05 = randi([0 10], 5, 5)
+m05([1:2:5],:)
