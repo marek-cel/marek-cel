@@ -10,3 +10,6 @@ rhs = [ 10 ; 5 ; -1 ]
 
 display('>>> lhs^-1 * rhs');
 lhs^-1 * rhs
+
+display('>>> inv(lhs) * rhs');
+inv(lhs) * rhs

@@ -19,6 +19,16 @@ setdiff(a, b)
 % roznica symetryczna zbiorow
 setxor(a, b)
 
-
 ismember(a, 1)
 ismember(a, 9)
+
+pause
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+v = [ 1 1 1 2 2 3 3 4 5 6 ]
+
+m = [ 1 1 1 2 ; 1 1 2 3 ; 2 3 4 5 ]
+
+unique(v)
+unique(m)
