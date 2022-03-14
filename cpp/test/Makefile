@@ -24,15 +24,7 @@ INCLUDES = -I./src
 
 SOURCES = \
 	src/00_test.cpp \
-	src/auto.cpp \
-	src/lambda.cpp \
-	src/noexcept.cpp \
-	src/parameter_pack.cpp \
-	src/range_for.cpp \
-	src/shared_pointer.cpp \
-	src/unique_pointer.cpp \
-	src/user_defined_literals.cpp \
-	src/weak_ptr.cpp
+	src/variadic_function.cpp
 
 ################################################################################
 
