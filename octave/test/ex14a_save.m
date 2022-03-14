@@ -7,4 +7,4 @@ plot(x,y)
 
 d = [ x' y' ];
 
-save -ascii ex14_data.txt d
+save -ascii data/ex14_data.txt d
