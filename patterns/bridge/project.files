@@ -1,0 +1,8 @@
+Makefile
+cpp/Abstraction.h
+cpp/Client.h
+cpp/ConcreteImplementatorA.h
+cpp/ConcreteImplementatorB.h
+cpp/Implementator.h
+cpp/RefinedAbstraction.h
+cpp/main.cpp

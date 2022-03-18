@@ -1,0 +1,7 @@
+Makefile
+cpp/Client.h
+cpp/ConcreteFlyweight.h
+cpp/Flyweight.h
+cpp/FlyweightsFactory.h
+cpp/UnsheredConcreteFlyweight.h
+cpp/main.cpp

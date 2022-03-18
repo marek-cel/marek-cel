@@ -1,0 +1,7 @@
+Makefile
+cpp/Component.h
+cpp/ConcreteComponent.h
+cpp/ConcreteDecoratorA.h
+cpp/ConcreteDecoratorB.h
+cpp/Decorator.h
+cpp/main.cpp

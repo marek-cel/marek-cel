@@ -1,0 +1,6 @@
+Makefile
+cpp/main.cpp
+cpp/ElementA.h
+cpp/ElementB.h
+cpp/ElementC.h
+cpp/Facade.h

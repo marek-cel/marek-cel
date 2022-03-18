@@ -1,0 +1,10 @@
+Makefile
+cpp/Client.h
+cpp/CompositeElement.h
+cpp/ConcreteElementA.h
+cpp/ConcreteElementB.h
+cpp/ConcreteVisitor1.h
+cpp/ConcreteVisitor2.h
+cpp/Element.h
+cpp/Visitor.h
+cpp/main.cpp

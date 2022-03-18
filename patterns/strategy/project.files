@@ -1,0 +1,7 @@
+Makefile
+cpp/main.cpp
+cpp/ConcreteStrategyA.h
+cpp/ConcreteStrategyB.h
+cpp/ConcreteStrategyC.h
+cpp/Context.h
+cpp/Strategy.h

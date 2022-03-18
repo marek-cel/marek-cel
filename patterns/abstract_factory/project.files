@@ -1,0 +1,12 @@
+Makefile
+cpp/ProductA1.h
+cpp/ProductA2.h
+cpp/ProductB1.h
+cpp/ProductB2.h
+cpp/main.cpp
+cpp/AbstractFactory.h
+cpp/AbstractProductA.h
+cpp/AbstractProductB.h
+cpp/ConcreteFactory1.h
+cpp/ConcreteFactory2.h
+cpp/Client.h

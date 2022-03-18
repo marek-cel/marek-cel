@@ -1,0 +1,6 @@
+Makefile
+cpp/Client.h
+cpp/ConcretePrototype1.h
+cpp/ConcretePrototype2.h
+cpp/Prototype.h
+cpp/main.cpp
