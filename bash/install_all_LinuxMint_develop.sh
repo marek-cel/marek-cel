@@ -18,6 +18,9 @@ function installDevelopEssentials()
             git-flow \
             git-gui \
             kdesvn \
+            kdevelop \
+            kdevelop-php \
+            kdevelop-python \
             kdiff3 \
             lcov \
             meld \

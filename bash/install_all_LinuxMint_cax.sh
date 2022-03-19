@@ -26,6 +26,7 @@ function installCaxGisScientific()
             octave \
             octave-control \
             octave-geometry \
+            octave-io \
             octave-linear-algebra \
             octave-quaternion \
             octave-symbolic \
