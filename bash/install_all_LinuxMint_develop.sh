@@ -183,7 +183,7 @@ function installDevelopEssentials()
                 python3-vtk7
 
             sudo pip3 install \
-                matplotllib \
+                cpplint \
                 numpy \
                 pendulum \
                 pyfoam \
