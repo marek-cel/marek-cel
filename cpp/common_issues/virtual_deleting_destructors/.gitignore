@@ -1,0 +1,5 @@
+bin
+src/*.o
+src/*.gcov
+src/*.gcda
+src/*.gcno

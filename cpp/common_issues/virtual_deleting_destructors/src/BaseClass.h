@@ -1,0 +1,23 @@
+#ifndef BASECLASS_H_
+#define BASECLASS_H_
+
+////////////////////////////////////////////////////////////////////////////////
+
+class BaseClass
+{
+public:
+
+    BaseClass();
+
+    virtual ~BaseClass();
+
+    virtual int getOne() = 0;
+
+    virtual int getTwo();
+
+//    void operator delete(void*);
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+#endif // BASECLASS_H_
