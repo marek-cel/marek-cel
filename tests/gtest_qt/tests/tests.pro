@@ -1,7 +1,3 @@
-QT += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
 TEMPLATE = app
 
 ################################################################################
@@ -12,15 +8,16 @@ TARGET = tests
 ################################################################################
 
 CONFIG += console c++17
-CONFIG -= app_bundle qt
+CONFIG -= app_bundle
+CONFIG -= qt
 
 ################################################################################
 
-QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage -O0
+unix: QMAKE_CXXFLAGS += -fprofile-arcs -ftest-coverage -O0
 
 ################################################################################
 
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS GTEST_LANG_CXX11
 
 ################################################################################
 
