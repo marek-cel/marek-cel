@@ -11,7 +11,8 @@ TARGET = tests
 
 ################################################################################
 
-CONFIG += c++17
+CONFIG += console c++17
+CONFIG -= app_bundle qt
 
 ################################################################################
 
@@ -25,13 +26,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += ./ ../src
 
+win32: INCLUDEPATH += \
+    $(GTEST_DIR)/include
+
 ################################################################################
 
-LIBS += \
+unix: LIBS += \
     -lgcov --coverage \
     -lgtest \
     -lgtest_main \
     -pthread
+
+win32: LIBS += \
+    -L$(GTEST_DIR)/lib \
+    -lgtest \
+    -lgtest_main
 
 ################################################################################
 
