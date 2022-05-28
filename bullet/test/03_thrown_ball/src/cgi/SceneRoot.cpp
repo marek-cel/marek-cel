@@ -24,7 +24,7 @@ SceneRoot::SceneRoot()
     _pat = new osg::PositionAttitudeTransform();
     _root->addChild( _pat.get() );
 
-    createObject();
+    createBall();
     createGround();
     createSceneLight();
 
@@ -89,7 +89,7 @@ void SceneRoot::update()
 
 ////////////////////////////////////////////////////////////////////////////////
 
-void SceneRoot::createObject()
+void SceneRoot::createBall()
 {
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _pat->addChild( geode.get() );
@@ -114,7 +114,7 @@ void SceneRoot::createObject()
 
 void SceneRoot::createGround()
 {
-    const double w_2 = 10.0;
+    const double w_2 = 25.0;
     const double l_2 = 10.0;
 
     osg::ref_ptr<osg::Geode> geodeGround = new osg::Geode();
@@ -256,7 +256,7 @@ void SceneRoot::initPhysics()
         if (isDynamic)
             _sphareColShape->calculateLocalInertia(mass, localInertia);
 
-        startTransform.setOrigin(btVector3(0, 0, 10));
+        startTransform.setOrigin(btVector3(-25, 0, 10));
 
         //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
         btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
@@ -265,6 +265,8 @@ void SceneRoot::initPhysics()
         rbInfo.m_friction        = 1.0f;
         rbInfo.m_rollingFriction = 1.0f;
         _bodySphere = new btRigidBody(rbInfo);
+
+        _bodySphere->setLinearVelocity( btVector3( 10.0, 0.0, 0.0 ) );
 
         _dynamicsWorld->addRigidBody(_bodySphere);
     }

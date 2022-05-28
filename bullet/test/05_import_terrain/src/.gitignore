@@ -1,0 +1,4 @@
+bin
+build-project-*
+lib
+*.pro.user

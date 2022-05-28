@@ -39,7 +39,7 @@ private:
     btRigidBody *_bodyGround;
     btRigidBody *_bodySphere;
 
-    void createObject();
+    void createCube();
     void createGround();
     void createSceneLight();
 
