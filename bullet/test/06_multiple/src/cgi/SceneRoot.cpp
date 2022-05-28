@@ -1,6 +1,7 @@
 #include <cgi/SceneRoot.h>
 
 #include <cmath>
+#include <iostream>
 
 #include <osg/Geode>
 #include <osg/LightSource>
@@ -109,11 +110,13 @@ void SceneRoot::update()
 
 void SceneRoot::createBalls()
 {
-    const double h0 = 10.0;
+    const double h0 = 50.0;
     const double r = 0.1;
     const double d = 2.0 * r;
 
     const int i_max = floor( 1.0 / d );
+
+    int counter = 0;
 
     for ( int ix = -i_max; ix <= i_max; ix++ )
     {
@@ -121,6 +124,8 @@ void SceneRoot::createBalls()
         {
             for ( int iz = -i_max; iz <= i_max; iz++ )
             {
+                counter++;
+
                 osg::ref_ptr<osg::PositionAttitudeTransform> pat = new osg::PositionAttitudeTransform();
                 _root->addChild( pat.get() );
                 _pats.push_back( pat );
@@ -167,6 +172,8 @@ void SceneRoot::createBalls()
             }
         }
     }
+
+    std::cout << counter << " balls created" << std::endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
