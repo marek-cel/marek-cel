@@ -12,7 +12,7 @@
 #include <osgViewer/Viewer>
 #include <osgGA/GUIEventHandler>
 
-#include <GraphicsWindowQt.h>
+#include <gui/GraphicsWindowQt.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

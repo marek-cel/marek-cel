@@ -1,4 +1,4 @@
-#include <MainWindow.h>
+#include <gui/MainWindow.h>
 #include <ui_MainWindow.h>
 
 #include <QSettings>

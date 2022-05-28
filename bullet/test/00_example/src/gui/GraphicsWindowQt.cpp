@@ -1,8 +1,8 @@
-#include <GraphicsWindowQt.h>
+#include <gui/GraphicsWindowQt.h>
 
 #include <iostream>
 
-#include <KeyMap.h>
+#include <gui/KeyMap.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

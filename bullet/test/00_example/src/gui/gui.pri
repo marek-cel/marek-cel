@@ -1,5 +1,4 @@
 HEADERS += \
-    $$PWD/defs.h \
     $$PWD/GraphicsWindowQt.h \
     $$PWD/KeyMap.h \
     $$PWD/MainWindow.h \
@@ -9,8 +8,7 @@ SOURCES += \
     $$PWD/GraphicsWindowQt.cpp \
     $$PWD/KeyMap.cpp \
     $$PWD/MainWindow.cpp \
-    $$PWD/WidgetCGI.cpp \
-    $$PWD/main.cpp
+    $$PWD/WidgetCGI.cpp
 
 FORMS += \
     $$PWD/MainWindow.ui

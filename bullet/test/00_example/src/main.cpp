@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QMetaType>
 
-#include <MainWindow.h>
+#include <gui/MainWindow.h>
 
 #include <defs.h>
 

@@ -1,4 +1,4 @@
-#include <KeyMap.h>
+#include <gui/KeyMap.h>
 
 #include <qnamespace.h>
 

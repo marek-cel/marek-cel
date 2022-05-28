@@ -4,7 +4,7 @@
 #include <osgGA/TerrainManipulator>
 #include <osgViewer/ViewerEventHandlers>
 
-#include <WidgetCGI.h>
+#include <gui/WidgetCGI.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 

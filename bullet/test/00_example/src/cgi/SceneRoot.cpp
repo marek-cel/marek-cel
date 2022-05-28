@@ -99,13 +99,13 @@ void SceneRoot::createObject()
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( sphere.get() );
     geode->addDrawable( shape.get() );
 
-    // material
-    osg::ref_ptr<osg::Material> material = new osg::Material();
-    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
-    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.5f, 0.5f, 0.5f, 1.0f ) );
-    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.3f, 0.3f, 0.3f, 1.0f ) );
+//    // material
+//    osg::ref_ptr<osg::Material> material = new osg::Material();
+//    material->setColorMode( osg::Material::AMBIENT_AND_DIFFUSE );
+//    material->setAmbient( osg::Material::FRONT, osg::Vec4f( 0.5f, 0.5f, 0.5f, 1.0f ) );
+//    material->setDiffuse( osg::Material::FRONT, osg::Vec4f( 0.3f, 0.3f, 0.3f, 1.0f ) );
 
-    geode->getOrCreateStateSet()->setAttribute( material.get() );
+//    geode->getOrCreateStateSet()->setAttribute( material.get() );
 
     _pat->setPosition( osg::Vec3d( 0.0, 0.0, 10.0 ) );
 }
@@ -165,7 +165,7 @@ void SceneRoot::createSceneLight()
     osg::ref_ptr<osg::PositionAttitudeTransform> patSun = new osg::PositionAttitudeTransform();
     _root->addChild( patSun.get() );
 
-    patSun->setAttitude( osg::Quat( M_PI_2 - M_PI_4, osg::Z_AXIS, -M_PI_4, osg::Y_AXIS, 0.0, osg::X_AXIS ) );
+    patSun->setAttitude( osg::Quat( 0.0, osg::Z_AXIS, 0.0, osg::Y_AXIS, M_PI_4, osg::X_AXIS ) );
 
     osg::ref_ptr<osg::LightSource> lightSourceSun = new osg::LightSource();
     patSun->addChild( lightSourceSun.get() );
@@ -178,8 +178,8 @@ void SceneRoot::createSceneLight()
 
     osg::Vec4 lightColor( 255.0/255.0, 255.0/255.0, 250.0/255.0, 1.0 );
 
-    lightSun->setAmbient( lightColor );
-    lightSun->setDiffuse( lightColor );
+    lightSun->setAmbient( lightColor * 0.5 );
+    lightSun->setDiffuse( lightColor * 0.8 );
     lightSun->setSpecular( lightColor );
 
     lightSun->setConstantAttenuation( 1.0 );
@@ -230,6 +230,9 @@ void SceneRoot::initPhysics()
         //using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
         btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
         btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, _groundColShape, localInertia);
+        rbInfo.m_restitution     = 0.9f;
+        rbInfo.m_friction        = 1.0f;
+        rbInfo.m_rollingFriction = 1.0f;
         _bodyGround = new btRigidBody(rbInfo);
 
         //add the body to the dynamics world
@@ -258,6 +261,9 @@ void SceneRoot::initPhysics()
         //using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
         btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
         btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, _sphareColShape, localInertia);
+        rbInfo.m_restitution     = 0.9f;
+        rbInfo.m_friction        = 1.0f;
+        rbInfo.m_rollingFriction = 1.0f;
         _bodySphere = new btRigidBody(rbInfo);
 
         _dynamicsWorld->addRigidBody(_bodySphere);
