@@ -104,7 +104,7 @@ void SceneRoot::createCube()
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _pat->addChild( geode.get() );
 
-    osg::ref_ptr<osg::Box> sphere = new osg::Box( osg::Vec3f( 0.0f, 0.0f, 0.0f ), 1.0f, 1.0f, 1.0f );
+    osg::ref_ptr<osg::Box> sphere = new osg::Box( osg::Vec3f( 0.0f, 0.0f, 0.0f ), 2.0f, 2.0f, 2.0f );
 
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( sphere.get() );
     geode->addDrawable( shape.get() );

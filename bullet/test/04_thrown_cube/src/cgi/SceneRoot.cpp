@@ -100,7 +100,7 @@ void SceneRoot::createCube()
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _pat->addChild( geode.get() );
 
-    osg::ref_ptr<osg::Box> sphere = new osg::Box( osg::Vec3f( 0.0f, 0.0f, 0.0f ), 1.0f, 1.0f, 1.0f );
+    osg::ref_ptr<osg::Box> sphere = new osg::Box( osg::Vec3f( 0.0f, 0.0f, 0.0f ), 2.0f, 2.0f, 2.0f );
 
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( sphere.get() );
     geode->addDrawable( shape.get() );
@@ -262,6 +262,7 @@ void SceneRoot::initPhysics()
 
         btQuaternion rotation;
         rotation.setEulerZYX( 0.0, osg::DegreesToRadians( 30.0 ), osg::DegreesToRadians( 60.0 ) );
+        //rotation.setEulerZYX( 0.0, 0.0, osg::DegreesToRadians( 90.0 ) );
 
         startTransform.setOrigin(btVector3(-15, 0, 10));
         startTransform.setRotation( rotation );
@@ -274,8 +275,8 @@ void SceneRoot::initPhysics()
         rbInfo.m_rollingFriction = 0.1f;
         _bodySphere = new btRigidBody(rbInfo);
 
-        _bodySphere->setLinearVelocity( btVector3( 10.0, 0.0, 0.0 ) );
-        //_bodySphere->setAngularVelocity( btVector3( 1.0, 0.0, 0.0 )  );
+        _bodySphere->setLinearVelocity( btVector3( 8.0, 0.0, 0.0 ) );
+        _bodySphere->setAngularVelocity( btVector3( 1.0, 0.0, 0.0 )  );
 
         _dynamicsWorld->addRigidBody(_bodySphere);
     }
