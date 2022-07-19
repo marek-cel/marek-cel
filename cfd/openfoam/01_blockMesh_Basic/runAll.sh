@@ -31,12 +31,16 @@ echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
 echo "Running blockMesh"
 TMP_0=$(date +%s)
 blockMesh > log.blockMesh 2>&1
-printExecutionTime "blockMesh finished in " $TMP_0 "with exit code" $?
+EXIT_CODE=$?
+printExecutionTime "blockMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
+if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
 
 echo "Running checkMesh"
 TMP_0=$(date +%s)
 checkMesh > log.checkMesh 2>&1
-printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $?
+EXIT_CODE=$?
+printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
+if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
 
 ################################################################################
 # EXECUTION - FINISH
