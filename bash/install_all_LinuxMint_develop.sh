@@ -177,6 +177,7 @@ function installDevelopEssentials()
                 python3-matplotlib \
                 python3-numpy \
                 python3-pip \
+                python3-pyproj \
                 python3-pyqt5 \
                 python3-scipy \
                 python3-setuptools \
