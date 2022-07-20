@@ -37,21 +37,21 @@ TMP_0=$(date +%s)
 cp -r 0.orig 0
 EXIT_CODE=$?
 printExecutionTime "Copying 0.orig to 0 finished in " $TMP_0 "with exit code" $EXIT_CODE?
-if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 echo "Running blockMesh"
 TMP_0=$(date +%s)
 blockMesh > log.blockMesh 2>&1
 EXIT_CODE=$?
 printExecutionTime "blockMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 echo "Running surfaceFeatureExtract"
 TMP_0=$(date +%s)
 surfaceFeatureExtract > log.surfaceFeatureExtract 2>&1
 EXIT_CODE=$?
 printExecutionTime "surfaceFeatureExtract finished in " $TMP_0 "with exit code" $EXIT_CODE
-if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 if $PARALLEL
 then
@@ -60,21 +60,21 @@ then
     decomposePar -copyZero > log.decomposePar 2>&1
     EXIT_CODE=$?
     printExecutionTime "decomposePar finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
     echo "Running snappyHexMesh in parallel using $(getNumberOfProcessors) processes"
     TMP_0=$(date +%s)
     mpirun -np $(getNumberOfProcessors) snappyHexMesh -parallel -overwrite > log.snappyHexMesh 2>&1
     EXIT_CODE=$?
     printExecutionTime "snappyHexMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 else
     echo "Running snappyHexMesh"
     TMP_0=$(date +%s)
     snappyHexMesh  -overwrite > log.snappyHexMesh 2>&1
     EXIT_CODE=$?
     printExecutionTime "snappyHexMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 fi
 
 echo "Running checkMesh"
@@ -82,7 +82,7 @@ TMP_0=$(date +%s)
 checkMesh > log.checkMesh 2>&1
 EXIT_CODE=$?
 printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 if $PARALLEL
 then
@@ -91,27 +91,27 @@ then
     mpirun -np $(getNumberOfProcessors) renumberMesh -parallel -overwrite > log.renumberMesh 2>&1
     EXIT_CODE=$?
     printExecutionTime "renumberMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
     
     echo "Running patchSummary in parallel using $(getNumberOfProcessors) processes"
     TMP_0=$(date +%s)
     mpirun -np $(getNumberOfProcessors) patchSummary -parallel > log.patchSummary 2>&1
     printExecutionTime "patchSummary finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
     
     echo "Running $(getApplication) in parallel using $(getNumberOfProcessors) processes"
     TMP_0=$(date +%s)
     mpirun -np $(getNumberOfProcessors) $(getApplication) -parallel > log.$(getApplication) 2>&1
     EXIT_CODE=$?
     printExecutionTime "$(getApplication) finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 else
     echo "Running $(getApplication)"
     TMP_0=$(date +%s)
     $(getApplication) > log.$(getApplication) 2>&1
     EXIT_CODE=$?
     printExecutionTime "$(getApplication) finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 fi
 
 if $PARALLEL
@@ -121,17 +121,19 @@ then
     reconstructParMesh -constant > log.reconstructParMesh 2>&1
     EXIT_CODE=$?
     printExecutionTime "reconstructParMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
     
     echo "Running reconstructPar"
     reconstructPar -latestTime > log.reconstructPar 2>&1
     EXIT_CODE=$?
     printExecutionTime "reconstructPar finished in " $TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit 1; fi
+    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 fi
 
 echo "Running foamLog"
 foamLog log.$(getApplication)
+
+touch case.foam
 
 ################################################################################
 # EXECUTION - FINISH

@@ -7,7 +7,7 @@
 
 // ************************************************************************** //
 
-forceCoeffs_Cx_Cz_Cmy
+forceCoeffs
 {
     type            forceCoeffs;
 
@@ -22,62 +22,15 @@ forceCoeffs_Cx_Cz_Cmy
     rho             rhoInf;      // Indicates incompressible
     rhoInf          1.0;         // Redundant for incompressible
     liftDir         (0 0 1);
+    sideDir         (0 1 0);
     dragDir         (1 0 0);
-    CofR            (0 0 0);
+    rollAxis        (1 0 0);
     pitchAxis       (0 1 0);
+    yawAxis         (0 0 1);
     magUInf         $flowVelocity;
-    lRef            $referenceLengthPitch;
+    lRef            $referenceLength;
     Aref            $referenceArea;
-}
-
-// ************************************************************************** //
-
-forceCoeffs_Cx_Cy_Cmx
-{
-    type            forceCoeffs;
-
-    libs            ("libforces.so");
-
-    writeControl    timeStep;
-    timeInterval    1;
-
-    log             yes;
-
-    patches         (model);
-    rho             rhoInf;      // Indicates incompressible
-    rhoInf          1.0;         // Redundant for incompressible
-    liftDir         (0 1 0);
-    dragDir         (1 0 0);
     CofR            (0 0 0);
-    pitchAxis       (1 0 0);
-    magUInf         $flowVelocity;
-    lRef            $referenceLengthRoll;
-    Aref            $referenceArea;
-}
-
-// ************************************************************************** //
-
-forceCoeffs_Cx_Cy_Cmz
-{
-    type            forceCoeffs;
-
-    libs            ("libforces.so");
-
-    writeControl    timeStep;
-    timeInterval    1;
-
-    log             yes;
-
-    patches         (model);
-    rho             rhoInf;      // Indicates incompressible
-    rhoInf          1.0;         // Redundant for incompressible
-    liftDir         (0 1 0);
-    dragDir         (1 0 0);
-    CofR            (0 0 0);
-    pitchAxis       (0 0 1);
-    magUInf         $flowVelocity;
-    lRef            $referenceLengthYaw;
-    Aref            $referenceArea;
 }
 
 // ************************************************************************** //
