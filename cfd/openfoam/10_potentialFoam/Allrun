@@ -36,7 +36,7 @@ echo "Copying 0.orig to 0"
 TMP_0=$(date +%s)
 cp -r 0.orig 0
 EXIT_CODE=$?
-printExecutionTime "Copying 0.orig to 0 finished in " $TMP_0 "with exit code" $EXIT_CODE?
+printExecutionTime "Copying 0.orig to 0 finished in " $TMP_0 "with exit code" $EXIT_CODE
 if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 echo "Running blockMesh"

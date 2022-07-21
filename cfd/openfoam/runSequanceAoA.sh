@@ -15,31 +15,6 @@ function printExecutionTime()
 
 ################################################################################
 
-function runCaseForAngleOfAttack()
-{
-    EXEC_DIR=$(pwd)
-
-    rm -r "$FOAM_RUN/$1"_"$2"
-    cp -r $1 "$FOAM_RUN/$1"_"$2"
-    mv "$FOAM_RUN/$1"_"$2"/constant/triSurface/model.stl "$FOAM_RUN/$1"_"$2"/constant/triSurface/model_bak.stl
-    surfaceTransformPoints -rotate-y $2 "$FOAM_RUN/$1"_"$2"/constant/triSurface/model_bak.stl "$FOAM_RUN/$1"_"$2"/constant/triSurface/model.stl
-    rm "$FOAM_RUN/$1"_"$2"/constant/triSurface/model_bak.stl
-    cd "$FOAM_RUN/$1"_"$2"
-    ./Allrun
-    EXIT_CODE=$?
-    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
-    cd ..
-    if [ $3 -eq 1 ]; then
-        head -n 13 "$FOAM_RUN/$1"_"$2"/postProcessing/forceCoeffs/0/coefficient.dat &>> "$FOAM_RUN"/coefficient_"$1".dat
-        echo "" &>> "$FOAM_RUN"/coefficient_"$1".dat
-    fi
-    printf "%d\t" $2 &>> "$FOAM_RUN"/coefficient_"$1".dat
-    tail -n 1 "$FOAM_RUN/$1"_"$2"/postProcessing/forceCoeffs/0/coefficient.dat &>> "$FOAM_RUN"/coefficient_"$1".dat
-    cd $EXEC_DIR
-}
-
-################################################################################
-
 if [ -n "$1" ]; then
     if [ "$1" == "-help" ]; then
         echo "./runCaseSequance.sh <path to case directory> <AoA start value> <AoA end value> <AoA step>"
@@ -77,14 +52,14 @@ if [ -d "$1" ]; then
     TIME_0=$(date +%s)
     echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
     
-    rm "$FOAM_RUN"/coefficient_"$CASE_DIR".dat
+    rm "$FOAM_RUN"/coeffs_"$CASE_DIR".dat
 
-    ITERATION=1
 
     for (( AOA=$START; AOA<=$END; AOA+=$STEP ))
     do
-        runCaseForAngleOfAttack $CASE_DIR $AOA $ITERATION
-        ((ITERATION+=1))
+        ./runCaseAoA.sh $CASE_DIR $AOA
+        EXIT_CODE=$?
+        if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
     done
     
     printExecutionTime "OpenFOAM sequence finished in " $TIME_0
