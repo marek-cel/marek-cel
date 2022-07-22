@@ -3,7 +3,7 @@
 // ************************************************************************** //
 
 #include "$FOAM_CASE/0/include/boundaryConditions"
-#include "include/referenceData"
+#include "referenceData"
 
 // ************************************************************************** //
 

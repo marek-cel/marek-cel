@@ -42,7 +42,7 @@ runTimeModifiable true;
 
 functions
 {
-    #include "forceCoeffs"
+    #include "include/forceCoeffs"
 }
 
 // ************************************************************************** //

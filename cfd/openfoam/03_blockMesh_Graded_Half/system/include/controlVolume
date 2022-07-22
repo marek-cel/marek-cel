@@ -1,42 +1,23 @@
 // ************************************************************************** //
-// Control volume coordinates
+// Control volume dimensions
 // ************************************************************************** //
 
-controlVol_x_min -30.0;
-controlVol_x_max  90.0;
-controlVol_y_min -20.0;
-controlVol_y_max  20.0;
-controlVol_z_min -20.0;
-controlVol_z_max  20.0;
-
-// main section coordinates
-mainSection_x_min -10.0;
-mainSection_x_max  20.0;
+controlVolOriginX  -30.0;
+controlVolLength   120.0;
+controlVolWidth     40.0;
+controlVolHeight    40.0;
 
 // ************************************************************************** //
-// Number of cells
+// Main section dimensions
 // ************************************************************************** //
 
-numberOfCells_y 5;
-numberOfCells_z 5;
-
-// inlet section
-numberOfCellsInlet_x 5;
-
-// main section
-numberOfCellsMain_x 10;
-
-// outlet section
-numberOfCellsOutlet_x 15;
+mainSectionOriginX -10.0;
+mainSectionLength   30.0;
 
 // ************************************************************************** //
-// Grading
+// Cell size
 // ************************************************************************** //
 
-// inlet section
-gradingInlet_x 0.5;
-
-// outlet section
-gradingOutlet_x 2.0;
+mainSectionCellSize 2.0;
 
 // ************************************************************************** //

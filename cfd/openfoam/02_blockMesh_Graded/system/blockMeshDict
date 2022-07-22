@@ -34,8 +34,8 @@ xcells_i #eval "round( 0.5 * $li / $mainSectionCellSize )";
 xcells_o #eval "round( 0.5 * $lo / $mainSectionCellSize )";
 
 xcells #eval "$xcells_m + $xcells_i + $xcells_o";
-ycells #eval "round( $controlVolWidth   / $mainSectionCellSize )";
-zcells #eval "round( $controlVolHeight  / $mainSectionCellSize )";
+ycells #eval "round( $controlVolWidth  / $mainSectionCellSize )";
+zcells #eval "round( $controlVolHeight / $mainSectionCellSize )";
 
 fracLength_m #eval "$mainSectionLength / $controlVolLength";
 fracLength_i #eval "$li / $controlVolLength";
