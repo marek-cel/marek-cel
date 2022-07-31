@@ -2,20 +2,20 @@
 // Near geometry refinement
 // ************************************************************************** //
 
-nearGeometryRefinement_distance 2.0;
-nearGeometryRefinement_level    2;
+nearGeometryRefinementDistance 2.0;
+nearGeometryRefinementLevel    2;
 
 // ************************************************************************** //
 // Geometry surfaces refinement
 // ************************************************************************** //
 
-geometrySurfacesRefinement_level_min 6;
-geometrySurfacesRefinement_level_max 7;
+surfacesRefinementLevel 6;
+edgesRefinementLevel    7;
 
 // ************************************************************************** //
 // Geometry features refinement
 // ************************************************************************** //
 
-geometryFeaturesRefinement_level 7;
+geometryFeaturesRefinementLevel 7;
 
 // ************************************************************************** //

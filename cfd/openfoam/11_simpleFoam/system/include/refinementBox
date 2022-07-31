@@ -13,6 +13,6 @@ refinementBox_z_max  2.0;
 // Refinement box refinement level
 // ************************************************************************** //
 
-refinementBox_level 2;
+refinementBoxRefinementLevel 2;
 
 // ************************************************************************** //

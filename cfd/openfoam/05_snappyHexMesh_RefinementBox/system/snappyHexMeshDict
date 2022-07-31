@@ -52,10 +52,6 @@ castellatedMeshControls
     // Explicit feature edge refinement
     features
     (
-        {
-            file "model.eMesh";
-            levels ((1 3));
-        }
     );
     
     // Surface based refinement
@@ -63,7 +59,7 @@ castellatedMeshControls
     {
         model
         {
-            level ( 1 2 );
+            level ( 0 0 );
 
             patchInfo
             {
@@ -80,7 +76,7 @@ castellatedMeshControls
         refinementBox
         {
             mode inside;
-            levels ( ( 1.0e15 $refinementBox_level ) );
+            levels ( ( 1.0e15 $refinementBoxRefinementLevel ) );
         }
     }
 }

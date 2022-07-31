@@ -56,7 +56,7 @@ castellatedMeshControls
     (
         {
             file "model.eMesh";
-            level $geometryFeaturesRefinement_level;
+            level $geometryFeaturesRefinementLevel;
         }
     );
     
@@ -65,7 +65,7 @@ castellatedMeshControls
     {
         model
         {
-            level ( $geometrySurfacesRefinement_level_min $geometrySurfacesRefinement_level_max );
+            level ( $surfacesRefinementLevel $edgesRefinementLevel );
 
             patchInfo
             {
@@ -82,13 +82,13 @@ castellatedMeshControls
         model
         {
             mode    distance;
-            levels	(($nearGeometryRefinement_distance $nearGeometryRefinement_level));
+            levels  (($nearGeometryRefinementDistance $nearGeometryRefinementLevel));
         }
         
         refinementBox
         {
             mode inside;
-            levels ( ( 1.0e15 $refinementBox_level ) );
+            levels ( ( 1.0e15 $refinementBoxRefinementLevel ) );
         }
     }
 }
