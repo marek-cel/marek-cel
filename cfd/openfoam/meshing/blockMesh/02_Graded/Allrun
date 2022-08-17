@@ -28,6 +28,8 @@ echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
 # EXECUTION - START
 ################################################################################
 
+touch open.foam
+
 echo "Running blockMesh"
 TMP_0=$(date +%s)
 blockMesh > log.blockMesh 2>&1
@@ -41,8 +43,6 @@ checkMesh > log.checkMesh 2>&1
 EXIT_CODE=$?
 printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
 if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
-
-touch case.foam
 
 ################################################################################
 # EXECUTION - FINISH

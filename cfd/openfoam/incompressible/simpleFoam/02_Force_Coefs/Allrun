@@ -32,6 +32,8 @@ PARALLEL=true
 # EXECUTION - START
 ################################################################################
 
+touch open.foam
+
 echo "Copying 0.orig to 0"
 TMP_0=$(date +%s)
 cp -r 0.orig 0
@@ -146,8 +148,6 @@ fi
 
 echo "Running foamLog"
 foamLog log.$(getApplication)
-
-touch case.foam
 
 ################################################################################
 # EXECUTION - FINISH

@@ -1,0 +1,61 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volScalarField;
+    location    "0";
+    object      nut;
+}
+
+// ************************************************************************** //
+
+#include "include/boundaryConditions"
+
+// ************************************************************************** //
+
+dimensions [ 0 2 -1 0 0 0 0 ];
+
+// ************************************************************************** //
+
+internalField uniform $turbulentVisc;
+
+// ************************************************************************** //
+
+boundaryField
+{
+    inlet
+    {
+        type        calculated;
+        value       uniform 0;
+    }
+
+    outlet
+    {
+        type        calculated;
+        value       uniform 0;
+    }
+
+    walls
+    {
+        type        calculated;
+        value       uniform 0;
+    }
+    
+    sym
+    {
+        type        symmetryPlane;
+    }
+
+    model
+    {
+        type        nutkWallFunction;
+        value       uniform 0;
+    }
+    
+    "proc.*"
+    {
+        type        processor;
+    }
+}
+
+// ************************************************************************** //
