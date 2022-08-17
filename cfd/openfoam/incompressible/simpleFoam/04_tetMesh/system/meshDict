@@ -1,0 +1,50 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// ************************************************************************** //
+
+surfaceFile "surfaceMeshes/geometry.fms";
+
+maxCellSize 0.5;
+minCellSize 0.1;
+
+// ************************************************************************** /
+
+renameBoundary
+{
+    defaultType patch;
+    
+    newPatchNames
+    {
+        inlet
+        {
+            type    patch;
+            newName inlet;
+        }
+        
+        outlet
+        {
+            type    patch;
+            newName outlet;
+        }
+        
+        walls
+        {
+            type    patch;
+            newName walls;
+        }
+        
+        model
+        {
+            type    wall;
+            newName inlet;
+        }
+    }
+}
+
+// ************************************************************************** //

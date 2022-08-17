@@ -45,12 +45,12 @@ EXIT_CODE=$?
 printExecutionTime "tetMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
 if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
-# echo "Running checkMesh"
-# TMP_0=$(date +%s)
-# checkMesh > log.checkMesh 2>&1
-# EXIT_CODE=$?
-# printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
-# if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
+echo "Running checkMesh"
+TMP_0=$(date +%s)
+checkMesh > log.checkMesh 2>&1
+EXIT_CODE=$?
+printExecutionTime "checkMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
+if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
 
 ################################################################################
 # EXECUTION - FINISH
