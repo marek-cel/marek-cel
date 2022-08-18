@@ -32,10 +32,10 @@ renameBoundary
             newName outlet;
         }
         
-        walls
+        freestream
         {
             type    patch;
-            newName walls;
+            newName freestream;
         }
         
         model

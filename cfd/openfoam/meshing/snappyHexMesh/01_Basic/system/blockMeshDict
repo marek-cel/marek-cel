@@ -108,7 +108,7 @@ boundary
         );
     }
     
-    walls
+    freestream
     {
         type patch;
         faces

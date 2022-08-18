@@ -35,7 +35,7 @@ boundaryField
         value       uniform 0;
     }
 
-    walls
+    freestream
     {
         type        calculated;
         value       uniform 0;

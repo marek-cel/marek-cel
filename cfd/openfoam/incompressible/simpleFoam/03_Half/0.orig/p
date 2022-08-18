@@ -34,7 +34,7 @@ boundaryField
         value       $internalField;
     }
 
-    walls
+    freestream
     {
         type        zeroGradient;
     }
