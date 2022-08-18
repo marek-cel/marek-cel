@@ -1,10 +1,9 @@
 // ************************************************************************** //
-// Relaxation factors
+// Material point coordinates
 // ************************************************************************** //
 
-relaxationFactors_p         0.3;
-relaxationFactors_U         0.5;
-relaxationFactors_rho       0.01;
-relaxationFactors_e         0.5;
+materialPnt_x 15.0000001;
+materialPnt_y 15.0000001;
+materialPnt_z 15.0000001;
 
 // ************************************************************************** //

@@ -5,7 +5,5 @@
 convergenceCondition_p      1e-2;
 convergenceCondition_U      1e-3;
 convergenceCondition_e      1e-3;
-convergenceCondition_k      1e-3;
-convergenceCondition_omega  1e-4;
 
 // ************************************************************************** //

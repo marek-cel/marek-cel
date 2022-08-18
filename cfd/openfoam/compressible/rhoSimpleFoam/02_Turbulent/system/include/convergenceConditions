@@ -1,10 +1,11 @@
 // ************************************************************************** //
-// Relaxation factors
+// Convergence conditions
 // ************************************************************************** //
 
-relaxationFactors_p         0.3;
-relaxationFactors_U         0.5;
-relaxationFactors_rho       0.01;
-relaxationFactors_e         0.5;
+convergenceCondition_p      1e-2;
+convergenceCondition_U      1e-3;
+convergenceCondition_e      1e-3;
+convergenceCondition_k      1e-3;
+convergenceCondition_omega  1e-4;
 
 // ************************************************************************** //

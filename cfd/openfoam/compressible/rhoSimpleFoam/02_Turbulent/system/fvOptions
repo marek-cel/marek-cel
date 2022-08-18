@@ -3,11 +3,18 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      turbulenceProperties;
+    object      fvOptions;
 }
 
 // ************************************************************************** //
 
-simulationType laminar;
+limitT
+{
+    type       limitTemperature;
+    active     yes;
+    min        101;
+    max        1000;
+    selectionMode all;
+}
 
 // ************************************************************************** //

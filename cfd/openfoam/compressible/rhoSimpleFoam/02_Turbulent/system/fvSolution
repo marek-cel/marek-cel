@@ -41,6 +41,8 @@ SIMPLE
         p               $convergenceCondition_p;
         U               $convergenceCondition_U;
         e               $convergenceCondition_e;
+        k               $convergenceCondition_k;
+        omega           $convergenceCondition_omega;
     }
 
     nNonOrthogonalCorrectors 0;
@@ -63,6 +65,8 @@ relaxationFactors
     {
         U               $relaxationFactors_U;
         e               $relaxationFactors_e;
+        k               $relaxationFactors_k;
+        omega           $relaxationFactors_omega;
     }
 }
 
