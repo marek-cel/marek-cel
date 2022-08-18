@@ -1,0 +1,62 @@
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+
+// ************************************************************************** //
+
+application       rhoPimpleFoam;
+
+startFrom         startTime;
+
+startTime         0;
+
+stopAt            endTime;
+
+endTime           0.1;
+
+deltaT            1e-3;
+
+maxDeltaT         1e-3;
+
+writeControl      adjustableRunTime;
+
+writeInterval     50;
+
+purgeWrite        0;
+
+writeFormat       ascii;
+
+writePrecision    6;
+
+writeCompression  off;
+
+timeFormat        general;
+
+timePrecision     6;
+
+runTimeModifiable true;
+
+adjustTimeStep    yes;
+
+maxCo             0.8;
+
+// ************************************************************************** //
+
+functions
+{
+    libs            (fieldFunctionObjects);
+
+    Ma
+    {
+        type            MachNo;
+        executeControl  writeTime;
+        writeControl    writeTime;
+    }
+}
+
+// ************************************************************************** //
+
