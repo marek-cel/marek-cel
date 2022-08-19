@@ -2,4 +2,4 @@
 
 ################################################################################
 
-pyFoamPlotWatcher.py --silent log.sonicFoam
+pyFoamPlotWatcher.py log.sonicFoam

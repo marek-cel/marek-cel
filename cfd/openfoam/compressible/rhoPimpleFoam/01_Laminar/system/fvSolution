@@ -1,3 +1,10 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
 FoamFile
 {
     version     2.0;
@@ -6,15 +13,11 @@ FoamFile
     object      fvSolution;
 }
 
-// ************************************************************************** //
-
-#include "include/relaxationFactors"
-
-// ************************************************************************** //
+// ************************************************************************* //
 
 solvers
 {
-    "(p|rho)"
+    p
     {
         solver          GAMG;
         smoother        GaussSeidel;
@@ -22,52 +25,58 @@ solvers
         relTol          0.01;
     }
 
-    "(p|rho)Final"
+    pFinal
     {
         $p;
         relTol          0;
     }
 
-    "(U|e)"
+    "(rho|U|k|omega|e|nuTilda)"
     {
-        solver          smoothSolver;
-        smoother        symGaussSeidel;
+        solver          PBiCGStab;
+        preconditioner  DILU;
         tolerance       1e-6;
-        relTol          0.01;
+        relTol          0.1;
     }
 
-    "(U|e)Final"
+    "(rho|U|k|omega|e|nuTilda)Final"
     {
         $U;
         relTol          0;
     }
 }
 
+SIMPLE
+{
+    residualControl
+    {
+        p               1e-4;
+        U               1e-4;
+        "(k|omega|e)"   1e-4;
+    }
+
+    nNonOrthogonalCorrectors 0;
+    pMinFactor      0.1;
+    pMaxFactor      2;
+}
+
 PIMPLE
 {
-    momentumPredictor yes;
-    nOuterCorrectors 3;
-    nCorrectors     1;
-    nNonOrthogonalCorrectors 0;
-
-    pMinFactor      0.5;
-    pMaxFactor      2.0;
-    
-    transonic yes;
+    consistent      yes;
+    transonic       yes;
+    nCorrectors              2;
+    nNonOrthogonalCorrectors 1;
+    nOuterCorrectors         1;
+    pMinFactor      0.1;
+    pMaxFactor      4;
 }
 
 relaxationFactors
 {
-    fields
-    {
-        p               $relaxationFactors_p;
-        rho             $relaxationFactors_rho;
-    }
     equations
     {
-        U               $relaxationFactors_U;
-        e               $relaxationFactors_e;
+        ".*"     1;
     }
 }
 
-// ************************************************************************** //
+// ************************************************************************* //

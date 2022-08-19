@@ -2,4 +2,4 @@
 
 ################################################################################
 
-pyFoamPlotWatcher.py --silent log.rhoSimpleFoam
+pyFoamPlotWatcher.py log.rhoSimpleFoam
