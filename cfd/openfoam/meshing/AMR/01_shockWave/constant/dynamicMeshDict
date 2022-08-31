@@ -19,7 +19,7 @@ FoamFile
 dynamicFvMesh   dynamicRefineFvMesh;
 
 // How often to refine
-refineInterval 10000;
+#include "refineInterval"
 
 // Field to be refinement on
 field           refineField;

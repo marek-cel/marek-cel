@@ -1,0 +1,16 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// Boundary conditions
+flowVelocity    650.0;      // [m/s] flow velocity
+pressure        1.0e5;      // [Pa] pressure
+temperature     300.0;      // [K] temperature
+
+turbulentKE     161.0;      // [m^2/s^2] turbulent kinetic energy k=(3/2)*(u_ref*T_i)^2
+turbulentOmega  61.0;       // [1/s] specific turbulence dissipation rate
+turbulentVisc   0.0;        // [m^2/s] turbulent eddy viscosity

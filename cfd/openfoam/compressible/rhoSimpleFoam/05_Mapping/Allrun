@@ -1,0 +1,42 @@
+#!/bin/bash
+
+################################################################################
+
+function printExecutionTime()
+{
+    TIME_1=$(date +%s)
+    TIME_T=$(expr $TIME_1 - $2 )
+    TIME_H=$(expr $TIME_T / 3600 )
+    TIME_M=$(expr $(expr $TIME_T - 3600 \* $TIME_H ) / 60 )
+    TIME_S=$(expr $TIME_T - 3600 \* $TIME_H - 60 \* $TIME_M )
+    TIME_F=`printf %02d ${TIME_H}`:`printf %02d ${TIME_M}`:`printf %02d ${TIME_S}`
+    echo "$1 $TIME_F $3 $4"
+}
+
+################################################################################
+
+TIME_0=$(date +%s)
+echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
+
+################################################################################
+
+BASE_DIR=$(pwd)
+
+cp -r common/* baseMesh/
+cp -r common/* fineMesh/
+
+cd baseMesh
+TMP_0=$(date +%s)
+./Allrun
+EXIT_CODE=$?
+printExecutionTime "baseMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
+cd ..
+cd fineMesh
+TMP_0=$(date +%s)
+./Allrun
+EXIT_CODE=$?
+printExecutionTime "fineMesh finished in " $TMP_0 "with exit code" $EXIT_CODE
+
+################################################################################
+
+printExecutionTime "OpenFOAM finished in " $TIME_0

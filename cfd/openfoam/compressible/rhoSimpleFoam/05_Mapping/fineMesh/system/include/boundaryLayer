@@ -1,0 +1,13 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2206                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+
+// Boundary layer mesh parameters
+boundaryLayerMesh_numberOflayers      10;
+boundaryLayerMesh_expansionRatio      1.25;
+boundaryLayerMesh_finalLayerThickness 0.4;
+boundaryLayerMesh_minThickness        0.1;
