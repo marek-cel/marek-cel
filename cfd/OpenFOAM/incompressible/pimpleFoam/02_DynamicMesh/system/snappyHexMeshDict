@@ -57,7 +57,7 @@ castellatedMeshControls
     (
         {
             file "AMI.eMesh";
-            level 2;
+            level 3;
         }
 
         {
@@ -81,7 +81,7 @@ castellatedMeshControls
 
         AMI
         {
-            level ( 2 2 );
+            level ( 3 3 );
             faceType boundary;
             cellZone rotatingZone;
             faceZone rotatingZone;

@@ -8,11 +8,11 @@
 
 // Near geometry refinement
 nearGeometryRefinementDistance 2.0;
-nearGeometryRefinementLevel    2;
+nearGeometryRefinementLevel    4;
 
 // Geometry surfaces refinement
-surfacesRefinementLevel 5;
-edgesRefinementLevel    5;
+surfacesRefinementLevel 7;
+edgesRefinementLevel    7;
 
 // Geometry features refinement
-geometryFeaturesRefinementLevel 5;
+geometryFeaturesRefinementLevel 7;
