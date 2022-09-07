@@ -9,8 +9,8 @@ nearGeometryRefinementLevel    2;
 // Geometry surfaces refinement
 // ************************************************************************* //
 
-surfacesRefinementLevel 6;
-edgesRefinementLevel    7;
+surfacesRefinementLevelMin 6;
+surfacesRefinementLevelMax 7;
 
 // ************************************************************************* //
 // Geometry features refinement

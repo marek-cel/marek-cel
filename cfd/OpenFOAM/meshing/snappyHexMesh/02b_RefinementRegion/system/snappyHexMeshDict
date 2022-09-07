@@ -14,8 +14,13 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "include/geometryRefinement"
 #include "include/materialPoint"
+#include "include/refinementCylinder"
+
+// ************************************************************************* //
+
+refinementCylinder_y_min #eval "$refinementCylinder_y - $refinementCylinderDepth / 2.0";
+refinementCylinder_y_max #eval "$refinementCylinder_y + $refinementCylinderDepth / 2.0";
 
 // ************************************************************************* //
 
@@ -31,6 +36,14 @@ geometry
     {
         type triSurfaceMesh;
         file "model.stl";
+    }
+    
+    refinementCylinder
+    {
+        type    searchableCylinder;
+        point1  ($refinementCylinder_x $refinementCylinder_y_min $refinementCylinder_z);
+        point2  ($refinementCylinder_x $refinementCylinder_y_max $refinementCylinder_z);
+        radius  $refinementCylinderRadius;
     }
 };
 
@@ -51,10 +64,6 @@ castellatedMeshControls
     // Explicit feature edge refinement
     features
     (
-        {
-            file "model.eMesh";
-            level $geometryFeaturesRefinementLevel;
-        }
     );
     
     // Surface based refinement
@@ -62,7 +71,7 @@ castellatedMeshControls
     {
         model
         {
-            level ( $surfacesRefinementLevelMin $surfacesRefinementLevelMax );
+            level ( 0 0 );
 
             patchInfo
             {
@@ -76,10 +85,10 @@ castellatedMeshControls
     // Region-wise refinement
     refinementRegions
     {
-        model
+        refinementCylinder
         {
-            mode    distance;
-            levels  (($nearGeometryRefinementDistance $nearGeometryRefinementLevel));
+            mode inside;
+            levels ( ( 1.0e15 $refinementCylinderRefinementLevel ) );
         }
     }
 }
@@ -92,8 +101,6 @@ snapControls
     tolerance 1.0;
     nSolveIter 100;
     nRelaxIter 5;
-    
-    // Feature snapping
     nFeatureSnapIter 10;
     implicitFeatureSnap true;
     explicitFeatureSnap true;

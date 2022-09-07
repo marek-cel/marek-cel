@@ -71,7 +71,7 @@ castellatedMeshControls
     {
         model
         {
-            level ( $surfacesRefinementLevel $edgesRefinementLevel );
+            level ( $surfacesRefinementLevelMin $surfacesRefinementLevelMax );
 
             patchInfo
             {

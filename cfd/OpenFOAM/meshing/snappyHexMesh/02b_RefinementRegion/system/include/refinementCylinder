@@ -1,0 +1,18 @@
+// ************************************************************************* //
+// Refinement cylinder coordinates
+// ************************************************************************* //
+
+refinementCylinder_x 0.0;
+refinementCylinder_y 0.0;
+refinementCylinder_z 0.0;
+
+refinementCylinderRadius 2.0;
+refinementCylinderDepth  2.0;
+
+// ************************************************************************* //
+// Refinement cylinder refinement level
+// ************************************************************************* //
+
+refinementCylinderRefinementLevel 2;
+
+// ************************************************************************* //

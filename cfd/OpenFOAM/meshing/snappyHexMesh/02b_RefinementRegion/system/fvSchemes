@@ -5,14 +5,48 @@
 |   \\  /    A nd           | Website:  www.openfoam.com                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// Near geometry refinement
-nearGeometryRefinementDistance 2.0;
-nearGeometryRefinementLevel    2;
+ddtSchemes
+{
+    default	none;
+}
 
-// Geometry surfaces refinement
-surfacesRefinementLevelMin 5;
-surfacesRefinementLevelMax 5;
+gradSchemes
+{
+    default	none;
+}
 
-// Geometry features refinement
-geometryFeaturesRefinementLevel 5;
+divSchemes
+{
+    default	none;
+}
+
+laplacianSchemes
+{
+    default	none;
+}
+
+interpolationSchemes
+{
+    default	none;
+}
+
+snGradSchemes
+{
+    default	none;
+}
+
+fluxRequired
+{
+    default	none;
+}
+
+// ************************************************************************* //

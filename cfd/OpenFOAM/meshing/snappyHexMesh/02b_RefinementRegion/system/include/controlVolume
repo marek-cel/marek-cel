@@ -6,13 +6,15 @@
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 
-// Near geometry refinement
-nearGeometryRefinementDistance 2.0;
-nearGeometryRefinementLevel    2;
+// Control volume dimensions
+controlVolOriginX  -30.0;
+controlVolLength   120.0;
+controlVolWidth     40.0;
+controlVolHeight    40.0;
 
-// Geometry surfaces refinement
-surfacesRefinementLevelMin 5;
-surfacesRefinementLevelMax 5;
+// Main section dimensions
+mainSectionOriginX -10.0;
+mainSectionLength   30.0;
 
-// Geometry features refinement
-geometryFeaturesRefinementLevel 5;
+// Cell size
+mainSectionCellSize 1.0;
