@@ -95,9 +95,7 @@ HEADERS += \
 
 SOURCES += \
     main.cpp \
-    SceneRoot.cpp \
-    shader_frag.cpp \
-    shader_vert.cpp
+    SceneRoot.cpp
 
 OTHER_FILES += \
     shader.frag \

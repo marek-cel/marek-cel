@@ -23,8 +23,13 @@ private:
 
     std::string _textureBaseName = "DiamondPlate008C_1K";
 
-    void create();
-    void createRef();
+
+    osg::Geode* createSphere( osg::Vec3f origin );
+
+    void createSphere2();
+    void createSphere1();
+
+    void attachShader( osg::Geode *geode );
 };
 
 ////////////////////////////////////////////////////////////////////////////////

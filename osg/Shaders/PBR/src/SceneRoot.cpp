@@ -25,22 +25,53 @@ SceneRoot::SceneRoot()
     stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
-    create();
-    createRef();
+    createSphere1();
+    createSphere2();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 
 SceneRoot::~SceneRoot() {}
 
-void SceneRoot::create()
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Geode* SceneRoot::createSphere( osg::Vec3f origin )
 {
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _root->addChild( geode.get() );
-    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere( osg::Vec3f(), 100.0f );
+    osg::Geode *geode = new osg::Geode();
+    _root->addChild( geode );
+    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere( origin, 100.0f );
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( sphere.get() );
     geode->addDrawable( shape.get() );
 
+    return geode;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SceneRoot::createSphere1()
+{
+    osg::ref_ptr<osg::Geode> geode = createSphere( osg::Vec3f( -100.0, 0.0, 0.0) );
+
+    osg::StateSet* stateSet = geode->getOrCreateStateSet();
+
+    osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D;
+    texture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Color.jpg"));
+
+    stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SceneRoot::createSphere2()
+{
+    osg::ref_ptr<osg::Geode> geode = createSphere( osg::Vec3f( 100.0, 0.0, 0.0) );
+    attachShader( geode.get() );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SceneRoot::attachShader( osg::Geode *geode )
+{
     // Load the shaders from external text files
     osg::ref_ptr<osg::Shader> vertShader = new osg::Shader(osg::Shader::VERTEX);
     vertShader->loadShaderSourceFromFile("../src/shader.vert");
@@ -55,60 +86,31 @@ void SceneRoot::create()
 
     osg::StateSet* stateSet = geode->getOrCreateStateSet();
 
-    osg::ref_ptr<osg::Texture2D> albedoTexture = new osg::Texture2D;
-    albedoTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Color.jpg"));
+    osg::ref_ptr<osg::Image> albedoImg    = osgDB::readImageFile("../data/" + _textureBaseName + "_Color.jpg"            );
+    osg::ref_ptr<osg::Image> roughnessImg = osgDB::readImageFile("../data/" + _textureBaseName + "_Roughness.jpg"        );
+    osg::ref_ptr<osg::Image> metallicImg  = osgDB::readImageFile("../data/" + _textureBaseName + "_Metalness.jpg"        );
+    osg::ref_ptr<osg::Image> normalImg    = osgDB::readImageFile("../data/" + _textureBaseName + "_NormalGL.jpg"         );
+    osg::ref_ptr<osg::Image> heightImg    = osgDB::readImageFile("../data/" + _textureBaseName + "_Displacement.jpg"     );
+    osg::ref_ptr<osg::Image> aoImg        = osgDB::readImageFile("../data/" + _textureBaseName + "_AmbientOcclusion.jpg" );
 
-    osg::ref_ptr<osg::Texture2D> roughnessTexture = new osg::Texture2D;
-    roughnessTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Roughness.jpg"));
+    if ( !albedoImg    .valid() ) { std::cerr << "Invalid albedo texture file!"            << std::endl; exit(-1); }
+    if ( !roughnessImg .valid() ) { std::cerr << "Invalid roughness texture file!"         << std::endl; exit(-1); }
+    if ( !metallicImg  .valid() ) { std::cerr << "Invalid metallic texture file!"          << std::endl; exit(-1); }
+    if ( !normalImg    .valid() ) { std::cerr << "Invalid normal texture file!"            << std::endl; exit(-1); }
+    if ( !heightImg    .valid() ) { std::cerr << "Invalid height texture file!"            << std::endl; exit(-1); }
+    if ( !aoImg        .valid() ) { std::cerr << "Invalid ambient occlusion texture file!" << std::endl; exit(-1); }
 
-    osg::ref_ptr<osg::Texture2D> metallicTexture = new osg::Texture2D;
-    metallicTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Metalness.jpg"));
+    osg::ref_ptr<osg::Texture2D> albedoMap    = new osg::Texture2D;
+    osg::ref_ptr<osg::Texture2D> roughnessMap = new osg::Texture2D;
+    osg::ref_ptr<osg::Texture2D> metallicMap  = new osg::Texture2D;
+    osg::ref_ptr<osg::Texture2D> normalMap    = new osg::Texture2D;
+    osg::ref_ptr<osg::Texture2D> heightMap    = new osg::Texture2D;
+    osg::ref_ptr<osg::Texture2D> aoMap        = new osg::Texture2D;
 
-    osg::ref_ptr<osg::Texture2D> normalTexture = new osg::Texture2D;
-    normalTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_NormalGL.jpg"));
-
-    osg::ref_ptr<osg::Texture2D> heightTexture = new osg::Texture2D;
-    heightTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Displacement.jpg"));
-
-    osg::ref_ptr<osg::Texture2D> ambientOcclusionTexture = new osg::Texture2D;
-    ambientOcclusionTexture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_AmbientOcclusion.jpg"));
-
-    osg::ref_ptr<osg::Uniform> albedoTextureUniform           = new osg::Uniform( "albedoTexture"           , albedoTexture    );
-    osg::ref_ptr<osg::Uniform> roughnessTextureUniform        = new osg::Uniform( "roughnessTexture"        , roughnessTexture );
-    osg::ref_ptr<osg::Uniform> metallicTextureUniform         = new osg::Uniform( "metallicTexture"         , metallicTexture  );
-    osg::ref_ptr<osg::Uniform> normalTextureUniform           = new osg::Uniform( "normalTexture"           , normalTexture    );
-    osg::ref_ptr<osg::Uniform> heightTextureUniform           = new osg::Uniform( "heightTexture"           , heightTexture    );
-    osg::ref_ptr<osg::Uniform> ambientOcclusionTextureUniform = new osg::Uniform( "ambientOcclusionTexture" , ambientOcclusionTexture    );
-
-    stateSet->addUniform( albedoTextureUniform.get() );
-    stateSet->addUniform( roughnessTextureUniform.get() );
-    stateSet->addUniform( metallicTextureUniform.get() );
-    stateSet->addUniform( normalTextureUniform.get() );
-    stateSet->addUniform( heightTextureUniform.get() );
-    stateSet->addUniform( ambientOcclusionTextureUniform.get() );
-
-
-    stateSet->setAttributeAndModes(program.get());
-    stateSet->setTextureAttributeAndModes(0, albedoTexture);
-    stateSet->setTextureAttributeAndModes(1, roughnessTexture);
-    stateSet->setTextureAttributeAndModes(2, metallicTexture);
-    stateSet->setTextureAttributeAndModes(3, normalTexture);
-    stateSet->setTextureAttributeAndModes(4, heightTexture);
-    stateSet->setTextureAttributeAndModes(5, ambientOcclusionTexture);
-}
-
-void SceneRoot::createRef()
-{
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    _root->addChild( geode.get() );
-    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere( osg::Vec3f( 200.0, 0.0, 0.0 ), 100.0f );
-    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( sphere.get() );
-    geode->addDrawable( shape.get() );
-
-    osg::StateSet* stateSet = geode->getOrCreateStateSet();
-
-    osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D;
-    texture->setImage(osgDB::readImageFile("../data/" + _textureBaseName + "_Color.jpg"));
-
-    stateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
+    albedoMap    ->setImage( albedoImg    );
+    roughnessMap ->setImage( roughnessImg );
+    metallicMap  ->setImage( metallicImg  );
+    normalMap    ->setImage( normalImg    );
+    heightMap    ->setImage( heightImg    );
+    aoMap        ->setImage( aoImg        );
 }
