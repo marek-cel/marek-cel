@@ -3,3 +3,4 @@ src/*.o
 src/*.gcov
 src/*.gcda
 src/*.gcno
+project.creator.user
