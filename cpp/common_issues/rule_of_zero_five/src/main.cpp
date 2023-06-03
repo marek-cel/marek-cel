@@ -65,9 +65,12 @@ int main()
 
     B b3;
     std::cout << "dummy" << std::endl;
-    val = 1;
+    val = 7;
     b3 = b1;
     std::cout << "line:" << __LINE__ << " " << b3.getVal() << std::endl;
+
+    b1.setVal( val );
+    std::cout << "line:" << __LINE__ << " " << b1.getVal() << std::endl;
 
     return 0;
 }
