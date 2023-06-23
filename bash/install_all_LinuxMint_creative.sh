@@ -16,10 +16,8 @@ function installCreativeTools()
             gimp \
             gummi \
             inkscape \
-            kazam \
             obs-studio \
-            openctm-tools \
-            openshot \
+            openshot-qt \
             qpdf \
             texlive-full
     fi

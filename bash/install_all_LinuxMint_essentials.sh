@@ -10,6 +10,7 @@ function installEssentials()
         printGreen "Installing ESSENTIALS ..."
 
         sudo apt install -y \
+            breeze \
             chromium \
             djvulibre-bin \
             dropbox \
@@ -17,6 +18,7 @@ function installEssentials()
             gparted \
             imagemagick \
             joystick \
+            jstest-gtk \
             kate \
             konsole \
             language-selector-common \
@@ -25,18 +27,23 @@ function installEssentials()
             mplayer \
             okular \
             openssh-server \
+            plasma-desktop \
             psensor \
             rsync \
             samba \
             smartmontools \
             smplayer \
+            systemsettings \
+            torbrowser-launcher \
             traceroute \
             tree \
             ttf-mscorefonts-installer \
+            vim \
             vlc \
             vsftpd \
             webp \
-            whois
+            whois \
+            xboxdrv
 
         # BRAVE BROWSER
         readBold "Do you want to install BRAVE BROWSER? y or n"
@@ -44,7 +51,7 @@ function installEssentials()
         then
             printGreen "Installing BRAVE BROWSER ..."
             
-            sudo apt install \
+            sudo apt install -y \
                 apt-transport-https \
                 curl
                 
@@ -55,7 +62,7 @@ function installEssentials()
                 sudo tee /etc/apt/sources.list.d/brave-browser-release.list
 
             sudo apt update
-            sudo apt install brave-browser
+            sudo apt install -y brave-browser
         fi
         
         # SNAP STORE
@@ -66,7 +73,7 @@ function installEssentials()
             
             sudo rm /etc/apt/preferences.d/nosnap.pref
             sudo apt update
-            sudo apt install snapd snap-store 
+            sudo apt install -y snapd snap-store 
         fi
     fi
 }

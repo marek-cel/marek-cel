@@ -10,34 +10,66 @@ function installCaxGisScientific()
         printGreen "Installing CAx / GIS / SCIENTIFIC TOOLS ..."
 
         sudo apt install -y \
-            calculix-ccx \
-            calculix-cgx \
-            calculix-cgx-examples \
-            freecad \
-            fritzing \
-            fritzing-data \
-            fritzing-parts \
-            gdal-bin \
+            engauge-digitizer \
             gmsh \
             gnuplot \
-            libcitygml-bin \
-            librecad \
             meshlab \
-            octave \
-            octave-control \
-            octave-geometry \
-            octave-io \
-            octave-linear-algebra \
-            octave-quaternion \
-            octave-symbolic \
-            pcb2gcode \
-            proj-bin \
-            qgis \
-            scilab \
             spacenavd \
             stellarium \
             wxmaxima \
             xfoil
+
+        # FREECAD and LIBRECAD
+        readBold "Do you want to install FREECAD and LIBRECAD? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing FREECAD and LIBRECAD ..."
+
+            sudo apt install -y \
+                freecad \
+                librecad
+        fi
+
+        # CALCULIX
+        readBold "Do you want to install CALCULIX? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing CALCULIX ..."
+
+            sudo apt install -y \
+                calculix-ccx \
+                calculix-cgx \
+                calculix-cgx-examples
+        fi
+
+        # GIS
+        readBold "Do you want to install GIS? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing GIS ..."
+
+            sudo apt install -y \
+                gdal-bin \
+                libcitygml-bin \
+                proj-bin \
+                qgis
+        fi
+
+        # OCTAVE
+        readBold "Do you want to install OCTAVE and SCILAB? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing OCTAVE and SCILAB ..."
+
+            sudo apt install -y \
+                octave \
+                octave-control \
+                octave-geometry \
+                octave-io \
+                octave-linear-algebra \
+                octave-quaternion \
+                scilab
+        fi
             
         # KICAD
         readBold "Do you want to install KICAD? y or n"
@@ -47,8 +79,22 @@ function installCaxGisScientific()
 
             sudo add-apt-repository --yes ppa:js-reynaud/kicad-5.1
             sudo apt update
-            sudo apt install --install-recommends kicad
-            sudo apt install -y kicad-demos
+            sudo apt install -y --install-recommends kicad
+            sudo apt install -y \
+                kicad-demos \
+                pcb2gcode
+        fi
+
+        # FRITZING
+        readBold "Do you want to install FRITZING? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing FRITZING ..."
+
+            sudo apt install -y \
+                fritzing \
+                fritzing-data \
+                fritzing-parts
         fi
         
         # OPENFOAM.COM
@@ -74,9 +120,8 @@ function installCaxGisScientific()
                 python3-paraview \
                 python3-pyqt5 \
                 python3-setuptools \
-                python3-vtk7 \
-                python3-vtkplotter
-            sudo pip3 install PyFoam
+                python3-vtk7
+            pip3 install PyFoam
         fi
 
         # OPENFOAM.ORG
@@ -109,9 +154,8 @@ function installCaxGisScientific()
                 python3-paraview \
                 python3-pyqt5 \
                 python3-setuptools \
-                python3-vtk7 \
-                python3-vtkplotter
-            sudo pip3 install PyFoam
+                python3-vtk7
+            pip3 install PyFoam
 
             echo "Installing OpenFOAM - DEV"
             sudo apt install -y \

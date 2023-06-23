@@ -15,6 +15,6 @@ function installAiTools()
             python3-all-dev \
             python3-pip \
             python3-setuptools
-        sudo pip3 install deep-daze
+        pip3 install deep-daze
     fi
 }

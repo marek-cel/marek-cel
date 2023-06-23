@@ -12,44 +12,10 @@ function installDevelopEssentials()
         
         sudo apt install -y \
             cloc \
-            dia \
-            gcovr \
             git \
-            git-cola \
             git-flow \
-            git-gui \
-            kdesvn \
-            kdiff3 \
             lcov \
-            meld \
-            subversion \
-            wireshark
-        
-        # ANDROID TOOLS
-        readBold "Do you want to install ANDROID TOOLS? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing ANDROID TOOLS ..."
-
-            sudo apt install -y \
-                android-tools-fastboot \
-                android-tools-adb \
-                android-sdk-platform-tools-common
-        fi
-        
-        # ARDUINO IDE
-        readBold "Do you want to install ARDUINO IDE? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing ARDUINO IDE ..."
-
-            sudo apt install -y \
-                arduino \
-                arduino-core \
-                arduino-mk
-
-            sudo gpasswd -a cel dialout
-        fi
+            subversion
         
         # AVR TOOLS
         readBold "Do you want to install AVR TOOLS? y or n"
@@ -74,10 +40,8 @@ function installDevelopEssentials()
                 automake \
                 build-essential \
                 cmake \
-                cmake-qt-gui \
                 cppcheck \
-                doxygen-gui \
-                ninja-build \
+                doxygen \
                 valgrind
         fi
         
@@ -93,7 +57,6 @@ function installDevelopEssentials()
                 libboost-all-dev \
                 libbullet-dev \
                 libeigen3-dev \
-                libfltk1.3-dev \
                 libgdal-dev \
                 liboce-foundation-dev \
                 liboce-modeling-dev \
@@ -106,28 +69,6 @@ function installDevelopEssentials()
                 libxinerama-dev \
                 libxml2-dev \
                 libxss-dev  
-        fi
-        
-        # DIA2CODE
-        readBold "Do you want to install DIA2CODE? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing DIA2CODE ..."
-
-            sudo apt install -y dia2code
-        fi
-        
-        # JAVA
-        readBold "Do you want to install JAVA? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing JAVA ..."
-            
-            sudo apt install -y \
-                ant \
-                default-jdk \
-                default-jre \
-                maven
         fi
         
         # GOOGLE TOOLS
@@ -154,20 +95,7 @@ function installDevelopEssentials()
             sudo apt install -y \
                 libopenscenegraph-dev \
                 openscenegraph \
-                openscenegraph-doc \
-                openscenegraph-examples
-        fi
-
-        # OSGEARTH
-        readBold "Do you want to install OSGEARTH? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing OSGEARTH ..."
-
-            sudo apt install -y \
-                libosgearth-dev \
-                openscenegraph-plugin-osgearth \
-                osgearth
+                openscenegraph-doc
         fi
             
         # PYTHON
@@ -177,7 +105,6 @@ function installDevelopEssentials()
             printGreen "Installing PYTHON3 ..."
             
             sudo apt install -y \
-                idle \
                 python3-all \
                 python3-all-dev \
                 python3-fluids \
@@ -205,8 +132,6 @@ function installDevelopEssentials()
             printGreen "Installing QT ..."
             
             sudo apt install -y \
-                libmarble-dev \
-                libmarblewidget-qt5-28 \
                 libqt5charts5-dev \
                 libqt5gamepad5-dev \
                 libqt5opengl5-dev \
@@ -217,53 +142,7 @@ function installDevelopEssentials()
                 libqt5x11extras5-dev \
                 libqwt-qt5-6 \
                 libqwt-qt5-dev \
-                qtbase5-dev \
-                qtcreator
-            
-            # QT EXAMPLES
-            # /usr/lib/x86_64-linux-gnu/qt5/examples1
-            readBold "Do you want to install QT EXAMPLES? y or n"
-            if [[ $REPLY =~ ^[Yy]$ ]]
-            then
-                printGreen "Installing QT EXAMPLES ..."
-
-                sudo apt install -y \
-                    qt3d5-examples \
-                    qt5serialport-examples \
-                    qtbase5-examples \
-                    qtconnectivity5-examples \
-                    qtcharts5-examples \
-                    qtdeclarative5-examples \
-                    qtdatavisualization5-examples \
-                    qtgamepad5-examples \
-                    qtlocation5-examples \
-                    qtmultimedia5-examples \
-                    qtquickcontrols2-5-examples \
-                    qtquickcontrols5-examples \
-                    qtsensors5-examples \
-                    qtserialbus5-examples \
-                    qtspeech5-examples \
-                    qtsvg5-examples \
-                    qttools5-examples \
-                    qtvirtualkeyboard5-examples
-                    
-                cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
-            fi
-        fi
-        
-        # VTK
-        readBold "Do you want to install VTK? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing VTK ..."
-            
-            sudo apt install -y \
-                libvtk7.1p \
-                libvtk7.1p-qt \
-                libvtk7-dev \
-                libvtk7-qt-dev \
-                vtk7 \
-                vtk7-examples
+                qtbase5-dev
         fi
 
     fi

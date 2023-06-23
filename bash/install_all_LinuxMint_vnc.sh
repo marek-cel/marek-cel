@@ -16,7 +16,7 @@ function installVnc()
             sudo apt install -y tightvncserver
         fi
         
-        readBold "Do you want to install VNC SERVER? y or n"
+        readBold "Do you want to install VNC VIEWER? y or n"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing VNC VIEWER ..."

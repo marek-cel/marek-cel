@@ -4,24 +4,44 @@
 
 function installExtras()
 {
-    readBold "Do you want to install EXTRAS? y or n"
+    readBold "Do you want to install ENTERTEINMENT? y or n"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then   
-        printGreen "Installing EXTRAS ..."
+        printGreen "Installing ENTERTEINMENT ..."
+
+        sudo apt install -y \
+            cmatrix \
+            cmatrix-xfont \
+            handbrake \
+            hollywood \
+            qmmp \
+            spotify-client
+    fi
+
+    readBold "Do you want to install EMULATORS? y or n"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing EMULATORS ..."
 
         sudo apt install -y \
             dosbox \
-            etherwake \
+            retroarch \
+            wine
+    fi
+
+    readBold "Do you want to install VIRTUAL BOX? y or n"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing VIRTUAL BOX ..."
+
+        sudo apt install -y \
             handbrake \
             qmmp \
-            retroarch \
-            skypeforlinux \
             spotify-client \
             torbrowser-launcher \
             virtualbox \
             virtualbox-ext-pack \
             virtualbox-guest-additions-iso \
-            virtualbox-qt \
-            wine
+            virtualbox-qt
     fi
 }
