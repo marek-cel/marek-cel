@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 
 #include <QMessageBox>
+#include <QIcon>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -10,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
-    //ui->treeView->setModel(&treeModel);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -20,3 +19,4 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+

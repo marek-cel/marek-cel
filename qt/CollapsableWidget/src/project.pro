@@ -20,15 +20,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 ################################################################################
 
 SOURCES += \
+    CollapsableWidget.cpp \
     MainWindow.cpp \
-    TreeItem.cpp \
-    TreeModel.cpp \
     main.cpp
 
 HEADERS += \
-    MainWindow.h \
-    TreeItem.h \
-    TreeModel.h
+    CollapsableWidget.h \
+    MainWindow.h
 
 FORMS += \
+    CollapsableWidget.ui \
     MainWindow.ui
