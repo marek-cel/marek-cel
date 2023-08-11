@@ -1,14 +1,16 @@
+QT += core gui opengl
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
 TEMPLATE = app
 
-CONFIG += console c++11
-CONFIG -= app_bundle
-CONFIG -= qt
-
 ################################################################################
 
-TARGET = MultiplePass
+TARGET = ViewerQt
 
-################################################################################
+DESTDIR = ../bin
+
+greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
 win32: QMAKE_LFLAGS += /INCREMENTAL:NO
 
@@ -54,9 +56,9 @@ win32:CONFIG(release, debug|release): LIBS += \
     -lOpenThreads \
     -losg \
     -losgDB \
-    -losgFX \
     -losgGA \
     -losgParticle \
+    -losgSim \
     -losgText \
     -losgUtil \
     -losgViewer \
@@ -66,9 +68,9 @@ win32:CONFIG(debug, debug|release): LIBS += \
     -lOpenThreadsd \
     -losgd \
     -losgDBd \
-    -losgFXd \
     -losgGAd \
     -losgParticled \
+    -losgSimd \
     -losgTextd \
     -losgUtild \
     -losgViewerd \
@@ -81,9 +83,9 @@ unix: LIBS += \
     -lOpenThreads \
     -losg \
     -losgDB \
-    -losgFX \
     -losgGA \
     -losgParticle \
+    -losgSim \
     -losgText \
     -losgUtil \
     -losgViewer \
@@ -92,10 +94,19 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    FindNode.h \
-    SceneRoot.h
+    GraphicsWindowQt.h \
+    KeyMap.h \
+    MainWindow.h \
+    SceneRoot.h \
+    WidgetCGI.h
 
 SOURCES += \
+    GraphicsWindowQt.cpp \
+    KeyMap.cpp \
     main.cpp \
-    FindNode.cpp \
-    SceneRoot.cpp
+    MainWindow.cpp \
+    SceneRoot.cpp \
+    WidgetCGI.cpp
+
+FORMS += \
+    MainWindow.ui

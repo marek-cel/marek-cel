@@ -1,9 +1,7 @@
 #include <SceneRoot.h>
 
-#include <osg/PositionAttitudeTransform>
-#include <osgDB/ReadFile>
-
-#include <FindNode.h>
+#include <osg/Geode>
+#include <osg/ShapeDrawable>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -21,16 +19,13 @@ SceneRoot::SceneRoot()
     stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
-    osg::ref_ptr<osg::Node> loadedModel = osgDB::readNodeFile( "../../00_data_new/tank.osgb" );
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    _root->addChild( geode.get() );
 
-    _root->addChild( loadedModel.get() );
+    osg::ref_ptr<osg::Box> box = new osg::Box( osg::Vec3f(), 10.0f, 10.0f, 10.0f );
 
-    FindNode find( "TurretPAT" );
-    find.apply( *(loadedModel.get()) );
-
-    osg::ref_ptr<osg::PositionAttitudeTransform> turretPAT = dynamic_cast<osg::PositionAttitudeTransform*>( find.getFirst().get() );
-
-    turretPAT->setAttitude( osg::Quat( M_PI_4, osg::Z_AXIS ) );
+    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( box.get() );
+    geode->addDrawable( shape.get() );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
