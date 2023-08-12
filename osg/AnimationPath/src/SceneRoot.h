@@ -5,6 +5,8 @@
 
 #include <osg/Group>
 
+#include <osg/MatrixTransform>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 class SceneRoot
@@ -20,6 +22,13 @@ public:
 private:
 
     osg::ref_ptr<osg::Group> _root;
+
+    osg::ref_ptr<osg::MatrixTransform> mt_;
+
+    void CreateWall();
+    void CreateDoor();
+
+    void CreateAnimation();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
