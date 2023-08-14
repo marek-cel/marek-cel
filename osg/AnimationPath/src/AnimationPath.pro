@@ -94,6 +94,7 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
+    AnimationPathCallback.h \
     GraphicsWindowQt.h \
     KeyMap.h \
     MainWindow.h \
@@ -101,6 +102,7 @@ HEADERS += \
     WidgetCGI.h
 
 SOURCES += \
+    AnimationPathCallback.cpp \
     GraphicsWindowQt.cpp \
     KeyMap.cpp \
     main.cpp \

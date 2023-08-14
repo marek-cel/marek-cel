@@ -1,8 +1,13 @@
 #include <SceneRoot.h>
 
-#include <osg/AnimationPath>
 #include <osg/Geode>
 #include <osg/ShapeDrawable>
+
+#include <osgAnimation/BasicAnimationManager>
+#include <osgAnimation/UpdateMatrixTransform>
+#include <osgAnimation/StackedTranslateElement>
+
+#include <osgDB/WriteFile>
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -23,6 +28,8 @@ SceneRoot::SceneRoot()
     CreateWall();
     CreateDoor();
     CreateAnimation();
+
+    osgDB::writeNodeFile(*_root, "output.osgt");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,18 +77,28 @@ void SceneRoot::CreateDoor()
 
 void SceneRoot::CreateAnimation()
 {
-    osg::ref_ptr<osg::AnimationPath> path = new osg::AnimationPath();
-    //path->setLoopMode( osg::AnimationPath::NO_LOOPING );
-    path->setLoopMode( osg::AnimationPath::SWING );
+    osg::ref_ptr<osgAnimation::Vec3LinearChannel> ch1 = new osgAnimation::Vec3LinearChannel();
+    ch1->setName( "position" );
+    ch1->setTargetName( "PathCallback" );
 
-    path->insert(0.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0, 0.0, 0.0)));
-    path->insert(5.0, osg::AnimationPath::ControlPoint(osg::Vec3(3.0, 0.0, 0.0)));
+    osg::ref_ptr<osgAnimation::Vec3KeyframeContainer> c = ch1->getOrCreateSampler()->getOrCreateKeyframeContainer();
 
-    osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback();
+    c->push_back(osgAnimation::Vec3Keyframe(0.0, osg::Vec3(0.0, 0.0, 0.0)));
+    c->push_back(osgAnimation::Vec3Keyframe(5.0, osg::Vec3(0.0, 0.0, 0.0)));
 
-    apcb->setAnimationPath(path.release());
-    //apcb->setTimeOffset(-2.5);
-    //apcb->setPause(true);
+    osg::ref_ptr<osgAnimation::Animation> animation = new osgAnimation::Animation();
+    animation->setPlayMode( osgAnimation::Animation::LOOP );
+    animation->addChannel( ch1.get() );
+    osg::ref_ptr<osgAnimation::UpdateMatrixTransform> updater = new osgAnimation::UpdateMatrixTransform("PathCallback");
+    updater->getStackedTransforms().push_back( new osgAnimation::StackedTranslateElement("position") );
 
-    mt_->setUpdateCallback( apcb.get() );
+    mt_->setDataVariance( osg::Object::DYNAMIC );
+    mt_->setUpdateCallback( updater.get() );
+
+    osg::ref_ptr<osgAnimation::BasicAnimationManager> manager = new osgAnimation::BasicAnimationManager();
+    manager->registerAnimation( animation.get() );
+
+    _root->setUpdateCallback( manager.get() );
+
+    manager->playAnimation( animation.get() );
 }

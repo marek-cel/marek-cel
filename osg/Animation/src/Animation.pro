@@ -55,6 +55,7 @@ win32: LIBS += \
 win32:CONFIG(release, debug|release): LIBS += \
     -lOpenThreads \
     -losg \
+    -losgAnimation \
     -losgDB \
     -losgGA \
     -losgParticle \
@@ -67,6 +68,7 @@ win32:CONFIG(release, debug|release): LIBS += \
 win32:CONFIG(debug, debug|release): LIBS += \
     -lOpenThreadsd \
     -losgd \
+    -losgAnimationd \
     -losgDBd \
     -losgGAd \
     -losgParticled \
@@ -82,6 +84,7 @@ unix: LIBS += \
     -L/usr/local/lib \
     -lOpenThreads \
     -losg \
+    -losgAnimation \
     -losgDB \
     -losgGA \
     -losgParticle \
