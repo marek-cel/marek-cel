@@ -1,2 +1,0 @@
-eksplozja.py
-pause

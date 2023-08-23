@@ -84,7 +84,7 @@ void SceneRoot::CreateAnimation()
     osg::ref_ptr<osgAnimation::Vec3KeyframeContainer> c = ch1->getOrCreateSampler()->getOrCreateKeyframeContainer();
 
     c->push_back(osgAnimation::Vec3Keyframe(0.0, osg::Vec3(0.0, 0.0, 0.0)));
-    c->push_back(osgAnimation::Vec3Keyframe(5.0, osg::Vec3(0.0, 0.0, 0.0)));
+    c->push_back(osgAnimation::Vec3Keyframe(5.0, osg::Vec3(3.0, 0.0, 0.0)));
 
     osg::ref_ptr<osgAnimation::Animation> animation = new osgAnimation::Animation();
     animation->setPlayMode( osgAnimation::Animation::LOOP );
