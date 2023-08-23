@@ -19,21 +19,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 ################################################################################
 
+unix: LIBS += \
+    -L/lib \
+    -L/usr/lib \
+    -L/usr/local/lib \
+    -L/usr/lib/x86_64-linux-gnu \
+    -lboost_iostreams
+
+################################################################################
+
 SOURCES += \
     MainWindow.cpp \
-    MyAction.cpp \
-    MyDockWidget.cpp \
-    MyMenu.cpp \
-    MyShortcut.cpp \
     main.cpp
 
 HEADERS += \
-    MainWindow.h \
-    MyAction.h \
-    MyDockWidget.h \
-    MyMenu.h \
-    MyShortcut.h
+    MainWindow.h
 
 FORMS += \
-    MainWindow.ui \
-    MyDockWidget.ui
+    MainWindow.ui

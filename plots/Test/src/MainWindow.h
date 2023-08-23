@@ -3,11 +3,6 @@
 
 #include <QMainWindow>
 
-#include "MyAction.h"
-#include "MyDockWidget.h"
-#include "MyMenu.h"
-#include "MyShortcut.h"
-
 namespace Ui {
 class MainWindow;
 }
@@ -22,16 +17,6 @@ public:
 
 private:
     Ui::MainWindow *ui;
-
-    MyAction*     myAction;
-    MyDockWidget* myDockWidget;
-    MyMenu*       myMenu;
-    MyShortcut*   myShortcut;
-
-private slots:
-
-    void displayMessageAction();
-    void displayMessageShortcut();
 };
 
 #endif // MAINWINDOW_H
