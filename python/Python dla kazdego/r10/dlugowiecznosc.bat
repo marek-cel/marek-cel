@@ -1,0 +1,2 @@
+dlugowiecznosc.py
+pause

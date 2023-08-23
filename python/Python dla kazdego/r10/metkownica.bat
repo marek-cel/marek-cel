@@ -1,0 +1,2 @@
+metkownica.py
+pause
