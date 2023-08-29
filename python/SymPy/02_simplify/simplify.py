@@ -9,6 +9,8 @@ sympy.init_printing()
 
 x = sympy.Symbol("x")
 
+################################################################################
+
 expr = 2 * (x**2 - x) - x * (x + 1)
 print(expr)
 print(sympy.simplify(expr))
@@ -16,3 +18,17 @@ print(sympy.simplify(expr))
 input("Press Enter to continue")
 
 ################################################################################
+
+expr = sympy.sin(x)**2 + sympy.cos(x)**2
+print(expr)
+print(sympy.simplify(expr))
+
+input("Press Enter to continue")
+
+################################################################################
+
+expr = 2 * sympy.cos(x) * sympy.sin(x)
+print(expr)
+print(sympy.trigsimp(expr))
+
+input("Press Enter to continue")
