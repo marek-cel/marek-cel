@@ -28,6 +28,8 @@ print()
 print(arr1)
 print(arr1.dtype)
 
+input("Press Enter to continue")
+
 ################################################################################
 
 # Create an array with data type 4 bytes integer:
@@ -37,6 +39,14 @@ arr2 = np.array([1, 2, 3, 4], dtype='i4')
 print()
 print(arr2)
 print(arr2.dtype)
+
+arr21 = np.array([1, 2, 3, 4], dtype=np.int32)
+
+print()
+print(arr21)
+print(arr21.dtype)
+
+input("Press Enter to continue")
 
 ################################################################################
 
@@ -50,4 +60,16 @@ print()
 print(newarr)
 print(newarr.dtype)
 
+input("Press Enter to continue")
+
 ################################################################################
+
+# Create an array with data type complex:
+
+arr4 = np.array([1, 2, 3, 4], dtype=complex)
+
+print()
+print(arr4)
+print(arr4.dtype)
+
+input("Press Enter to continue")
