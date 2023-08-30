@@ -76,8 +76,10 @@ function installDevelopEssentials()
                 cmake \
                 cmake-qt-gui \
                 cppcheck \
+                cpplint \
                 doxygen-gui \
                 ninja-build \
+                rustfilt \
                 valgrind
         fi
         
@@ -95,6 +97,7 @@ function installDevelopEssentials()
                 libeigen3-dev \
                 libfltk1.3-dev \
                 libgdal-dev \
+                libgnuplot-iostream-dev \
                 liboce-foundation-dev \
                 liboce-modeling-dev \
                 liboce-visualization-dev \
@@ -178,24 +181,23 @@ function installDevelopEssentials()
             
             sudo apt install -y \
                 idle \
+                jupyter \
+                pyqt5-dev-tools \
                 python3-all \
                 python3-all-dev \
                 python3-fluids \
+                python3-gnuplotlib \
                 python3-matplotlib \
                 python3-numpy \
+                python3-pandas \
+                python3-paraview \
+                python3-pendulum \
                 python3-pip \
                 python3-pyproj \
                 python3-pyqt5 \
                 python3-scipy \
                 python3-setuptools \
                 python3-vtk7
-
-            pip3 install \
-                cpplint \
-                numpy \
-                pendulum \
-                pyfoam \
-                scipy
         fi
         
         # QT

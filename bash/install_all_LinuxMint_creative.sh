@@ -19,6 +19,7 @@ function installCreativeTools()
             obs-studio \
             openshot-qt \
             qpdf \
+            screenkey \
             texlive-full
     fi
 }
