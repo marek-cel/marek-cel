@@ -2,19 +2,19 @@
 
 ################################################################################
 
-import matplotlib
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 import numpy as np
 
 ################################################################################
 
-print(matplotlib.__version__)
+print(mpl.__version__)
 
 ################################################################################
 
-xpoints = np.array([0, 6])
-ypoints = np.array([0, 250])
+xpoints = np.linspace(0, 2.0 * np.pi, 100)
+ypoints = np.sin(xpoints)
 
 plt.plot(xpoints, ypoints)
 plt.show()
