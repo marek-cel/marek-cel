@@ -182,7 +182,9 @@ function installDevelopEssentials()
             sudo apt install -y \
                 idle \
                 jupyter \
+                libpyside2-dev \
                 pyqt5-dev-tools \
+                pyside2-tools \
                 python3-all \
                 python3-all-dev \
                 python3-fluids \
@@ -194,6 +196,13 @@ function installDevelopEssentials()
                 python3-pendulum \
                 python3-pip \
                 python3-pyproj \
+                python3-pyside2.qtcore \
+                python3-pyside2.qtgui \
+                python3-pyside2.qtlocation \
+                python3-pyside2.qtnetwork \
+                python3-pyside2.qtopengl \
+                python3-pyside2.qtsvg \
+                python3-pyside2.qtuitools \
                 python3-pyqt5 \
                 python3-scipy \
                 python3-setuptools \
