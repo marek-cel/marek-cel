@@ -33,6 +33,11 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.label, 0, 0, 1, 1)
 
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+
+        self.gridLayout.addWidget(self.pushButton, 1, 0, 1, 1)
+
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -56,6 +61,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionExit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Hello World!", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"Click Me", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
 

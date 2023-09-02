@@ -15,6 +15,10 @@ class MainWindow(QMainWindow):
     def on_actionExit_triggered(self):
         self.close()
 
+    @Slot()
+    def on_pushButton_clicked(self):
+        self.ui.label.setText("Push button clicked")
+
 
 if __name__ == "__main__":
     app = QApplication([])
