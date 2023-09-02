@@ -1,8 +1,6 @@
-import sys
-
-from PySide2.QtWidgets import QApplication, QMainWindow
+from PySide2.QtWidgets import QMainWindow
 from PySide2.QtCore import Slot
-from ui_mainwindow import Ui_MainWindow
+from .ui_mainwindow import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
@@ -18,10 +16,3 @@ class MainWindow(QMainWindow):
     @Slot()
     def on_pushButton_clicked(self):
         self.ui.label.setText("Push button clicked")
-
-
-if __name__ == "__main__":
-    app = QApplication([])
-    win = MainWindow()
-    win.show()
-    sys.exit(app.exec_())

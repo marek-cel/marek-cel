@@ -10,13 +10,13 @@ setup(
     description="Sample package",
     author="John Doe",
     author_email="jdoe@mail.com",
-    url="https://sample.com",
+    url="https://sample_project.com",
     license=license,
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     install_requires=["PyQt5", "numpy"],
     entry_points = {
         "console_scripts": [
-            "sample-project = sample_project.core:main",                  
+            "sample-project = sample_project.main:main",                  
         ],              
     }
 )
