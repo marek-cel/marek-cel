@@ -91,7 +91,3 @@ print()
 print("power")
 print(arr61)
 print(arr62)
-
-input("Press Enter to continue")
-
-################################################################################

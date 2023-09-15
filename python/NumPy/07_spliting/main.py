@@ -28,7 +28,3 @@ print()
 print(arr4)
 print()
 print(arr5)
-
-input("Press Enter to continue")
-
-################################################################################

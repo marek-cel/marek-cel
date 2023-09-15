@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 y = sympy.Symbol("y")
@@ -40,6 +40,3 @@ expr = y / (y*x + y)
 print()
 print(expr)
 print(sympy.cancel(expr))
-
-input("Press Enter to continue")
-

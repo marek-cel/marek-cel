@@ -71,5 +71,3 @@ arr4 = np.array([1, 2, 3, 4], dtype=complex)
 print()
 print(arr4)
 print(arr4.dtype)
-
-input("Press Enter to continue")

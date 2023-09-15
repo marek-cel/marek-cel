@@ -83,5 +83,3 @@ print(arr1D[0:2])
 print(arr1D[:2])
 print(arr1D[2:])
 print(arr1D[1:3])
-
-input("Press Enter to continue")

@@ -7,26 +7,29 @@ from sympy import I, pi, oo
 
 ################################################################################
 
-x = sympy.Symbol("x")
-y = sympy.Symbol("y")
+A = sympy.Matrix([[2, 3], [5, 4]])
+b = sympy.Matrix([4, 3])
 
-################################################################################
-
-expr = x**2 + 2*x -3
+L, U, _ = A.LUdecomposition()
 
 print()
-print(expr)
-print(sympy.solve(expr, x))
+print(L)
+print(U)
+print(L * U)
+
+x = A.solve(b); x  # equivalent to A.LUsolve(b)
+
+print()
+print(x)
 
 input("Press Enter to continue")
 
 ################################################################################
 
-eq1 = x + 2*y -1
-eq2 = x - y + 1
+p = sympy.symbols("p", positive=True)
+A = sympy.Matrix([[1, sympy.sqrt(p)], [1, 1/sympy.sqrt(p)]])
+b = sympy.Matrix([1, 2])
+x = A.solve(b)
 
 print()
-print(eq1)
-print(eq2)
-print(sympy.solve([eq1, eq2], [x, y]))
-print(sympy.solve([eq1, eq2], [x, y], dict = True))
+print(x)

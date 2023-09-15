@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 y = sympy.Symbol("y")
@@ -51,5 +51,3 @@ print()
 print(expr)
 print(expr.collect(x))
 print(sympy.collect(expr, y))
-
-input("Press Enter to continue")

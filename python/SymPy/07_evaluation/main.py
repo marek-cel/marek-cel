@@ -6,7 +6,7 @@ import numpy as np
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 y = sympy.Symbol("y")
@@ -41,6 +41,3 @@ xvalues = np.arange(0,10)
 print()
 print(xvalues)
 print(expr_func(xvalues))
-
-input("Press Enter to continue")
-

@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x, y, z = sympy.symbols("x, y, z")
 

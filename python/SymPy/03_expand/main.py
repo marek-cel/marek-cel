@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 y = sympy.Symbol("y")
@@ -49,5 +49,3 @@ expr = sympy.exp(I*a + b)
 print()
 print(expr)
 print(sympy.expand(expr, complex = True))
-
-input("Press Enter to continue")

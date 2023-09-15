@@ -73,5 +73,3 @@ input("Press Enter to continue")
 arr7 = np.zeros_like(arr51)
 print()
 print(arr7)
-
-input("Press Enter to continue")

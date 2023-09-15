@@ -44,5 +44,3 @@ temp = [True, False, False, False, False, False, False, False, False, False, Tru
 a5 = a1[temp]
 print()
 print(a5)
-
-input("Press Enter to continue")

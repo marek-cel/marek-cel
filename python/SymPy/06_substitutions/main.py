@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 y = sympy.Symbol("y")
@@ -61,5 +61,3 @@ expr = x*y + z**2 * x
 print()
 print(expr)
 print(expr.subs(values))
-
-input("Press Enter to continue")

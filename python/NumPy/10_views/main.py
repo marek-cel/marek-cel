@@ -30,6 +30,3 @@ print()
 print(v1)
 print(v2)
 print(a1)
-
-
-

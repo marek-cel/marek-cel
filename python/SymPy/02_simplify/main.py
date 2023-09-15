@@ -5,7 +5,7 @@
 import sympy
 from sympy import I, pi, oo
 
-sympy.init_printing()
+################################################################################
 
 x = sympy.Symbol("x")
 
@@ -30,5 +30,3 @@ input("Press Enter to continue")
 expr = 2 * sympy.cos(x) * sympy.sin(x)
 print(expr)
 print(sympy.trigsimp(expr))
-
-input("Press Enter to continue")
