@@ -204,6 +204,7 @@ function installDevelopEssentials()
                 python3-pyside2.qtsvg \
                 python3-pyside2.qtuitools \
                 python3-pyqt5 \
+                python3-pysph \
                 python3-scipy \
                 python3-setuptools \
                 python3-vtk7

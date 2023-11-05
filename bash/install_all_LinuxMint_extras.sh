@@ -29,19 +29,51 @@ function installExtras()
             wine
     fi
 
+    readBold "Do you want to install REMOTE DESKTOP CLIENTS? y or n"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing REMOTE DESKTOP CLIENTS ..."
+
+        sudo apt install -y \
+            remmina \
+            remmina-plugin-rdp \
+            remmina-plugin-vnc
+    fi
+
     readBold "Do you want to install VIRTUAL BOX? y or n"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing VIRTUAL BOX ..."
 
         sudo apt install -y \
-            handbrake \
-            qmmp \
-            spotify-client \
-            torbrowser-launcher \
             virtualbox \
             virtualbox-ext-pack \
             virtualbox-guest-additions-iso \
             virtualbox-qt
+    fi
+
+    readBold "Do you want to install QEMU/KVM? y or n"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing QEMU/KVM ..."
+
+        sudo apt install -y \
+            cpu-checker
+        
+        sudo apt install -y \
+            qemu-kvm \
+            virt-manager \
+            libvirt-daemon-system \
+            virtinst \
+            libvirt-clients \
+            bridge-utils
+
+        sudo systemctl enable --now libvirtd
+        sudo systemctl start libvirtd
+        sudo systemctl status libvirtd
+
+        sudo usermod -aG kvm $USER
+        sudo usermod -aG libvirt $USER
+
     fi
 }
