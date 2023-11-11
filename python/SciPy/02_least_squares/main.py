@@ -11,13 +11,14 @@ import matplotlib.pyplot as plt
 
 ################################################################################
 
+m = 500
+
 # define true model parameters
-x = np.linspace(-1, 1, 100)
+x = np.linspace(-1, 1, m)
 a, b, c = 1, 2, 3
 y_exact = a + b * x + c * x**2
 
 # simulate noisy data
-m = 100
 X = 1 - 2 * np.random.rand(m)
 Y = a + b * X + c * X**2 + np.random.randn(m)
 
@@ -25,6 +26,7 @@ Y = a + b * X + c * X**2 + np.random.randn(m)
 A = np.vstack([X**0, X**1, X**2])  # see np.vander for alternative
 sol, r, rank, sv = la.lstsq(A.T, Y)
 
+print("a= ", sol[0], " b= ", sol[1], " c= ", sol[2])
 y_fit = sol[0] + sol[1] * x + sol[2] * x**2
 
 # 1st order polynomial
