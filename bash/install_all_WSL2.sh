@@ -9,10 +9,6 @@ source install_all_WSL2_cax.sh
 
 ################################################################################
 
-installEssentials
-installDevelopEssentials
-installCaxGisScientific
-
-################################################################################
-
+printGreen "Installation finished."
 read -p "Press any key to continue... " -n1 -s
+echo

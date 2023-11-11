@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installCreativeTools()
 {
     readBold "Do you want to install CREATIVE TOOLS? y or n"
@@ -23,3 +27,5 @@ function installCreativeTools()
             texlive-full
     fi
 }
+
+installCreativeTools

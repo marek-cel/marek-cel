@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installEssentials()
 {
     readBold "Do you want to install ESSENTIALS? y or n"
@@ -77,3 +81,5 @@ function installEssentials()
         fi
     fi
 }
+
+installEssentials

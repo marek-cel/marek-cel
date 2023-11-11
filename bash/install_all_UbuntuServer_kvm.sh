@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_UbuntuServer_common.sh
+
+################################################################################
+
 function installKVM()
 {
     readBold "Do you want to install QEMU/KVM? y or n"
@@ -29,3 +33,5 @@ function installKVM()
 
     fi
 }
+
+installKVM

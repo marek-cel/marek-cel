@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_WSL2_common.sh
+
+################################################################################
+
 function installCaxGisScientific()
 {
     readBold "Do you want to install CAx / GIS / SCIENTIFIC TOOLS? y or n"
@@ -42,3 +46,5 @@ function installCaxGisScientific()
         fi
     fi
 }
+
+installCaxGisScientific

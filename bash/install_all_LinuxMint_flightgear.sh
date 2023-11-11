@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installFlightGear()
 {
     readBold "Do you want to install FLIGHTGEAR? y or n"
@@ -11,3 +15,5 @@ function installFlightGear()
         sudo apt install -y flightgear
     fi
 }
+
+installFlightGear

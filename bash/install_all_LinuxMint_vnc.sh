@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 # https://linuxhint.com/installing_vnc_server_linux_mint/
 # https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-vnc-on-ubuntu-20-04
 function installVnc()
@@ -24,3 +28,5 @@ function installVnc()
         fi
     fi
 }
+
+installVnc

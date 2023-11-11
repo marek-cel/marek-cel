@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_UbuntuServer_common.sh
+
+################################################################################
+
 function installZoneMinder()
 {
     readBold "Do you want to install ZONE MINDER? y or n"
@@ -28,3 +32,5 @@ function installZoneMinder()
         read -p "Press any key to continue... " -n1 -s
     fi
 }
+
+installZoneMinder

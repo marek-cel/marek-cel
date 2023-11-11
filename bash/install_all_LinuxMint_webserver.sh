@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installWebServer()
 {
     readBold "Do you want to install WEB SERVER? y or n"
@@ -17,3 +21,5 @@ function installWebServer()
             phpmyadmin
     fi
 }
+
+installWebServer

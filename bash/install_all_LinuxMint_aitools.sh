@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installAiTools()
 {
     readBold "Do you want to install AI TOOLS? y or n"
@@ -18,3 +22,5 @@ function installAiTools()
         pip3 install deep-daze
     fi
 }
+
+installAiTools

@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 # https://docs.docker.com/get-docker/
 function installDcoker()
 {
@@ -42,3 +46,5 @@ function installDcoker()
         echo -e "\e[0m"
     fi
 }
+
+installDcoker

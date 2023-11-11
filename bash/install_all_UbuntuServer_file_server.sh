@@ -2,15 +2,21 @@
 
 ################################################################################
 
+source install_all_UbuntuServer_common.sh
+
+################################################################################
+
 function installFileServer()
 {
-    readBold "Do you want to install SAMBA SERVER? y or n"
+    readBold "Do you want to install FILE SERVER? y or n"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        printGreen "Installing SAMBA SERVER..."
+        printGreen "Installing FILE SERVER..."
 
         sudo apt install -y \
             samba \
             vsftpd
     fi
 }
+
+installFileServer

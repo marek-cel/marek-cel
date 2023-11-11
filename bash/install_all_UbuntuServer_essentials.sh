@@ -2,7 +2,7 @@
 
 ################################################################################
 
-source install_all_WSL2_common.sh
+source install_all_UbuntuServer_common.sh
 
 ################################################################################
 
@@ -12,26 +12,15 @@ function installEssentials()
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing ESSENTIALS ..."
-		
+
         sudo apt install -y \
-            autoconf \
-            automake \
-            build-essential \
-            cmake \
-            cmatrix \
-            cmatrix-xfont \
-            ffmpeg \
-            hollywood \
-            imagemagick \
-            linux-tools-common \
+            bridge-utils \
             mc \
-            openssh-server \
-            qpdf \
+            net-tools \
+            network-manager \
             rsync \
-            traceroute \
             tree \
-            whois \
-            x11-apps
+            whois
     fi
 }
 

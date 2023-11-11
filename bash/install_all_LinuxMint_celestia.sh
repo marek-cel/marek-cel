@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installCelestia()
 {
     readBold "Do you want to install CELESTIA? y or n"
@@ -14,3 +18,5 @@ function installCelestia()
         sudo apt install -y celestia 
     fi
 }
+
+installCelestia

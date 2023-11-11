@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installDevelopEssentials()
 {
     readBold "Do you want to install DEVELOPMENT ESSENTIALS? y or n"
@@ -280,3 +284,5 @@ function installDevelopEssentials()
 
     fi
 }
+
+installDevelopEssentials

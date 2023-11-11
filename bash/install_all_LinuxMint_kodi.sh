@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installKodi()
 {
     readBold "Do you want to install KODI? y or n"
@@ -15,3 +19,5 @@ function installKodi()
         sudo apt install -y kodi
     fi
 }
+
+installKodi

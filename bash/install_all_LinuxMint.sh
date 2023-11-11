@@ -18,21 +18,6 @@ source install_all_LinuxMint_kodi.sh
 
 ################################################################################
 
-installEssentials
-installAiTools
-installCelestia
-installCreativeTools
-installExtras
-installDevelopEssentials
-installWebServer
-installDcoker
-installCaxGisScientific
-installVnc
-installFlightGear
-installKodi
-
-################################################################################
-
 notify-send "Installation finished."
 printGreen "Installation finished."
 read -p "Press any key to continue... " -n1 -s

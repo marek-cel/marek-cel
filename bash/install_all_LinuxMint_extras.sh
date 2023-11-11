@@ -2,6 +2,10 @@
 
 ################################################################################
 
+source install_all_LinuxMint_common.sh
+
+################################################################################
+
 function installExtras()
 {
     readBold "Do you want to install ENTERTEINMENT? y or n"
@@ -77,3 +81,5 @@ function installExtras()
 
     fi
 }
+
+installExtras
