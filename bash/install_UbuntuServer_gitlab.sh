@@ -2,7 +2,7 @@
 
 ################################################################################
 
-source install_all_UbuntuServer_common.sh
+source install_common.sh
 
 ################################################################################
 
@@ -13,6 +13,8 @@ function installGitLab()
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing GITLAB ..."
+
+        # TODO
     fi
 }
 

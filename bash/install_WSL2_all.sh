@@ -2,10 +2,11 @@
 
 ################################################################################
 
-source install_all_WSL2_common.sh
-source install_all_WSL2_essentials.sh
-source install_all_WSL2_develop.sh
-source install_all_WSL2_cax.sh
+source install_common.sh
+
+source install_WSL2_essentials.sh
+source install_WSL2_develop.sh
+source install_WSL2_cax.sh
 
 ################################################################################
 

@@ -2,7 +2,7 @@
 
 ################################################################################
 
-source install_all_UbuntuServer_common.sh
+source install_common.sh
 
 ################################################################################
 
@@ -12,15 +12,26 @@ function installEssentials()
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing ESSENTIALS ..."
-
+		
         sudo apt install -y \
-            bridge-utils \
+            autoconf \
+            automake \
+            build-essential \
+            cmake \
+            cmatrix \
+            cmatrix-xfont \
+            ffmpeg \
+            hollywood \
+            imagemagick \
+            linux-tools-common \
             mc \
-            net-tools \
-            network-manager \
+            openssh-server \
+            qpdf \
             rsync \
+            traceroute \
             tree \
-            whois
+            whois \
+            x11-apps
     fi
 }
 
