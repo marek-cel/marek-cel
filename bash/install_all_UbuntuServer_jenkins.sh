@@ -6,6 +6,7 @@ source install_all_UbuntuServer_common.sh
 
 ################################################################################
 
+# https://www.jenkins.io/doc/book/installing/linux/
 function installJenkins()
 {
     readBold "Do you want to install JENKINS? y or n"

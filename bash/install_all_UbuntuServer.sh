@@ -4,8 +4,10 @@
 
 source install_all_UbuntuServer_common.sh
 source install_all_UbuntuServer_essentials.sh
+source install_all_UbuntuServer_develop.sh
 source install_all_UbuntuServer_docker.sh
 source install_all_UbuntuServer_file_server.sh
+source install_all_UbuntuServer_gitlab.sh
 source install_all_UbuntuServer_jenkins.sh
 source install_all_UbuntuServer_kvm.sh
 source install_all_UbuntuServer_web_server.sh
