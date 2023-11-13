@@ -22,7 +22,8 @@ function installGitLab()
 
         echo Enter URL address to be used by GitLab.
         read GITLAB_URL
-        sudo EXTERNAL_URL="https://$GITLAB_URL" apt-get install gitlab-ee
+        #sudo EXTERNAL_URL="https://$GITLAB_URL" apt-get install gitlab-ee
+        sudo EXTERNAL_URL="http://$GITLAB_URL" apt-get install gitlab-ee
 
         echo "$(sudo cat /etc/gitlab/initial_root_password)"
         echo "Use this password with username root to login."
