@@ -18,6 +18,7 @@ function installWebServer()
             mysql-client \
             mysql-server \
             php \
+            php-intl \
             phpmyadmin
     fi
 }
