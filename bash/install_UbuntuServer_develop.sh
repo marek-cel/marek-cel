@@ -32,6 +32,21 @@ function installDevelopEssentials()
                 cpplint \
                 ninja-build
         fi
+
+        # GOOGLE TOOLS
+        readBold "Do you want to install GOOGLE TOOLS? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing GOOGLE TOOLS ..."
+            
+            sudo apt install -y \
+                google-mock \
+                google-perftools \
+                googletest \
+                googletest-tools \
+                libgmock-dev \
+                libgtest-dev
+        fi
     fi
 }
 
