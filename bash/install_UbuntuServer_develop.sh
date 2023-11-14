@@ -16,6 +16,22 @@ function installDevelopEssentials()
         sudo apt install -y \
             git \
             subversion
+        
+        # C++ TOOLS
+        readBold "Do you want to install C++ TOOLS? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing C++ TOOLS ..."
+            
+            sudo apt install -y \
+                autoconf \
+                automake \
+                build-essential \
+                cmake \
+                cppcheck \
+                cpplint \
+                ninja-build
+        fi
     fi
 }
 
