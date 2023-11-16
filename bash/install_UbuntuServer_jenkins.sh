@@ -28,6 +28,8 @@ function installJenkins()
         sudo apt-get update
         sudo apt-get install -y \
             jenkins
+        
+        sudo usermod -aG docker jenkins
     fi
 }
 

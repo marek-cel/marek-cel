@@ -4,6 +4,18 @@
 
 source install_common.sh
 
+################################################################################
+
+readBold "Do you want to upgrade THE SYSTEM? y or n"
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+    printGreen "UPGRADING THE SYSTEM ..."
+    sudo apt update
+    sudo apt upgrade
+fi
+
+################################################################################
+
 source install_UbuntuServer_essentials.sh
 source install_UbuntuServer_develop.sh
 source install_UbuntuServer_docker.sh
