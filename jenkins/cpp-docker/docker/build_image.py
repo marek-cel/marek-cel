@@ -7,7 +7,7 @@ import subprocess
 ################################################################################
 
 if __name__ == "__main__":
-    dockerfile = 'Dockerfile_build_env'
+    dockerfile = 'Dockerfile'
     docker_cmd = [
         'docker', 'build',
         '-f',  dockerfile,
