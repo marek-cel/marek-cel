@@ -17,7 +17,11 @@ function installJenkins()
         sudo apt update
         
         sudo apt install -y \
-            openjdk-11-jdk
+            fontconfig \
+            openjdk-17-jdk \
+            openjdk-17-jre
+
+        java -version
 
         sudo wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
 

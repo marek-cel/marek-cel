@@ -27,7 +27,6 @@ function installGitLab()
 
         echo "$(sudo cat /etc/gitlab/initial_root_password)"
         echo "Use this password with username root to login."
-
     fi
 }
 

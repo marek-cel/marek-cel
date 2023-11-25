@@ -20,6 +20,7 @@ function installCreativeTools()
             gimp \
             gummi \
             inkscape \
+            kdenlive \
             obs-studio \
             openshot-qt \
             qpdf \
