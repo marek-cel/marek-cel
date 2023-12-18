@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    triggers { cron('0 3 * * 1-5') }
+    stages {
+        stage('Build') {
+            steps {
+                sh 'cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_FLAGS="-O0 -fno-elide-constructors -fno-default-inline -fprofile-arcs -ftest-coverage" -B build'
+                sh 'cmake --build build -j 4'
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'cd build && ctest'
+            }
+        }
+    }
+}
