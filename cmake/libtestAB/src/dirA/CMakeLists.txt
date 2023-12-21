@@ -3,7 +3,6 @@ set(DIRA_HEADERS
 )
 
 add_library(testDirA SHARED
-
     ClassA.cpp
 )
 

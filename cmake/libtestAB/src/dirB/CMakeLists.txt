@@ -3,7 +3,6 @@ set(DIRB_HEADERS
 )
 
 add_library(testDirB SHARED
-
     ClassB.cpp
 )
 
