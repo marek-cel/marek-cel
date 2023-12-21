@@ -8,6 +8,7 @@ void PressEnterToContinue();
 void InitiatingMatrix();
 void AccessingMatrix();
 void MatrixOperations();
+void SolveLinearEquastionsSystem();
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -20,6 +21,7 @@ int main(int argc, char* argv[])
     InitiatingMatrix();
     AccessingMatrix();
     MatrixOperations();
+    SolveLinearEquastionsSystem();
 
     PressEnterToContinue();
 
@@ -68,6 +70,13 @@ void InitiatingMatrix()
     a = "1 2 3; 4 5 6; 7 8 9";
     std::cout << a << std::endl;
     PressEnterToContinue();
+
+    double x[] = { 11, 12, 13,
+                   21, 22, 23,
+                   31, 32, 33 };
+    a = arma::mat(x, 3, 3);
+    std::cout << a << std::endl;
+    PressEnterToContinue();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,6 +103,11 @@ void AccessingMatrix()
     std::cout << a.diag(0) << std::endl;
     std::cout << a.diag(1) << std::endl;
     std::cout << a.diag(-1) << std::endl;
+    PressEnterToContinue();
+
+    std::cout << "Rows= " << a.n_rows << std::endl;
+    std::cout << "Columns= " << a.n_cols << std::endl;
+    std::cout << "Element= " << a.n_elem << std::endl;
     PressEnterToContinue();
 }
 
@@ -135,4 +149,42 @@ void MatrixOperations()
     c = a / 2.0;
     std::cout << c << std::endl;
     PressEnterToContinue();
+
+    c = b.t();
+    std::cout << c << std::endl;
+    PressEnterToContinue();
+
+    b << 1 << 1 << 1 << arma::endr
+      << 2 << 1 << 1 << arma::endr
+      << 2 << 2 << 1 << arma::endr;
+    c = b.i();
+    std::cout << c << std::endl;
+    PressEnterToContinue();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SolveLinearEquastionsSystem()
+{
+    std::cout << ">>> Solve Linear Equastions System..." << std::endl;
+    PressEnterToContinue();
+
+    // x = 1
+    // y = 1
+    // z = 2
+    //  x +  y + z = 4
+    // 2x +  y + z = 5
+    // 2x + 2y + z = 6
+    arma::mat lhs;
+    arma::mat rhs;
+    lhs << 1 << 1 << 1 << arma::endr
+        << 2 << 1 << 1 << arma::endr
+        << 2 << 2 << 1 << arma::endr;
+    rhs << 4 << arma::endr
+        << 5 << arma::endr
+        << 6 << arma::endr; 
+    arma::mat sol = arma::solve(lhs, rhs);
+    std::cout << sol << std::endl;
+    PressEnterToContinue();
+
 }
