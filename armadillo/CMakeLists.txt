@@ -55,4 +55,4 @@ add_subdirectory(src)
 
 ################################################################################
 
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} ${ARMADILLO_LIBRARIES})
