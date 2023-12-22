@@ -24,6 +24,7 @@ INCLUDES = -I./src
 
 SOURCES = \
 	src/00_test.cpp \
+    src/recursive_template.cpp \
 	src/variadic_function.cpp
 
 ################################################################################
