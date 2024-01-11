@@ -1,0 +1,10 @@
+// near geometry refinement
+nearGeometryRefinementDistance 1.0;
+nearGeometryRefinementLevel 1;
+
+// geometry surface refinement
+surfaceRefinementLevelMin 1;
+surfaceRefinementLevelMax 1;
+
+// geometry features refinement
+geometryFeaturesRefinementLevel 2;

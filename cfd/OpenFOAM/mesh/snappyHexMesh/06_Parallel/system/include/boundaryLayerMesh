@@ -1,0 +1,5 @@
+// boundary layer mesh parameters
+boundaryLayerMesh_numberOfLayers 5;
+boundaryLayerMesh_expansionRatio 1.25;
+boundaryLayerMesh_finalLayerThickness 0.4;
+boundaryLayerMesh_minThickness 0.05;

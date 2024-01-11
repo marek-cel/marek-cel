@@ -1,0 +1,32 @@
+#include "$FOAM_CASE/0.orig/include/boundaryConditions"
+#include "referenceData"
+
+// ************************************************************************* //
+
+forceCoeffs
+{
+    type            forceCoeffs;
+
+    libs            ("libforces.so");
+
+    writeControl    timeStep;
+    timeInterval    1;
+
+    log             yes;
+
+    patches         (model);
+    rho             rhoInf;      // Indicates incompressible
+    rhoInf          1.0;         // Redundant for incompressible
+    liftDir         (0 0 1);
+    sideDir         (0 1 0);
+    dragDir         (1 0 0);
+    rollAxis        (1 0 0);
+    pitchAxis       (0 1 0);
+    yawAxis         (0 0 1);
+    magUInf         $flowVelocity;
+    lRef            $referenceLength;
+    Aref            $referenceArea;
+    CofR            (0 0 0);
+}
+
+// ************************************************************************* //

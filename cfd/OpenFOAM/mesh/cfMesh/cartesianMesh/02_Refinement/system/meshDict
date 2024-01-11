@@ -1,0 +1,64 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+
+// ************************************************************************* //
+
+surfaceFile "surfaceMeshes/geometry.fms";
+
+minCellSize 0.25;
+maxCellSize 0.25;
+
+localRefinement
+{
+    "model"
+    {
+        cellSize 0.05;
+    }
+}
+
+
+renameBoundary
+{
+    defaultType patch;
+    
+    newPatchNames
+    {
+        inlet
+        {
+            type    patch;
+            newName inlet;
+        }
+        
+        outlet
+        {
+            type    patch;
+            newName outlet;
+        }
+        
+        freestream
+        {
+            type    patch;
+            newName freestream;
+        }
+        
+        model
+        {
+            type    wall;
+            newName model;
+        }
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,12 @@
+// control volume dimensions
+controlVolOriginX  -2;
+controlVolLength    8;
+controlVolHalfWidth 2;
+controlVolHeight    4;
+
+// main section dimensions
+mainSectionOriginX -1;
+mainSectionLength   2;
+
+// cell size
+mainSectionCellSize 0.25;

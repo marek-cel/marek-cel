@@ -1,9 +1,7 @@
 #!/bin/bash
 
-################################################################################
-
 if [ -d "$1" ]; then
-    CASE_DIR=${1%/}
+    CASE_DIR=$(basename $1)
     AOA=0
     
     # start value from command line
@@ -12,7 +10,7 @@ if [ -d "$1" ]; then
     fi
     
     rm -r "$FOAM_RUN/$CASE_DIR"_"$AOA"
-    cp -r $CASE_DIR "$FOAM_RUN/$CASE_DIR"_"$AOA"
+    cp -r $1 "$FOAM_RUN/$CASE_DIR"_"$AOA"
     mv "$FOAM_RUN/$CASE_DIR"_"$AOA"/constant/triSurface/model.stl "$FOAM_RUN/$CASE_DIR"_"$AOA"/constant/triSurface/model_bak.stl
     surfaceTransformPoints -rotate-y $AOA "$FOAM_RUN/$CASE_DIR"_"$AOA"/constant/triSurface/model_bak.stl "$FOAM_RUN/$CASE_DIR"_"$AOA"/constant/triSurface/model.stl
     rm "$FOAM_RUN/$CASE_DIR"_"$AOA"/constant/triSurface/model_bak.stl
@@ -31,5 +29,3 @@ if [ -d "$1" ]; then
 else
     echo "Please provide valid case directory"
 fi
-
-################################################################################

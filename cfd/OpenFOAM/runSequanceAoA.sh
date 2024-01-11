@@ -1,7 +1,5 @@
 #!/bin/bash
 
-################################################################################
-
 function printExecutionTime()
 {
     TIME_1=$(date +%s)
@@ -13,8 +11,6 @@ function printExecutionTime()
     echo "$1 $TIME_F $3 $4"
 }
 
-################################################################################
-
 if [ -n "$1" ]; then
     if [ "$1" == "-help" ]; then
         echo "./runCaseSequance.sh <path to case directory> <AoA start value> <AoA end value> <AoA step>"
@@ -23,7 +19,7 @@ if [ -n "$1" ]; then
 fi
 
 if [ -d "$1" ]; then
-    CASE_DIR=${1%/}
+    CASE_DIR=$(basename $1)
     
     # default iteration values
     START=0
@@ -51,13 +47,10 @@ if [ -d "$1" ]; then
     
     TIME_0=$(date +%s)
     echo $(date +%Y-%m-%d\ %H:%M:%S) - Computations started
-    
-    rm "$FOAM_RUN"/coeffs_"$CASE_DIR".dat
-
 
     for (( AOA=$START; AOA<=$END; AOA+=$STEP ))
     do
-        ./runCaseAoA.sh $CASE_DIR $AOA
+        ./runCaseAoA.sh $1 $AOA
         EXIT_CODE=$?
         if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
     done
@@ -66,7 +59,3 @@ if [ -d "$1" ]; then
 else
     echo "Please provide valid case directory"
 fi
-
-
-
-################################################################################

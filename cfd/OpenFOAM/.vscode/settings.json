@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "snappyhexmeshdict": "cpp",
+        "boundarylayer": "cpp",
+        "boundarylayermesh": "cpp",
+        "controlvolume": "cpp",
+        "materialpoint": "cpp"
+    }
+}

@@ -1,0 +1,10 @@
+// Refinement box coordinates
+refinementBox_x_min -1.0;
+refinementBox_x_max  1.0;
+refinementBox_y_min -2.0;
+refinementBox_y_max  2.0;
+refinementBox_z_min -1.0;
+refinementBox_z_max  1.0;
+
+// refinement level
+regionRefinementLevel 1;

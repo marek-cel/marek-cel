@@ -1,0 +1,142 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "include/controlVolume"
+
+// ************************************************************************* //
+
+// control volume coordinates
+cv_x_min $controlVolOriginX;
+cv_x_max #eval "$controlVolOriginX + $controlVolLength";
+cv_y_min 0.0;
+cv_y_max $controlVolHalfWidth;
+cv_z_min #eval "-$controlVolHeight / 2.0";
+cv_z_max #eval " $controlVolHeight / 2.0";
+
+// main section coordinates
+ms_x_min $mainSectionOriginX;
+ms_x_max #eval "$mainSectionOriginX + $mainSectionLength";
+
+// inlet and outlet sections length
+inletSectionLength  #eval "$ms_x_min - $cv_x_min";
+outletSectionLength #eval "$cv_x_max - $ms_x_max";
+
+// number of cells
+xcells_m #eval "round($mainSectionLength / $mainSectionCellSize)";
+xcells_i #eval "round(0.5 * $inletSectionLength  / $mainSectionCellSize)";
+xcells_o #eval "round(0.5 * $outletSectionLength / $mainSectionCellSize)";
+
+// number of cells
+xcells #eval "$xcells_m + $xcells_i + $xcells_o";
+ycells #eval "round($controlVolHalfWidth / $mainSectionCellSize)";
+zcells #eval "round($controlVolHeight    / $mainSectionCellSize)";
+
+// sections fractional lengths
+mainSectionFracLength   #eval "$mainSectionLength   / $controlVolLength";
+inletSectionFracLength  #eval "$inletSectionLength  / $controlVolLength";
+outletSectionFracLength #eval "$outletSectionLength / $controlVolLength";
+
+// fraction of cells per section
+mainSectionCellsFrac   #eval "$xcells_m / $xcells";
+inletSectionCellsFrac  #eval "$xcells_i / $xcells";
+outletSectionCellsFrac #eval "$xcells_o / $xcells";
+
+// ************************************************************************* //
+
+scale 1.0;
+
+
+vertices
+(
+    ($cv_x_min  $cv_y_min  $cv_z_min)
+    ($cv_x_max  $cv_y_min  $cv_z_min)
+    ($cv_x_min  $cv_y_max  $cv_z_min)
+    ($cv_x_max  $cv_y_max  $cv_z_min)
+    ($cv_x_min  $cv_y_min  $cv_z_max)
+    ($cv_x_max  $cv_y_min  $cv_z_max)
+    ($cv_x_min  $cv_y_max  $cv_z_max)
+    ($cv_x_max  $cv_y_max  $cv_z_max)
+);
+
+
+blocks
+(
+    hex (0 1 3 2 4 5 7 6) ($xcells $ycells $zcells)
+    simpleGrading
+    (
+        (
+            ($inletSectionFracLength  $inletSectionCellsFrac  0.5)
+            ($mainSectionFracLength   $mainSectionCellsFrac   1.0)
+            ($outletSectionFracLength $outletSectionCellsFrac 2.0)
+        )
+        1
+        1 
+    )
+);
+
+
+edges
+(
+);
+
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 6 2)
+        );
+    }
+    
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 3 7 5)
+        );
+    }
+    
+    sym
+    {
+        type symmetryPlane;
+        faces
+        (
+            (0 1 5 4) // symmetry plane
+        );
+    }
+
+    freestream
+    {
+        type patch;
+        faces
+        (
+            (2 6 7 3) // right
+            (0 2 3 1) // bottom
+            (4 5 7 6) // top
+        );
+    }
+);
+
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
