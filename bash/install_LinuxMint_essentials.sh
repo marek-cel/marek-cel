@@ -19,6 +19,7 @@ function installEssentials()
             djvulibre-bin \
             dropbox \
             ffmpeg \
+            glmark2 \
             gparted \
             imagemagick \
             joystick \
@@ -28,6 +29,7 @@ function installEssentials()
             language-selector-common \
             linux-tools-common \
             mc \
+            mesa-utils \
             mplayer \
             okular \
             openssh-server \
@@ -67,17 +69,6 @@ function installEssentials()
 
             sudo apt update
             sudo apt install -y brave-browser
-        fi
-        
-        # SNAP STORE
-        readBold "Do you want to install SNAP STORE? y or n"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing SNAP STORE ..."
-            
-            sudo rm /etc/apt/preferences.d/nosnap.pref
-            sudo apt update
-            sudo apt install -y snapd snap-store 
         fi
     fi
 }

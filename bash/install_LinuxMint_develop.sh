@@ -22,6 +22,7 @@ function installDevelopEssentials()
             git-cola \
             git-flow \
             git-gui \
+            git-hub \
             kdesvn \
             kdiff3 \
             lcov \
@@ -96,6 +97,7 @@ function installDevelopEssentials()
             sudo apt install -y \
                 freeglut3-dev \
                 libalut-dev \
+                libarmadillo-dev \
                 libboost-all-dev \
                 libbullet-dev \
                 libeigen3-dev \
@@ -106,6 +108,7 @@ function installDevelopEssentials()
                 liboce-modeling-dev \
                 liboce-visualization-dev \
                 libopenal-dev \
+                libproj-dev \
                 libtbb-dev \
                 libtinfo5 \
                 libtool \
@@ -212,6 +215,8 @@ function installDevelopEssentials()
                 python3-scipy \
                 python3-setuptools \
                 python3-vtk7
+            
+            pip3 install ussa1976
         fi
         
         # QT

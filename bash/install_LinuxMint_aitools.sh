@@ -15,6 +15,7 @@ function installAiTools()
 
         echo "Installing PyFoam"
         sudo apt install -y \
+            libmlpack-dev \
             python3-all \
             python3-all-dev \
             python3-pip \

@@ -22,6 +22,29 @@ function installCaxGisScientific()
             stellarium \
             wxmaxima \
             xfoil
+        
+        # XFLR5
+        readBold "Do you want to install XFLR5? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing XFLR5 ..."
+
+            sudo apt install -y \
+                build-essential \
+                libgl1-mesa-dev \
+                qt5-qmake \
+                qtbase5-dev
+            
+            CURRENT_DIR=$(pwd)
+            cd /tmp
+            git clone https://github.com/polmes/xflr5-ubuntu.git
+            cd xflr5-ubuntu/xflr5
+            qmake
+            make
+            sudo make install
+            sudo ldconfig
+            ln -sf /usr/local/share/xflr5/xflr5.desktop ~/.local/share/applications/
+        fi
 
         # FREECAD and LIBRECAD
         readBold "Do you want to install FREECAD and LIBRECAD? y or n"
@@ -109,10 +132,10 @@ function installCaxGisScientific()
 
             curl -s https://dl.openfoam.com/add-debian-repo.sh | sudo bash
             wget -q -O - https://dl.openfoam.com/add-debian-repo.sh | sudo bash
-            sudo apt-get install openfoam2206-default
+            sudo apt-get install openfoam2306-default
             sudo apt-get install paraview
 
-            source /usr/lib/openfoam/openfoam2206/etc/bashrc
+            source /usr/lib/openfoam/openfoam2306/etc/bashrc
             mkdir -p $FOAM_RUN
 
             echo "Installing PyFoam"
@@ -134,10 +157,10 @@ function installCaxGisScientific()
         then
             printGreen "Installing OPENFOAM.ORG ..."
 
-            sudo sh -c "wget -O - https://dl.openfoam.org/gpg.key | apt-key add -"
+            sudo sh -c "wget -O - https://dl.openfoam.org/gpg.key > /etc/apt/trusted.gpg.d/openfoam.asc"
             sudo add-apt-repository http://dl.openfoam.org/ubuntu
             sudo apt-get update
-            sudo apt-get -y install openfoam10 paraviewopenfoam56
+            sudo apt-get -y install openfoam11 paraviewopenfoam56
 
             echo -e "\e[1;33m"
             echo "To use OpenFOAM please add:"
