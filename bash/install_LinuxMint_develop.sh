@@ -271,6 +271,16 @@ function installDevelopEssentials()
                 cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
             fi
         fi
+
+        # SCRATCH
+        readBold "Do you want to install SCRATCH? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing SCRATCH ..."
+
+            sudo apt install -y \
+                scratch
+        fi
         
         # VTK
         readBold "Do you want to install VTK? y or n"
