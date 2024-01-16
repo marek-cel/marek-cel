@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    triggers { cron('0 3 * * 1-5') }
+    stages {
+        stage('Build') {
+            steps {
+                bat 'cmake . -DCMAKE_BUILD_TYPE=Release -B build'
+                bat 'cmake --build build -j 4'
+            }
+        }
+        stage('Test') {
+            steps {
+                bat 'cd build && ctest'
+            }
+        }
+    }
+}

@@ -1,0 +1,41 @@
+#include <cmath>
+
+#include <gtest/gtest.h>
+
+#include <ClassA.h>
+
+////////////////////////////////////////////////////////////////////////////////
+
+class TestClassA : public ::testing::Test
+{
+protected:
+
+    TestClassA() {}
+    virtual ~TestClassA() {}
+    void SetUp() override {}
+    void TearDown() override {}
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestClassA, CanGetOne)
+{
+    ClassA a;
+    EXPECT_EQ(a.getOne(), 1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestClassA, CanGetTwo)
+{
+    ClassA a;
+    EXPECT_EQ(a.getTwo(), 2);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+TEST_F(TestClassA, CanGetSix)
+{
+    ClassA a;
+    EXPECT_EQ(a.getSix(), 6);
+}

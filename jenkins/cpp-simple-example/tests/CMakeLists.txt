@@ -17,7 +17,7 @@ set(SOURCES
 
 ################################################################################
 
-add_executable(${TARGET_NAME} WIN32 ${SOURCES})
+add_executable(${TARGET_NAME} ${SOURCES})
 
 target_link_libraries(${TARGET_NAME}
     gcov

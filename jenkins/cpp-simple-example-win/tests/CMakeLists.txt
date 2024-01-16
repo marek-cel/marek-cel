@@ -27,6 +27,8 @@ target_link_libraries(${TARGET_NAME}
 
 ################################################################################
 
-gtest_discover_tests(${TARGET_NAME}
-    WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-)
+if(NOT WIN32)
+    gtest_discover_tests(${TARGET_NAME}
+        WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    )
+endif()
