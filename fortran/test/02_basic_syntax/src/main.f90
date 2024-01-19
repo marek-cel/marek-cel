@@ -1,7 +1,8 @@
 program myprog
     implicit none ! force to declear all variables
 
-    character*20 :: name
+    ! character*20 :: name ! old style
+    character(20) :: name
 
     print *, "What's your name?"
     read *, name
