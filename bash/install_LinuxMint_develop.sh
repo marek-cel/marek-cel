@@ -126,6 +126,15 @@ function installDevelopEssentials()
 
             sudo apt install -y dia2code
         fi
+
+        # FORTRAN
+        readBold "Do you want to install FORTRAN? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing FORTRAN ..."
+
+            sudo apt install -y gfortran
+        fi
         
         # JAVA
         readBold "Do you want to install JAVA? y or n"
