@@ -41,9 +41,7 @@ function installDcoker()
         sudo groupadd docker
         # Add your user to the docker group.
         sudo usermod -aG docker $USER
-        echo -e "\e[1;33m"
-        echo "Log out and log in again."
-        echo -e "\e[0m"
+        printYellow "Log out and log in again."
     fi
 }
 

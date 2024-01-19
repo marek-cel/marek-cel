@@ -28,6 +28,28 @@ function installGitLab()
         echo "$(sudo cat /etc/gitlab/initial_root_password)"
         echo "Use this password with username root to login."
     fi
+
+    readBold "Do you want to install GITLAB RUNNER? y or n"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing GITLAB RUNNER ..."
+
+        printYellow "To install GITLAB RUNNER you need to have DOCKER installed."
+        readBold "Do you want to install DOCKER? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            ./install_UbuntuServer_docker.sh
+        fi
+
+        curl -LJO "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_amd64.deb"
+        sudo dpkg -i gitlab-runner_amd64.deb
+
+        sudo gitlab-runner status
+
+        # Add your user to the docker group.
+        sudo usermod -aG docker gitlab-runner
+        printYellow "Log out and log in again."
+    fi
 }
 
 installGitLab
