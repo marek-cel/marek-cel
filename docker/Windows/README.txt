@@ -1,0 +1,1 @@
+https://learn.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-base-images

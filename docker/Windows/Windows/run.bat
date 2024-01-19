@@ -1,0 +1,1 @@
+docker run --name ltsc2019 -it ltsc2019 cmd
