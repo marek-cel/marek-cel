@@ -1,9 +1,9 @@
-@echo off
+echo off
 :: Kill all running Docker containers
-FOR /F %%i IN ('docker ps -q') DO docker kill %%i
+FOR /F %%i IN ('docker ps -aq') DO docker kill %%i
 
 :: Remove all Docker containers (running or not)
-FOR /F %%i IN ('docker ps -a -q') DO docker rm %%i
+FOR /F %%i IN ('docker ps -aq') DO docker rm %%i
 
 :: Remove all Docker images
 FOR /F %%i IN ('docker images -q') DO docker rmi -f %%i
