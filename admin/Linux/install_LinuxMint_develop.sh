@@ -188,6 +188,33 @@ function installDevelopEssentials()
                 openscenegraph-plugin-osgearth \
                 osgearth
         fi
+
+        # POWER SHELL
+        readBold "Do you want to install POWERSHELL? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing POWERSHELL ..."
+
+            sudo apt-get install -y wget apt-transport-https software-properties-common
+
+            VERSION_ID = "22.04"
+            readBold "Are you running Ubuntu $VERSION_ID? y or n"
+            if [[ $REPLY =~ ^[Nn]$ ]]
+            then
+                echo Enter you Ubuntu version ID.
+                read VERSION_ID
+            fi
+            wget -P /tmp/ -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
+
+            sudo dpkg -i /tmp/packages-microsoft-prod.deb
+            rm /tmp/packages-microsoft-prod.deb
+
+            sudo apt-get update
+
+            sudo apt-get install -y powershell
+
+            printYellow "To run PowerShell type pwsh."
+        fi
             
         # PYTHON
         readBold "Do you want to install PYTHON3? y or n"
