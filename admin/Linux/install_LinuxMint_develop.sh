@@ -197,13 +197,14 @@ function installDevelopEssentials()
 
             sudo apt-get install -y wget apt-transport-https software-properties-common
 
-            VERSION_ID = "22.04"
+            VERSION_ID="22.04"
             readBold "Are you running Ubuntu $VERSION_ID? y or n"
             if [[ $REPLY =~ ^[Nn]$ ]]
             then
                 echo Enter you Ubuntu version ID.
                 read VERSION_ID
             fi
+            echo https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
             wget -P /tmp/ -q https://packages.microsoft.com/config/ubuntu/$VERSION_ID/packages-microsoft-prod.deb
 
             sudo dpkg -i /tmp/packages-microsoft-prod.deb
