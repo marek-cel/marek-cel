@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="Marek Cel" name="copyright">
+  
+  <title>US Standard Atmosphere 1976 Calculator</title>
+  
+  <script src="js/us-standard-atmosphere-1976.js"></script>
+</head>
+
+<body onload="calcAtmos();">
+
+  <h1>US Standard Atmosphere 1976 Calculator</h1>
+  
+  <div id="calc_error" class="alert alert-danger" style="display: none;">
+    <p><strong>Error!</strong></p>
+  </div>
+  
+  <table style="border: 0 solid black; margin: 0 auto; vertical-align: middle; border-spacing: 10pt; border-collapse: separate;">
+    <tbody>
+      
+      <tr>
+        <td colspan="3"><strong>Input Data:</strong></td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">Altitude:</td>
+        <td><input type="number" id="inp_alt" name="inp_alt" min="0" max="99999" value="0" required onchange="calcAtmos();" /></td>
+        <td>
+          <select id="unit_alt" name="unit_alt" style="width: 100%" onchange="altUnitChanged();">
+            <option value="1" selected>[m]</option>
+            <option value="2">[ft]</option>
+          </select>
+        </td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><button class="btn btn-primary btn-lg" onclick="calcAtmos();" style="width: 100%;">Calculate</button></td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><strong>Output Data:</strong></td>
+      </tr>
+      
+      <!-- temp -->
+      <tr>
+        <td style="text-align: right;">Temperature:</td>
+        <td style="text-align: right;" id="out_temp"></td>
+        <td>
+          <select id="unit_temp" name="unit_temp" style="width: 100%" onchange="calcAtmos();">
+            <option value="1" selected>[K]</option>
+            <option value="2">[&deg;C]</option>
+            <option value="3">[&deg;R]</option>
+            <option value="4">[&deg;F]</option>
+          </select>
+        </td>
+      </tr>
+      
+      <!-- press -->
+      <tr>
+        <td style="text-align: right;">Pressure:</td>
+        <td style="text-align: right;" id="out_press"></td>
+        <td>
+          <select id="unit_press" name="unit_press" style="width: 100%" onchange="calcAtmos();">
+            <option value="1" selected>[Pa]</option>
+            <option value="2">[mb]</option>
+            <option value="3">[inHg]</option>
+            <option value="4">[psi]</option>
+          </select>
+        </td>
+      </tr>
+      
+      <!-- dens -->
+      <tr>
+        <td style="text-align: right;">Density:</td>
+        <td style="text-align: right;" id="out_dens"></td>
+        <td>
+          <select id="unit_dens" name="unit_dens" style="width: 100%" onchange="calcAtmos();">
+            <option value="1" selected>[kg/m^3]</option>
+          </select>
+        </td>
+      </tr>
+      
+      <!-- sound -->
+      <tr>
+        <td style="text-align: right;">Speed of Sound:</td>
+        <td style="text-align: right;" id="out_sound"></td>
+        <td>
+          <select id="unit_sound" name="unit_sound" style="width: 100%" onchange="calcAtmos();">
+            <option value="1" selected>[m/s]</option>
+            <option value="2">[ft/s]</option>
+            <option value="3">[km/h]</option>
+            <option value="4">[kts]</option>
+          </select>
+        </td>
+      </tr>
+      
+      <!-- visc -->
+      <tr>
+        <td style="text-align: right;">Dynamic Viscosity:</td>
+        <td style="text-align: right;" id="out_visc"></td>
+        <td>
+          <select id="unit_visc" name="unit_visc" style="width: 100%" onchange="calcAtmos();">
+            <option value="1" selected>[Pa&middot;s]</option>
+          </select>
+        </td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  <footer>
+    <p><a href="http://marekcel.pl/">http://marekcel.pl/</a></p>
+  </footer>
+  
+</body>
+  
+</html>

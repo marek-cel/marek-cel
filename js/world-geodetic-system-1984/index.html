@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="Marek Cel" name="copyright">
+  
+  <title>World Geodetic System 1984 Calculator</title>
+  
+  <script src="js/world-geodetic-system-1984.js"></script>
+</head>
+
+<body onload="calcGeo2XYZ();">
+
+  <h1>World Geodetic System 1984 Calculator</h1>
+  
+  <div id="calc_error" class="alert alert-danger" style="display: none;">
+    <p><strong>Error!</strong></p>
+  </div>
+  
+  <table style="border: 0 solid black; margin: 0 auto; vertical-align: middle; border-spacing: 10pt; border-collapse: separate;">
+    <tbody>
+      
+      <tr>
+        <td colspan="3"><strong>Input Data:</strong></td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">Longitude:</td>
+        <td><input type="number" id="inp_lon" name="inp_lon" min="-180" max="180" step="0.000001" value="0" required onchange="calcGeo2XYZ();"></td>
+        <td>[&deg;]</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">Latitude:</td>
+        <td><input type="number" id="inp_lat" name="inp_lat" min="-90" max="90" step="0.000001" value="0" required onchange="calcGeo2XYZ();"></td>
+        <td>[&deg;]</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">Altitude:</td>
+        <td><input type="number" id="inp_alt" name="inp_alt" min="0" max="99999" step="0.01" value="0" required onchange="calcGeo2XYZ();"></td>
+        <td>[m]</td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><button class="btn btn-primary btn-lg" onclick="calcGeo2XYZ();" style="width: 100%;">Calculate</button></td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><strong>Output Data:</strong></td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">WGS-X:</td>
+        <td style="text-align: right;" id="out_x"></td>
+        <td>[m]</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">WGS-Y:</td>
+        <td style="text-align: right;" id="out_y"></td>
+        <td>[m]</td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">WGS-Z:</td>
+        <td style="text-align: right;" id="out_z"></td>
+        <td>[m]</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  <footer>
+    <p><a href="http://marekcel.pl/">http://marekcel.pl/</a></p>
+  </footer>
+  
+</body>
+  
+</html>
