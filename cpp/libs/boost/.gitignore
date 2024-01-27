@@ -1,5 +1,5 @@
-bin*
-lib*
+bin/*
+lib/*
 
 # C++ objects and libs
 *.slo
