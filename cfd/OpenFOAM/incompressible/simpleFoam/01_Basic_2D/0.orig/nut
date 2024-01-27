@@ -10,60 +10,39 @@ FoamFile
     version     2.0;
     format      ascii;
     class       volScalarField;
-    location    "0";
     object      nut;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#include "include/boundaryConditions"
+dimensions      [0 2 -1 0 0 0 0];
 
-// ************************************************************************* //
-
-dimensions [ 0 2 -1 0 0 0 0 ];
-
-internalField uniform $turbulentVisc;
-
+internalField   uniform 1e-05;
 
 boundaryField
 {
     inlet
     {
-        type        calculated;
-        value       uniform 0;
+        type            freestream;
+        freestreamValue $internalField;
     }
 
     outlet
     {
-        type        calculated;
-        value       uniform 0;
+        type            freestream;
+        freestreamValue $internalField;
     }
 
-    freestream
+    walls
     {
-        type        calculated;
-        value       uniform 0;
+        type            nutUSpaldingWallFunction;
+        value           uniform 0;
     }
 
-    model
+    frontAndBack
     {
-        type        nutkWallFunction;
-        value       uniform 0;
-    }
-
-    symLeft
-    {
-        type        symmetryPlane;
-    }
-
-    symRight
-    {
-        type        symmetryPlane;
-    }
-    
-    "proc.*"
-    {
-        type        processor;
+        type            empty;
     }
 }
+
 
 // ************************************************************************* //
