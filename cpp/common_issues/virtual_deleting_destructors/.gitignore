@@ -1,4 +1,4 @@
-bin
+bin/*
 src/*.o
 src/*.gcov
 src/*.gcda
