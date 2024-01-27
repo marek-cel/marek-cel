@@ -1,5 +1,6 @@
 function Test-SpaceX {
-    param(
+    Param(
+        [Parameter(Mandatory)]
         $PingCount
     )
     Test-Connection spacex.com -Count $PingCount
