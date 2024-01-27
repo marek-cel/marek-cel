@@ -2,10 +2,10 @@
 # Sample Dockerfile
 
 # Indicates that the windowsservercore image will be used as the base image.
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Metadata indicating an image maintainer.
-LABEL maintainer="jshelton@contoso.com"
+LABEL maintainer="noreply@marekcel.pl"
 
 # Uses dism.exe to install the IIS role.
 # RUN dism.exe /online /enable-feature /all /featurename:iis-webserver /NoRestart
