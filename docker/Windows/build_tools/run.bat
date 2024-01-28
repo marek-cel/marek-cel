@@ -1,1 +1,1 @@
-docker run --name ltsc2019 -it ltsc2019 cmd
+docker run --name ltsc2022_vc_build_tools -it ltsc2022_vc_build_tools cmd
