@@ -24,5 +24,5 @@ program myprog
         print *, customers(n)%name, customers(n)%age
     end do
 
-
+    stop
 end program myprog

@@ -4,9 +4,9 @@ program myprog
     ! character*20 :: name ! old style
     character(20) :: name
 
-    print *, "What's your name?"
-    read *, name
-    print *, "Hello ", name
+    write (*,*) "What's your name?"
+    read (*,*) name
+    write (*,*) "Hello ", name
     
-
+    stop
 end program myprog

@@ -20,4 +20,5 @@ program myprog
     write (i_char, "(i2)") 10
     print "(a,a)", "A number ", adjustl(i_char)
 
+    stop
 end program myprog

@@ -47,5 +47,5 @@ program myprog
         end if
     end do
 
-
+    stop
 end program myprog

@@ -8,6 +8,8 @@ program myprog
     ans = get_sum(1, 2)
     print "(i1)", ans
 
+    stop
+
 contains
 
     function get_sum(n1, n2) result(sum)
@@ -16,5 +18,5 @@ contains
         integer :: sum
         sum = n1 + n2
     end function get_sum
-
+    
 end program myprog

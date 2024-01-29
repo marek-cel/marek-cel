@@ -21,4 +21,5 @@ program myprog
     print "(a16,f3.1)", "acos(0) = ", acos(0.0)
     print "(a16,f3.1)", "atan(0) = ", atan(0.0)
 
+    stop
 end program myprog

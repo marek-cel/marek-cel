@@ -75,4 +75,5 @@ program myprog
     print "(a,i3)", "product(a3) ", product(a3)
     print "(a,i2)", "sum(a3) ", sum(a3)
 
+    stop
 end program myprog
