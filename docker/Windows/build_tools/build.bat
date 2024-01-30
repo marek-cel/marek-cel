@@ -1,1 +1,0 @@
-docker build . -t ltsc2022_vc_build_tools
