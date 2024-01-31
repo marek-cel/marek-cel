@@ -9,40 +9,22 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       volScalarField;
-    object      nuTilda;
+    class       dictionary;
+    object      extrudeMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -1 0 0 0 0];
+constructFrom mesh;
+sourceCase    "<case>";
 
-internalField   uniform 4e-05;
+//sourcePatches ();
+sourceFaceZones (f0Zone);
+exposedPatchName symLeft;
 
-boundaryField
-{
-    inlet
-    {
-        type            freestream;
-        freestreamValue $internalField;
-    }
+extrudeModel  linearNormal;
+thickness     0.05;
 
-    outlet
-    {
-        type            freestream;
-        freestreamValue $internalField;
-    }
+flipNormals false;
+mergeFaces false;
 
-    walls
-    {
-        type            fixedValue;
-        value           uniform 0;
-    }
-
-    frontAndBack
-    {
-        type            empty;
-    }
-}
-
-
-// ************************************************************************* //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -14,35 +14,55 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions      [0 2 -1 0 0 0 0];
+#include "include/boundaryConditions"
 
-internalField   uniform 1e-05;
+// ************************************************************************* //
+
+dimensions [ 0 2 -1 0 0 0 0 ];
+
+internalField uniform $turbulentVisc;
+
 
 boundaryField
 {
     inlet
     {
-        type            freestream;
-        freestreamValue $internalField;
+        type        calculated;
+        value       uniform 0;
     }
 
     outlet
     {
-        type            freestream;
-        freestreamValue $internalField;
+        type        calculated;
+        value       uniform 0;
     }
 
-    walls
+    freestream
     {
-        type            nutUSpaldingWallFunction;
-        value           uniform 0;
+        type        calculated;
+        value       uniform 0;
     }
 
-    frontAndBack
+    model
     {
-        type            empty;
+        type        nutkWallFunction;
+        value       uniform 0;
+    }
+
+    symLeft
+    {
+        type        symmetryPlane;
+    }
+
+    symRight
+    {
+        type        symmetryPlane;
+    }
+    
+    "proc.*"
+    {
+        type        processor;
     }
 }
-
 
 // ************************************************************************* //
