@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="Marek Cel" name="copyright">
+  
+  <title>Turbulence Inlet Conditions Calculator</title>
+  
+  <script src="calc.js"></script>
+</head>
+
+<body>
+
+  <h1>Turbulence Inlet Conditions Calculator</h1>
+  
+  <div id="calc_error" class="alert alert-danger" style="display: none;">
+    <p><strong>Error!</strong></p>
+  </div>
+  
+  <table style="border: 0 solid black; margin: 0 auto; vertical-align: middle; border-spacing: 10pt; border-collapse: separate;">
+    <tbody>
+      
+      <tr>
+        <td colspan="3"><strong>Input Data:</strong></td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">Velocity:</td>
+        <td><input type="number" id="in_u" min="0" max="9999.99" value="10" required /></td>
+        <td>[m/s]</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">Intensity:</td>
+        <td><input type="number" id="in_I" min="0" max="100" value="1" required /></td>
+        <td>[%]</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">Length Scale:</td>
+        <td><input type="number" id="in_l" min="0" max="999.999" value="0.1" required /></td>
+        <td>[m]</td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><button class="btn btn-primary btn-lg" onclick="calc();" style="width: 100%;">Calculate</button></td>
+      </tr>
+      
+      <tr>
+        <td colspan="3"><strong>Output Data:</strong></td>
+      </tr>
+      
+      <tr>
+        <td style="text-align: right;">k:</td>
+        <td style="text-align: right;" id="out_k">0.0</td>
+        <td>[m<sup>2</sup>/s<sup>2</sup>]</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">	&epsilon;:</td>
+        <td style="text-align: right;" id="out_epsilon">0.0</td>
+        <td>[m<sup>2</sup>/s<sup>3</sup>]</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">	&omega;:</td>
+        <td style="text-align: right;" id="out_omega">0.0</td>
+        <td>[s<sup>-1</sup>]</td>
+      </tr>
+
+      <tr>
+        <td style="text-align: right;">	&nu;<sub>t</sub>:</td>
+        <td style="text-align: right;" id="out_nut">0.0</td>
+        <td>[m<sup>2</sup>/s]</td>
+      </tr>
+      
+    </tbody>
+  </table>
+  
+  <footer>
+    <p><a href="http://marekcel.pl/">http://marekcel.pl/</a></p>
+  </footer>
+  
+</body>
+  
+</html>
