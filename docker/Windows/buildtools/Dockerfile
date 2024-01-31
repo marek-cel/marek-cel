@@ -5,7 +5,7 @@
 FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
 # Restore the default Windows shell for correct batch processing.
-# SHELL ["cmd", "/S", "/C"]
+SHELL ["cmd", "/S", "/C"]
 
 RUN \
     # Download the Build Tools bootstrapper.
