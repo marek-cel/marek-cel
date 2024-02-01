@@ -1,6 +1,0 @@
-// relaxation factors
-relaxationFactors_p         0.3;
-relaxationFactors_U         0.5;
-relaxationFactors_k         0.5;
-relaxationFactors_omega     0.5;
-relaxationFactors_epsilon   0.5;
