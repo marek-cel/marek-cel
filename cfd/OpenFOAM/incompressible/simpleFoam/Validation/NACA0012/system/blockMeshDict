@@ -1,0 +1,117 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2306                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#include "include/controlVolume"
+
+// ************************************************************************* //
+
+// control volume coordinates
+cv_x_min $controlVolOriginX;
+cv_x_max #eval "$controlVolOriginX + $controlVolLength";
+cv_y_min #eval "-$controlVolWidth  / 2.0";
+cv_y_max #eval " $controlVolWidth  / 2.0";
+cv_z_min #eval "-$controlVolHeight / 2.0";
+cv_z_max #eval " $controlVolHeight / 2.0";
+
+// number of cells
+xcells #eval "round($controlVolLength / $controlVolCellSize)";
+ycells #eval "round($controlVolWidth  / $controlVolCellSize)";
+zcells #eval "round($controlVolHeight / $controlVolCellSize)";
+
+// ************************************************************************* //
+
+scale 1.0;
+
+
+vertices
+(
+    ($cv_x_min  $cv_y_min  $cv_z_min)
+    ($cv_x_max  $cv_y_min  $cv_z_min)
+    ($cv_x_min  $cv_y_max  $cv_z_min)
+    ($cv_x_max  $cv_y_max  $cv_z_min)
+    ($cv_x_min  $cv_y_min  $cv_z_max)
+    ($cv_x_max  $cv_y_min  $cv_z_max)
+    ($cv_x_min  $cv_y_max  $cv_z_max)
+    ($cv_x_max  $cv_y_max  $cv_z_max)
+);
+
+
+blocks
+(
+    hex (0 1 3 2 4 5 7 6) ($xcells $ycells $zcells) simpleGrading (1 1 1)
+);
+
+
+edges
+(
+);
+
+
+boundary
+(
+    inlet
+    {
+        type patch;
+        faces
+        (
+            (0 4 6 2)
+        );
+    }
+    
+    outlet
+    {
+        type patch;
+        faces
+        (
+            (1 3 7 5)
+        );
+    }
+    
+    symLeft
+    {
+        type symmetryPlane;
+        faces
+        (
+            (0 1 5 4) // left
+        );
+    }
+
+    symRight
+    {
+        type symmetryPlane;
+        faces
+        (
+            (2 6 7 3) // right
+        );
+    }
+
+    freestream
+    {
+        type patch;
+        faces
+        (
+            (0 2 3 1) // bottom
+            (4 5 7 6) // top
+        );
+    }
+);
+
+
+mergePatchPairs
+(
+);
+
+// ************************************************************************* //
