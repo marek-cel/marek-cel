@@ -1,0 +1,144 @@
+\documentclass{article}
+
+\usepackage{booktabs} % For prettier tables
+\usepackage{longtable} % To display tables on several pages
+\usepackage{multirow} % Required for multirows
+\usepackage{rotating} % To display tables in landscape
+\usepackage{siunitx} % Required for alignment
+
+\sisetup{
+  round-mode          = places, % Rounds numbers
+  round-precision     = 2, % to 2 places
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{table}[h!]
+    \begin{center}
+      \label{tab:table1}
+      \begin{tabular}{l|S|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+        $\alpha$ & $\beta$ & $\gamma$ \\
+        \hline
+        1 & 1110.1 & a\\
+        2 & 10.1 & b\\
+        3 & 23.113231 & c\\
+      \end{tabular}
+      \caption{Your first table.}
+    \end{center}
+  \end{table}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{table}[h!]
+    \begin{center}
+      \label{tab:table2}
+      \begin{tabular}{l|S|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+        $\alpha$ & $\beta$ & $\gamma$ \\
+        \hline
+        \multirow{2}{*}{12} & 1110.1 & a\\
+        & 10.1 & b\\
+        \hline
+        3 & 23.113231 & c\\
+        4 & 25.113231 & d\\
+      \end{tabular}
+      \caption{Your first table.}
+    \end{center}
+  \end{table}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{table}[h!]
+    \begin{center}
+      \label{tab:table3}
+      \begin{tabular}{l|S|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+        $\alpha$ & $\beta$ & $\gamma$ \\
+        \hline
+        \multicolumn{2}{c|}{12} & a\\
+        2 & 10.1 & b\\
+        \hline
+        3 & 23.113231 & c\\
+        4 & 25.113231 & d\\
+      \end{tabular}
+      \caption{Your first table.}
+    \end{center}
+  \end{table}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{table}[h!]
+    \begin{center}
+      \label{tab:table4}
+      \begin{tabular}{l|S|r} % <-- Alignments: 1st column left, 2nd middle and 3rd right, with vertical lines in between
+        \toprule % <-- Toprule here
+        \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+        $\alpha$ & $\beta$ & $\gamma$ \\
+        \midrule % <-- Midrule here
+        1 & 1110.1 & a\\
+        2 & 10.1 & b\\
+        3 & 23.113231 & c\\
+        \bottomrule % <-- Bottomrule here
+      \end{tabular}
+      \caption{Your first table.}
+    \end{center}
+  \end{table}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{longtable}[c]{l|S|r} % <-- Replaces \begin{table}, alignment must be specified here (no more tabular)
+    \toprule
+    \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+    $\alpha$ & $\beta$ & $\gamma$ \\
+    \midrule
+    \endfirsthead % <-- This denotes the end of the header, which will be shown on the first page only
+    \toprule
+    \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+    $\alpha$ & $\beta$ & $\gamma$ \\
+    \midrule
+    \endhead % <-- Everything between \endfirsthead and \endhead will be shown as a header on every page
+    1 & 1110.1 & a\\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    ... & 0.0 & ... \\
+    3 & 23.113231 & c\\
+    \bottomrule
+    \caption{Multipage table.}
+    \label{tab:table5}
+  \end{longtable}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  \begin{sidewaystable}[h!] % <--
+    \begin{center}
+    \caption{Landscape table.}
+    \label{tab:table6}
+    \begin{tabular}{l|S|r}
+      \toprule
+      \textbf{Value 1} & \textbf{Value 2} & \textbf{Value 3}\\
+      $\alpha$ & $\beta$ & $\gamma$ \\
+      \midrule
+      1 & 1110.1 & a\\
+      2 & 10.1 & b\\
+      3 & 23.113231 & c\\
+      \bottomrule
+    \end{tabular}
+    \end{center}
+  \end{sidewaystable}
+  
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass{article}
+
+\usepackage{listings}
+\usepackage{color}
+
+\renewcommand\lstlistingname{Quelltext} % Change language of section name
+
+\lstset{ % General setup for the package
+	language=C++,
+	basicstyle=\small\sffamily,
+	numbers=left,
+ 	numberstyle=\tiny,
+	frame=tb,
+	tabsize=4,
+	columns=fixed,
+	showstringspaces=false,
+	showtabs=false,
+	keepspaces,
+	commentstyle=\color{green},
+	keywordstyle=\color{blue}
+}
+
+\begin{document}
+
+  \lstinputlisting{main.cpp}
+
+\end{document}
