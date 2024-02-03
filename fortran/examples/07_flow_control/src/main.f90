@@ -1,10 +1,10 @@
 program myprog
-    
     implicit none ! force to declear all variables
 
     integer :: age = 16
     integer :: n = 0, m = 0
 
+    ! if
     if ((age >= 5) .and. (age <= 6)) then
         print *, "You are in kindergarten"
     else if ((age >= 7) .and. (age <= 13)) then
@@ -15,12 +15,14 @@ program myprog
         print *, "You are not in school"
     end if
 
+    ! if
     if (age /= 16) then
         print *, "You are not 16"
     else
         print *, "You are 16"
     end if
 
+    ! select
     select case(age)
         case(5:6)
             print *, "You are in kindergarten"
@@ -34,10 +36,12 @@ program myprog
             print *, "You are not in school"
     end select
 
+    ! do
     do n = 1, 10, 2
         print "(i1)", n
     end do
 
+    ! dow while
     do while (m < 5)
         m = m + 1
         if (mod(m, 2) == 0) then
@@ -46,6 +50,18 @@ program myprog
             print "(a4,i1,a)", "m = ", m, " is odd"
         end if
     end do
+
+
+    ! goto
+    ! goto labels can only be numbers
+    n = 0
+10  n = n
+    n = n + 1
+    write (*,*) n 
+    if (n < 3) then
+        goto 10
+    endif
+
 
     stop
 end program myprog
