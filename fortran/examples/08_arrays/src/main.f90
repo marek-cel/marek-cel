@@ -2,78 +2,171 @@ program myprog
     
     implicit none ! force to declear all variables
 
-    integer, dimension(3) :: a1
-    integer, dimension(1:3) :: a2 = [1,2,3]
-    integer, dimension(1:3) :: a3 = (/ 1, 2, 9 /)
-    integer, dimension(2,5) :: a4
-    integer, dimension(:), allocatable :: a5
-    integer, dimension(1:9) :: a6 = (/ 1,2,3,4,5,6,7,8,9 /)
-    integer, dimension(1:3,1:3) :: a7
-    integer :: num_vals = 0
+    real, dimension(3)   :: tab1
+    real, dimension(4:6) :: tab2
+    real, dimension(1:3) :: tab3 = [1.0, 2.0, 3.0]
+    real, dimension(1:3) :: tab4 = (/ 10.0, 20.0, 30.0 /)
+
+    real, dimension(1:2, 1:3) :: tab_2D
+
+    integer, dimension(:), allocatable :: tab_alloc
+
+    integer, dimension(2) :: tab_shape
+
+    integer :: tab_size = 0
+
+    integer, dimension(1:9) :: tab_1x9 = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    integer, dimension(1:3, 1:3) :: tab_3x3
+
+    integer, dimension(1:3) :: a1 = [1, 1, 1]
+    integer, dimension(1:3) :: a2 = [1, 2, 3]
+    integer, dimension(1:6) :: a3 = [1, 2, -1, 0, 5, -3]
+    integer, dimension(1:6) :: a4
+
     integer :: n, m
 
-    a1(1) = 5
-    print "(i1)", a1(1)
+    ! accessing array elements by index
+    tab1(1) = 1.0
+    tab1(2) = 2.0
+    tab1(3) = 3.0
+    write (*,*) "tab1:"
+    write (*,*) tab1
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
+
+    tab2(4) = 4.0
+    tab2(5) = 5.0
+    tab2(6) = 6.0
+    write (*,*) "tab2:"
+    write (*,*) tab2
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
+
+    write (*,*) "tab3:"
+    write (*,*) tab3
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
     
-    print *, ""
+    write (*,*) "tab3 printed by loop:"
     do n = 1, 3
-        print "(i1)", a3(n)
+        write (*,*) tab3(n)
     end do
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    print *, ""
-    print "(3i2)", a3(1:3)
+    write (*,*) "tab4:"
+    write (*,*) tab4
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    print *, ""
-    print "(3i2)", size(a2)
-
-    print *, ""
+    ! 2D array
     do n = 1, 2
         do m = 1, 3
-            a4(n,m) = n + m
+            tab_2D(n,m) = n * m
         end do
-        print "(3i2)", a4(n,1:3)
     end do
+    write (*,*) "tab_2D:"
+    write (*,*) tab_2D(1,:)
+    write (*,*) tab_2D(2,:)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    print *, ""
-    print "(a,3i2)", "rank(a4) ", rank(a4)
-    print "(a,3i2)", "size(a4) ", size(a4)
-    print "(a,3i2)", "shape(a4) ", shape(a4)
+    write (*,*) "Array properties"
+    tab_shape = shape(tab_2D)
+    write (*,*) "rank(tab_2D) ", rank(tab_2D)
+    write (*,*) "size(tab_2D) ", size(tab_2D)
+    write (*,*) "shape(tab_2D) ", shape(tab_2D)
+    write (*,*) "tab_shape ", tab_shape
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    print *, ""
-    print *, "Enter array size"
-    read *, num_vals
-    allocate(a5(num_vals))
-    do n = 1, num_vals
-        a5(n) = n
+    ! dynamically allocated array
+    write (*,*) "Dynamic allocation"
+    write (*,*) "Enter array size"
+    read (*,*) tab_size
+    ! allocate table
+    allocate(tab_alloc(tab_size))
+    do n = 1, tab_size
+        tab_alloc(n) = n
     end do
-    print "(100i2)", a5(1:num_vals)
-    deallocate(a5)
+    write (*,*) tab_alloc
+    ! deallocate table
+    deallocate(tab_alloc)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
+
+    ! Array sections
+    write (*,*) "Array sections"
+    write (*,*) "tab_1x9(3 : 6) ", tab_1x9(3 : 6)
+    write (*,*) "tab_1x9(3 : 6 : 2) ", tab_1x9(3 : 6 : 2)
+    write (*,*) "tab_1x9(: 6 : 2) ", tab_1x9(: 6 : 2)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
     ! Reshape the ARRAY from 1x9 t0 3x3
-    print *, ""
-    a7 = reshape(a6, (/ 3, 3 /))
+    write (*,*) "Reshaping arrays"
+    tab_3x3 = reshape(tab_1x9, [3, 3])
+    write (*,*) "tab_1x9:"
+    write (*,*) tab_1x9
+    write (*,*) "tab_3x3:"
     do n = 1, 3
-        print "(3i2)", a7(n,1:3)
+        write (*,*) tab_3x3(n,:)
     end do
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    print *, ""
+    ! math operations
+    write (*,*) "Arrays math operations"
+    write (*,*) "tab1 = ", tab1
+    write (*,*) "tab2 = ", tab2
+    write (*,*) "(tab1 + 3.0) = ", (tab1 + 3.0)
+    write (*,*) "(tab1 * 2.0) = ", (tab1 * 2.0)
+    write (*,*) "(tab1 + tab2) = ", (tab1 + tab2)
+    write (*,*) "(tab1 * tab2) = ", (tab1 * tab2)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
-    ! Check if values are equal across the 1 dimension
-    print "(a,l1)", "all(a2==a3, 1) ", all(a2==a3, 1)
-
-    ! Are any equal?
-    print "(a,l1)", "any(a2==a3, 1) ", any(a2==a3, 1)
-
-    ! How many are equal
-    print "(a,i1)", "count(a2==a3, 1) ", count(a2==a3, 1)
+    ! comparing values of 2 arrays
+    write (*,*) "Comparing values of 2 arrays"
+    write (*,*) "all(a2==a3, 1) "   , all(a1==a2, 1)    ! are all equal
+    write (*,*) "any(a2==a3, 1) "   , any(a1==a2, 1)    ! are any equal
+    write (*,*) "count(a2==a3, 1) " , count(a1==a2, 1)  ! how many are equal
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
     ! Get min and max value
-    print "(a,i1)", "maxval(a3) ", maxval(a3)
-    print "(a,i1)", "minval(a3) ", minval(a3)
+    write (*,*) "Min and Max values of array elements"
+    write (*,*) "maxval(a3) ", maxval(a3)
+    write (*,*) "minval(a3) ", minval(a3)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
     
-    ! Get product and sum
-    print "(a,i3)", "product(a3) ", product(a3)
-    print "(a,i2)", "sum(a3) ", sum(a3)
+    ! Math operations using all array elements
+    write (*,*) "Math operations using all array elements"
+    write (*,*) "product(a1) ", product(a1)
+    write (*,*) "sum(a1) ", sum(a1)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
+
+    ! Arrays masks
+    write (*,*) "Arrays masks"
+    write (*,*) "a3 = ", a3
+    where ( a3 < 0 )
+        a3 = 0
+    end where
+    write (*,*) "a3 = ", a3
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
+
+    ! forall
+    write (*,*) "forall"
+    write (*,*) "a3 = ", a3
+    forall (n = 1:6, a3(n) > 2.0)
+        a3(n) = 2.0
+    end forall
+    write (*,*) "a3 = ", a3
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
     stop
 end program myprog
