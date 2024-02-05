@@ -1,13 +1,13 @@
 program myprog
     implicit none
 
-    interface 
-        subroutine roots(a, b, c, x1, x2)
-            implicit none
-            real, intent(in)  :: a, b, c
-            real, intent(out) :: x1, x2
-        end subroutine
-    end interface
+    ! interface 
+    !     subroutine roots(a, b, c, x1, x2)
+    !         implicit none
+    !         real, intent(in)  :: a, b, c
+    !         real, intent(out) :: x1, x2
+    !     end subroutine
+    ! end interface
 
     real :: a, b, c, x1, x2
 
@@ -38,6 +38,9 @@ program myprog
     write (*,*) "Press ENTER to continue"
     read (*,*)
 
+    call foobar()
+    write (*,*) "Press ENTER to continue"
+
     stop
 
     contains
@@ -64,3 +67,9 @@ program myprog
             return
         end subroutine
 end program
+
+subroutine foobar()
+    implicit none
+    write (*,*) "I am foobar"
+    return
+end subroutine

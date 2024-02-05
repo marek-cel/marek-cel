@@ -1,22 +1,28 @@
 program myprog
+    implicit none
     
-    implicit none ! force to declear all variables
-
-    integer :: ans
-    real :: r_ans
-
-    ans = get_sum(1, 2)
-    print "(i1)", ans
+    write (*,*) "add1(1, 2)= ", add1(1, 2)
+    write (*,*) "add2(2, 3)= ", add2(2, 3)
+    write (*,*) "Press ENTER to continue"
+    read (*,*)
 
     stop
 
 contains
+ 
+    integer function add1(n1, n2)
+        implicit none
+        integer :: n1, n2
+        add1 = n1 + n2
+        return
+    end function
 
-    function get_sum(n1, n2) result(sum)
+    function add2(n1, n2) result(sum)
         implicit none
         integer :: n1, n2
         integer :: sum
         sum = n1 + n2
-    end function get_sum
-    
-end program myprog
+        return
+    end function
+
+end program
