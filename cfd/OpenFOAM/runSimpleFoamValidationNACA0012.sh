@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./runSequanceAoA.sh incompressible/simpleFoam/04_Validation_NACA0012 0 24 2
+./runSequanceAoA.sh incompressible/simpleFoam/validation/NACA0012 0 24 2

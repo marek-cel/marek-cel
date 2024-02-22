@@ -17,5 +17,4 @@ set datafile separator ","
 plot \
   "NACA TN-3361/CL.csv" using 1:2 with linespoints ls 1 title "NACA TN-3361", \
   "Sandia Labs/CL.csv" using 1:2 with linespoints ls 2 title "Sandia Labs", \
-  "XFOIL/CL.csv" using 1:2 with linespoints ls 3 title "XFOIL", \
   "OpenFOAM/CL.csv" using 1:2 with linespoints ls 4 title "OpenFOAM",
