@@ -20,7 +20,10 @@ runApplicationAndPrintExecutionTime()
     runApplication $@
     EXIT_CODE=$?
     printExecutionTime "$1 finished in" $TIME_TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
+    if [ $EXIT_CODE -ne 0 ]; then
+        printExecutionTime "OpenFOAM finished with errors in" $TIME_0
+        exit $EXIT_CODE;
+    fi
 }
 
 runParallelAndPrintExecutionTime()
@@ -29,7 +32,10 @@ runParallelAndPrintExecutionTime()
     runParallel $@
     EXIT_CODE=$?
     printExecutionTime "$1 finished in" $TIME_TMP_0 "with exit code" $EXIT_CODE
-    if [ $EXIT_CODE -ne 0 ]; then exit $EXIT_CODE; fi
+    if [ $EXIT_CODE -ne 0 ]; then
+        printExecutionTime "OpenFOAM finished with errors in" $TIME_0
+        exit $EXIT_CODE;
+    fi
 }
 
 #------------------------------------------------------------------------------
