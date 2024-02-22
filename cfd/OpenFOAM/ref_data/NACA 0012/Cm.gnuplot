@@ -2,11 +2,11 @@ set terminal png
 set output "Cm.png"
 set xlabel "Angle of Attack [deg]"
 set ylabel "Pitching Moment Coefficient [-]"
-set xrange [0: 25]
+set xrange [0: 20]
 set yrange [-0.12: 0.04]
-set xtics 10
+set xtics 5
 set ytics nomirror
-set key right top
+set key left top
 set grid
 set yzeroaxis lw 2
 set style line 1 lc rgb '#ff0000' lw 2 pt 1 ps 0

@@ -2,9 +2,9 @@ set terminal png
 set output "CD.png"
 set xlabel "Angle of Attack [deg]"
 set ylabel "Drag Coefficient [-]"
-set xrange [0: 15]
+set xrange [0: 20]
 set yrange [0.0: 0.12]
-set xtics 10
+set xtics 5
 set ytics nomirror
 set key left top
 set grid
