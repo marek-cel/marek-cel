@@ -1,0 +1,8 @@
+// control volume dimensions
+controlVolOriginX -2;
+controlVolLength   8;
+controlVolWidth    4;
+controlVolHeight   4;
+
+// cell size
+controlVolCellSize 0.1;

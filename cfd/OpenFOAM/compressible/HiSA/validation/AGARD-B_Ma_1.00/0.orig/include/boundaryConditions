@@ -1,0 +1,8 @@
+// boundary conditions
+flowVelocity 343.0;         // [m/s] flow velocity
+pressure  101325.0;         // [Pa] pressure
+temperature  288.15;        // [K] temperature
+
+turbulentKE    1.76e+1;     // [m^2/s^2] turbulent kinetic energy k=(3/2)*(u_ref*T_i)^2
+turbulentOmega 1.57e+2;     // [1/s] specific turbulence dissipation rate
+turbulentVisc  0.0;         // [m^2/s] turbulent eddy viscosity

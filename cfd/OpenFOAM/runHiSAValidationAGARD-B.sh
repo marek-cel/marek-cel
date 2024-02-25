@@ -1,3 +1,5 @@
 #!/bin/bash
 
-./runSequanceAoA.sh compressible/HiSA/validation/AGARD-B 0 20 2
+#./runSequanceAoA.sh compressible/HiSA/validation/AGARD-B_Ma_1.00 0 20 2
+./runSequanceAoA.sh compressible/HiSA/validation/AGARD-B_Ma_1.62 0 20 2
+#./runSequanceAoA.sh compressible/HiSA/validation/AGARD-B_Ma_2.41 0 20 2
