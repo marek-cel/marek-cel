@@ -3,7 +3,7 @@ set output "Ma_2.41_CD.png"
 set xlabel "Angle of Attack [deg]"
 set ylabel "Drag Coefficient [-]"
 set xrange [0: 6]
-set yrange [0.02: 0.06]
+set yrange [0.04: 0.08]
 set xtics 1
 set ytics nomirror
 set key left top

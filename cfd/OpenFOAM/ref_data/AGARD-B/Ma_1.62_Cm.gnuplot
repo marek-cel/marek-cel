@@ -3,7 +3,7 @@ set output "Ma_1.62_Cm.png"
 set xlabel "Angle of Attack [deg]"
 set ylabel "Pitching Moment Coefficient [-]"
 set xrange [0: 6]
-set yrange [-0.06: 0.02]
+set yrange [0.0: 0.06]
 set xtics 1
 set ytics nomirror
 set key left top
@@ -15,4 +15,5 @@ set style line 3 lc rgb '#00ff00' lw 2 pt 1 ps 0
 set style line 4 lc rgb '#000000' lw 2 pt 1 ps 0
 set datafile separator ","
 plot \
-  "NACA-TN-3300/Ma_1.62_Cm.csv" using 1:2 with linespoints ls 1 title "NACA-TN-3300",
+  "NACA-TN-3300/Ma_1.62_Cm.csv" using 1:2 with linespoints ls 1 title "NACA-TN-3300", \
+  "OpenFOAM/Ma_1.62_Cm.csv" using 1:2 with linespoints ls 2 title "OpenFOAM",

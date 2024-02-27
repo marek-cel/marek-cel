@@ -3,7 +3,7 @@ set output "Ma_0.20_Cm.png"
 set xlabel "Angle of Attack [deg]"
 set ylabel "Pitching Moment Coefficient [-]"
 set xrange [0: 20]
-set yrange [-0.2: 0.04]
+set yrange [-0.04: 0.2]
 set xtics 5
 set ytics nomirror
 set key left top
