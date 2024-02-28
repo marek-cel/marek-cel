@@ -15,4 +15,5 @@ set style line 3 lc rgb '#00ff00' lw 2 pt 1 ps 0
 set style line 4 lc rgb '#000000' lw 2 pt 1 ps 0
 set datafile separator ","
 plot \
-  "NACA-TN-3300/Ma_2.41_Cm.csv" using 1:2 with linespoints ls 1 title "NACA-TN-3300",
+  "NACA-TN-3300/Ma_2.41_Cm.csv" using 1:2 with linespoints ls 1 title "NACA-TN-3300", \
+  "OpenFOAM/Ma_2.41_Cm.csv" using 1:2 with linespoints ls 2 title "OpenFOAM",
