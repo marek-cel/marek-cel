@@ -113,3 +113,7 @@ FORMS += \
 
 RESOURCES += \
     project.qrc
+
+DISTFILES += \
+    shader.frag \
+    shader.vert
