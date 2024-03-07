@@ -18,7 +18,7 @@ SceneRoot::SceneRoot()
     stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
-    osg::ref_ptr<osg::Node> glider = osgDB::readNodeFile( "../00_data/glider.osgt" );
+    osg::ref_ptr<osg::Node> glider = osgDB::readNodeFile( "../../OpenSceneGraph-Data-3.0.0/glider.osgt" );
 
     if ( glider.valid() )
     {

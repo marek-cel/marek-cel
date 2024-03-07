@@ -73,7 +73,7 @@ SceneRoot::SceneRoot()
     stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
-    osg::Node* loadedModel = osgDB::readNodeFile( "../00_data/cessna.osgt" );
+    osg::Node* loadedModel = osgDB::readNodeFile( "../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
 
     osg::ref_ptr<osg::Material> material = new osg::Material;
     material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f) );

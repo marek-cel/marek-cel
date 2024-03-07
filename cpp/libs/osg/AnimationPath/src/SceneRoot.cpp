@@ -83,15 +83,14 @@ void SceneRoot::CreateAnimation()
     path->insert(0.0, osg::AnimationPath::ControlPoint(osg::Vec3(0.0, 0.0, 0.0)));
     path->insert(5.0, osg::AnimationPath::ControlPoint(osg::Vec3(3.0, 0.0, 0.0)));
 
-    //osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback();
-    osg::ref_ptr<AnimationPathCallback> apcb = new AnimationPathCallback();
+    osg::ref_ptr<osg::AnimationPathCallback> apcb = new osg::AnimationPathCallback();
 
-    apcb->setValue(2.5);
+    //osg::ref_ptr<AnimationPathCallback> apcb = new AnimationPathCallback();
+    //apcb->setValue(2.5);
 
     apcb->setAnimationPath(path.release());
     mt_->setUpdateCallback( apcb.get() );
 
-    //apcb->setTimeOffset(2.5);
-    //apcb->update(*mt_);
+    apcb->update(*mt_);
     //apcb->setPause(true);
 }

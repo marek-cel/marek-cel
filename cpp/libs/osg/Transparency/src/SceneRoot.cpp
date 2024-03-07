@@ -57,7 +57,7 @@ SceneRoot::SceneRoot()
     shape1->setShape( new osg::Box(osg::Vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f) );
     geode->addDrawable( shape1.get() );
 
-    osg::ref_ptr<osg::Node> loadedModel = osgDB::readNodeFile( "../00_data/cessna.osgt" );
+    osg::ref_ptr<osg::Node> loadedModel = osgDB::readNodeFile( "../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
     //_root->addChild( loadedModel.get() );
 
     //createBlock( _root.get() );
@@ -113,7 +113,7 @@ void SceneRoot::createSprite( osg::Group *parent )
 
     // texture
     osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D();
-    texture->setImage( osgDB::readImageFile( "../00_data/cloud.png" ) );
+    texture->setImage( osgDB::readImageFile( "../../Data/cloud.png" ) );
     billboardStateSet->setTextureAttributeAndModes( 0, texture.get(), osg::StateAttribute::ON );
 
     // material

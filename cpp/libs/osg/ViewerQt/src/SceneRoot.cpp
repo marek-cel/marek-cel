@@ -19,6 +19,17 @@ SceneRoot::SceneRoot()
     stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
     stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
 
+    CreateScene();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+SceneRoot::~SceneRoot() {}
+
+////////////////////////////////////////////////////////////////////////////////
+
+void SceneRoot::CreateScene()
+{
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _root->addChild( geode.get() );
 
@@ -27,7 +38,3 @@ SceneRoot::SceneRoot()
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable( box.get() );
     geode->addDrawable( shape.get() );
 }
-
-////////////////////////////////////////////////////////////////////////////////
-
-SceneRoot::~SceneRoot() {}
