@@ -31,6 +31,7 @@ function installEssentials()
             mc \
             mesa-utils \
             mplayer \
+            nfs-common \
             okular \
             openssh-server \
             plasma-desktop \
@@ -50,6 +51,8 @@ function installEssentials()
             webp \
             whois \
             xboxdrv
+        
+        sudo flatpak install flathub md.obsidian.Obsidian
 
         # BRAVE BROWSER
         readBold "Do you want to install BRAVE BROWSER? y or n"

@@ -65,12 +65,17 @@ function installExtras()
             cpu-checker
         
         sudo apt install -y \
-            qemu-kvm \
-            virt-manager \
-            libvirt-daemon-system \
-            virtinst \
+            bridge-utils \
+            guestfs-tools \
             libvirt-clients \
-            bridge-utils
+            libvirt-daemon-system \
+            ovmf \
+            qemu-kvm \
+            qemu-system-x86 \
+            qemu-utils \
+            virt-manager \
+            virt-viewer \
+            virtinst
 
         sudo systemctl enable --now libvirtd
         sudo systemctl start libvirtd

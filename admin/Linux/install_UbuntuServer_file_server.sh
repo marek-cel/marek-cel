@@ -14,6 +14,7 @@ function installFileServer()
         printGreen "Installing FILE SERVER..."
 
         sudo apt install -y \
+            nfs-kernel-server \
             samba \
             vsftpd
     fi
