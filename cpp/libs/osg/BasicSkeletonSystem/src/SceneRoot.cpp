@@ -1,8 +1,9 @@
 #include <SceneRoot.h>
 
+#include <iostream>
+
 #include <osg/LineWidth>
 #include <osg/Geometry>
-
 
 #include <osgAnimation/Skeleton>
 #include <osgAnimation/UpdateBone>
@@ -38,98 +39,184 @@ void SceneRoot::CreateScene()
 {
     osg::ref_ptr<osgAnimation::Skeleton> skelroot = new osgAnimation::Skeleton;
     skelroot->setDefaultUpdateCallback();
+    _root->addChild(skelroot.get());
 
-    osgAnimation::Bone* bone0  = createBone(    "bone0"  , osg::Vec3( 0.0,  0.0, 0.0), skelroot.get() );
+//    osg::ref_ptr<osg::Geode> geodeXp = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(1.0, 0.0, 0.0));
+//    osg::ref_ptr<osg::Geode> geodeXn = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(-1.0, 0.0, 0.0));
 
-    osgAnimation::Bone* bone11 = createBone(    "bone11" , osg::Vec3( 0.5,  0.0, 0.0), bone0 );
-    osgAnimation::Bone* bone12 = createEndBone( "bone12" , osg::Vec3( 1.0,  0.0, 0.0), bone11 );
+//    osg::ref_ptr<osg::Geode> geodeYp = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(0.0, 1.0, 0.0));
+//    osg::ref_ptr<osg::Geode> geodeYn = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(0.0, -1.0, 0.0));
 
-//    osgAnimation::Bone* bone21 = createBone(    "bone21" , osg::Vec3(-0.5,  0.0, 0.0), bone0 );
-//    osgAnimation::Bone* bone22 = createEndBone( "bone22" , osg::Vec3(-1.0,  0.0, 0.0), bone21 );
+//    osg::ref_ptr<osg::Geode> geodeZp = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(0.0, 0.0, 1.0));
+//    osg::ref_ptr<osg::Geode> geodeZn = createBoneShape(osg::Vec3d(0.0, 0.0, 0.0), osg::Vec3d(0.0, 0.0, -1.0));
 
-//    osgAnimation::Bone* bone31 = createBone(    "bone31" , osg::Vec3( 0.0,  0.5, 0.0), bone0 );
-//    osgAnimation::Bone* bone32 = createEndBone( "bone32" , osg::Vec3( 0.0,  1.0, 0.0), bone31 );
+//    _root->addChild(geodeXp.get());
+//    _root->addChild(geodeXn.get());
+//    _root->addChild(geodeYp.get());
+//    _root->addChild(geodeYn.get());
+//    _root->addChild(geodeZp.get());
+//    _root->addChild(geodeZn.get());
 
-//    osgAnimation::Bone* bone41 = createBone(    "bone41" , osg::Vec3( 0.0, -0.5, 0.0), bone0 );
-//    osgAnimation::Bone* bone42 = createEndBone( "bone42" , osg::Vec3( 0.0, -1.0, 0.0), bone41 );
+    osgAnimation::Bone* bone0  = createBone("bone0"  , osg::Vec3(0.0, 0.0, 0.0), skelroot.get());
+
+    osgAnimation::Bone* bone11 = createBone("bone11" , osg::Vec3(0.5, 0.0, 0.0), bone0);
+
+    osgAnimation::Bone* bone12 = createEndBone("bone12", osg::Vec3(1.0,  0.0, 0.0), bone11);
 
     osg::ref_ptr<osgAnimation::Animation> anim = new osgAnimation::Animation;
-    anim->setPlayMode( osgAnimation::Animation::PPONG );
-    anim->addChannel( createChannel("bone11", osg::Y_AXIS, osg::PI_4) );
-    anim->addChannel( createChannel("bone12", osg::Y_AXIS, osg::PI_2) );
-//    anim->addChannel( createChannel("bone21", osg::Y_AXIS,-osg::PI_4) );
-//    anim->addChannel( createChannel("bone22", osg::Y_AXIS,-osg::PI_2) );
-//    anim->addChannel( createChannel("bone31", osg::X_AXIS,-osg::PI_4) );
-//    anim->addChannel( createChannel("bone32", osg::X_AXIS,-osg::PI_2) );
-//    anim->addChannel( createChannel("bone41", osg::X_AXIS, osg::PI_4) );
-//    anim->addChannel( createChannel("bone42", osg::X_AXIS, osg::PI_2) );
+    anim->setPlayMode(osgAnimation::Animation::PPONG);
+    anim->addChannel(createChannel("bone11", osg::Y_AXIS, osg::PI_4));
+    anim->addChannel(createChannel("bone12", osg::Y_AXIS, osg::PI_2));
 
-    osg::ref_ptr<osgAnimation::BasicAnimationManager> manager = new osgAnimation::BasicAnimationManager;
-    manager->registerAnimation( anim.get() );
-    manager->playAnimation( anim.get() );
+    osg::ref_ptr<osgAnimation::BasicAnimationManager> manager = new osgAnimation::BasicAnimationManager();
+    manager->registerAnimation(anim.get());
+    manager->playAnimation(anim.get());
 
-    _root->addChild( skelroot.get() );
-    _root->setUpdateCallback( manager.get() );
+    _root->setUpdateCallback(manager.get());
 }
+
+////////////////////////////////////////////////////////////////////////////////
 
 osgAnimation::Bone* SceneRoot::createBone(const char* name, const osg::Vec3& trans, osg::Group* parent)
 {
-    osg::ref_ptr<osgAnimation::Bone> bone = new osgAnimation::Bone;
-    parent->insertChild( 0, bone.get() );
-    parent->addChild( createBoneShape(trans, osg::Vec4(1.0f, 1.0f, 1.0f, 1.0f)) );
+    osg::ref_ptr<osgAnimation::Bone> bone = new osgAnimation::Bone();
+    parent->insertChild(0, bone.get());
+    parent->addChild(createBoneShape(osg::Vec3d(), trans));
 
     osg::ref_ptr<osgAnimation::UpdateBone> updater = new osgAnimation::UpdateBone(name);
-    updater->getStackedTransforms().push_back( new osgAnimation::StackedTranslateElement("translate", trans) );
-    updater->getStackedTransforms().push_back( new osgAnimation::StackedQuaternionElement("quaternion") );
-
+    updater->getStackedTransforms().push_back(new osgAnimation::StackedTranslateElement("translate", trans));
+    updater->getStackedTransforms().push_back(new osgAnimation::StackedQuaternionElement("quaternion"));
     bone->setUpdateCallback( updater.get() );
-    bone->setMatrixInSkeletonSpace( osg::Matrix::translate(trans) * bone->getMatrixInSkeletonSpace() );
+
+    bone->setMatrixInSkeletonSpace(osg::Matrix::translate(trans) * bone->getMatrixInSkeletonSpace());
     bone->setName( name );
 
     return bone.get();
 }
 
-osg::Geode* SceneRoot::createBoneShape( const osg::Vec3& trans,
-                                        const osg::Vec4& color )
+////////////////////////////////////////////////////////////////////////////////
+
+osgAnimation::Bone* SceneRoot::createEndBone(const char* name, const osg::Vec3& trans, osg::Group* parent)
 {
-    osg::ref_ptr<osg::Vec3Array> va = new osg::Vec3Array;
-    va->push_back( osg::Vec3() );
-    va->push_back( trans );
+    osgAnimation::Bone* bone = createBone(name, trans, parent);
+    bone->addChild(createBoneShape(osg::Vec3d(), trans));
+    return bone;
+}
 
-    osg::ref_ptr<osg::Vec4Array> ca = new osg::Vec4Array;
-    ca->push_back( color );
+////////////////////////////////////////////////////////////////////////////////
 
-    osg::ref_ptr<osg::Geometry> line = new osg::Geometry;
-    line->setVertexArray( va.get() );
-    line->setColorArray( ca.get() );
-    line->setColorBinding( osg::Geometry::BIND_OVERALL );
-    line->addPrimitiveSet( new osg::DrawArrays(GL_LINES, 0, 2) );
+osgAnimation::Channel* SceneRoot::createChannel(const char* name, const osg::Vec3& axis, float rad)
+{
+    osg::ref_ptr<osgAnimation::QuatSphericalLinearChannel> ch = new osgAnimation::QuatSphericalLinearChannel();
+    ch->setName("quaternion");
+    ch->setTargetName(name);
 
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode;
-    geode->addDrawable( line.get() );
-    geode->getOrCreateStateSet()->setAttributeAndModes(
-                new osg::LineWidth(15.0f) );
-    geode->getOrCreateStateSet()->setMode( GL_LIGHTING,
-                                           osg::StateAttribute::OFF );
+    osgAnimation::QuatKeyframeContainer* kfs = ch->getOrCreateSampler()->getOrCreateKeyframeContainer();
+    kfs->push_back( osgAnimation::QuatKeyframe(0.0, osg::Quat(0.0, axis)));
+    kfs->push_back( osgAnimation::QuatKeyframe(8.0, osg::Quat(rad, axis)));
+    return ch.release();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Geode* SceneRoot::createBoneShape(osg::Vec3d vb, osg::Vec3d ve)
+{
+    double length = (ve - vb).length();
+    osg::Vec3d v_tang = (ve - vb) / length;
+    osg::Vec3d v_norm = getOrthogonal(v_tang);
+    osg::Vec3d v_bnrm = v_tang ^ v_norm;
+    v_norm.normalize();
+    v_bnrm.normalize();
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+
+    n->push_back(osg::Vec3(0.0, 0.0, 1.0));
+    c->push_back(osg::Vec4(1.0, 0.0, 1.0, 1.0));
+
+    v->push_back(vb);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+    v->push_back(vb);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+
+    v->push_back(vb + v_tang * length);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length + v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * length);
+    v->push_back(vb + v_tang * 0.2 * length + v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+    v->push_back(vb + v_tang * length);
+    v->push_back(vb + v_tang * 0.2 * length - v_norm * 0.1 * length - v_bnrm * 0.1 * length);
+
+
+    geom->setVertexArray(v.get());
+    geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, v->size()));
+
+    geom->setNormalArray(n.get());
+    geom->setNormalBinding(osg::Geometry::BIND_OVERALL);
+    geom->setColorArray(c.get());
+    geom->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+    geode->addDrawable(geom.get());
+
+    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+    lineWidth->setWidth(2.0);
+
+    osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
+    stateSet->setAttributeAndModes(lineWidth, osg::StateAttribute::ON);
+    stateSet->setMode(GL_LIGHTING   , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
+    stateSet->setMode(GL_DEPTH_TEST , osg::StateAttribute::OFF | osg::StateAttribute::OVERRIDE);
+    stateSet->setRenderBinDetails(99, "DepthSortedBin");
 
     return geode.release();
 }
 
-osgAnimation::Bone* SceneRoot::createEndBone( const char* name, const osg::Vec3& trans, osg::Group* parent )
+////////////////////////////////////////////////////////////////////////////////
+
+osg::Vec3d SceneRoot::getOrthogonal(osg::Vec3d v)
 {
-    osgAnimation::Bone* bone = createBone( name, trans, parent );
-    bone->addChild( createBoneShape(trans, osg::Vec4(0.4f, 1.0f, 0.4f, 1.0f)) );
-    return bone;
+    osg::ref_ptr<osg::Vec3Array> e = new osg::Vec3Array();
+    e->push_back(osg::Vec3d(1.0, 0.0, 0.0));
+    e->push_back(osg::Vec3d(0.0, 1.0, 0.0));
+    e->push_back(osg::Vec3d(0.0, 0.0, 1.0));
+
+    double d[3];
+
+    d[0] = v * e->at(0);
+    d[1] = v * e->at(1);
+    d[2] = v * e->at(2);
+
+    int i_min = 0;
+    for ( int i = 0; i < 3; ++i )
+    {
+        if ( fabs(d[i]) < fabs(d[i_min]) ) i_min = i;
+    }
+
+    return v ^ e->at(i_min);
 }
 
-osgAnimation::Channel* SceneRoot::createChannel( const char* name, const osg::Vec3& axis, float rad )
-{
-    osg::ref_ptr<osgAnimation::QuatSphericalLinearChannel> ch = new osgAnimation::QuatSphericalLinearChannel;
-    ch->setName( "quaternion" );
-    ch->setTargetName( name );
+////////////////////////////////////////////////////////////////////////////////
 
-    osgAnimation::QuatKeyframeContainer* kfs = ch->getOrCreateSampler()->getOrCreateKeyframeContainer();
-    kfs->push_back( osgAnimation::QuatKeyframe(0.0, osg::Quat(0.0, axis)) );
-    kfs->push_back( osgAnimation::QuatKeyframe(8.0, osg::Quat(rad, axis)) );
-    return ch.release();
+osg::Vec3d SceneRoot::getNormal(osg::Vec3d v0, osg::Vec3d v1, osg::Vec3d v2)
+{
+    osg::Vec3d vn = (v1 - v0) ^ (v2 - v0);
+    vn.normalize();
+    return vn;
 }

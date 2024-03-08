@@ -27,15 +27,16 @@ private:
 
     void CreateScene();
 
-    osg::Geode* createBoneShape( const osg::Vec3& trans,
-                                 const osg::Vec4& color );
+    osgAnimation::Bone* createBone(const char* name, const osg::Vec3& trans, osg::Group* parent);
+    osgAnimation::Bone* createEndBone(const char* name, const osg::Vec3& trans, osg::Group* parent);
 
-    osgAnimation::Bone* createBone( const char* name, const osg::Vec3& trans,
-                                    osg::Group* parent );
+    osgAnimation::Channel* createChannel(const char* name, const osg::Vec3& axis, float rad);
 
-    osgAnimation::Bone* createEndBone( const char* name, const osg::Vec3& trans, osg::Group* parent );
+    osg::Geode* createBoneShape(osg::Vec3d vb, osg::Vec3d ve);
 
-    osgAnimation::Channel* createChannel( const char* name, const osg::Vec3& axis, float rad );
+    osg::Vec3d getOrthogonal(osg::Vec3d v);
+
+    osg::Vec3d getNormal(osg::Vec3d v0, osg::Vec3d v1, osg::Vec3d v2);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
