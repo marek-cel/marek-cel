@@ -6,9 +6,9 @@ TEMPLATE = app
 
 ################################################################################
 
-TARGET = project
+TARGET = hello-world
 
-DESTDIR = ../bin
+DESTDIR = $$PWD/bin
 
 greaterThan(QT_MAJOR_VERSION, 4):win32: DEFINES += USE_QT5
 
@@ -32,6 +32,8 @@ win32:CONFIG(debug, debug|release): DEFINES += \
 unix: DEFINES += _LINUX_
 
 ################################################################################
+
+INCLUDEPATH += ./src
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/
@@ -94,26 +96,26 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    GraphicsWindowQt.h \
-    KeyMap.h \
-    MainWindow.h \
-    SceneRoot.h \
-    WidgetCGI.h
+    $$PWD/src/GraphicsWindowQt.h \
+    $$PWD/src/KeyMap.h \
+    $$PWD/src/MainWindow.h \
+    $$PWD/src/SceneRoot.h \
+    $$PWD/src/WidgetCGI.h
 
 SOURCES += \
-    GraphicsWindowQt.cpp \
-    KeyMap.cpp \
-    main.cpp \
-    MainWindow.cpp \
-    SceneRoot.cpp \
-    WidgetCGI.cpp
+    $$PWD/src/GraphicsWindowQt.cpp \
+    $$PWD/src/KeyMap.cpp \
+    $$PWD/src/main.cpp \
+    $$PWD/src/MainWindow.cpp \
+    $$PWD/src/SceneRoot.cpp \
+    $$PWD/src/WidgetCGI.cpp
 
 FORMS += \
-    MainWindow.ui
+    $$PWD/src/MainWindow.ui
 
 RESOURCES += \
-    project.qrc
+    $$PWD/src/project.qrc
 
 DISTFILES += \
-    shader.frag \
-    shader.vert
+    $$PWD/src/shader.frag \
+    $$PWD/src/shader.vert
