@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 
     SceneRoot sceneRoot;
 
-    viewer.setUpViewInWindow(0, 0, 800, 600);
+    viewer.setUpViewInWindow(400, 200, 800, 600);
     viewer.setSceneData(sceneRoot.getNode());
 
     return viewer.run();
