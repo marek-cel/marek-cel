@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "ref_ptr": "cpp",
+        "stateattribute": "cpp"
+    }
+}

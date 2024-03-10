@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "referenced": "cpp",
+        "matrixtransform": "cpp"
+    }
+}
