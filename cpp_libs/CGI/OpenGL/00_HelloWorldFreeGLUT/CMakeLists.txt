@@ -53,8 +53,7 @@ include_directories(${GLUT_INCLUDE_DIR})
 
 ################################################################################
 
-include_directories(. ./src ${OPENGL_INCLUDE_DIRS})
-
+include_directories(. ./src)
 
 ################################################################################
 
@@ -67,7 +66,8 @@ set(SOURCES
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
-    ${OPENGL_LIBRARY_DIRS}
+    ${OPENGL_LIBRARIES}
+    ${GLUT_LIBRARIES}
 )
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})
