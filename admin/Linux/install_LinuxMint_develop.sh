@@ -103,6 +103,7 @@ function installDevelopEssentials()
                 libeigen3-dev \
                 libfltk1.3-dev \
                 libgdal-dev \
+                libglfw3-dev \
                 libgnuplot-iostream-dev \
                 liboce-foundation-dev \
                 liboce-modeling-dev \
