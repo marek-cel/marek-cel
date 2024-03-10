@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "referenced": "cpp",
-        "animationpath": "cpp"
-    }
-}

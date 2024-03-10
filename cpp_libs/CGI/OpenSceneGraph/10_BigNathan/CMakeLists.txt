@@ -60,10 +60,11 @@ find_package(OpenSceneGraph REQUIRED
     osgWidget
 )
 
+include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+
 ################################################################################
 
-include_directories(. ./src ${OPENSCENEGRAPH_INCLUDE_DIRS})
-
+include_directories(. ./src)
 
 ################################################################################
 

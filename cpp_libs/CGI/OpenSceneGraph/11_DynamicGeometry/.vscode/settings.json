@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "referenced": "cpp",
-        "group": "cpp",
-        "geometry": "cpp",
-        "vec4f": "cpp"
-    }
-}

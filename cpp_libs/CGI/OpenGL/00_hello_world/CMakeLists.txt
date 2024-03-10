@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(AnimatedSwitch)
+project(HelloWorld)
 
 ################################################################################
 
@@ -45,33 +45,21 @@ endif()
 
 ################################################################################
 
-find_package(OpenSceneGraph REQUIRED
-    OpenThreads
-    osg
-    osgAnimation
-    osgDB
-    osgFX
-    osgGA
-    osgParticle
-    osgSim
-    osgText
-    osgUtil
-    osgViewer
-    osgWidget
-)
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIRS})
 
-include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
+find_package(GLUT REQUIRED)
+include_directories(${GLUT_INCLUDE_DIR})
 
 ################################################################################
 
-include_directories(. ./src)
+include_directories(. ./src ${OPENGL_INCLUDE_DIRS})
+
 
 ################################################################################
 
 set(SOURCES
     src/main.cpp
-    src/SceneRoot.cpp
-    src/SwitchingCallback.cpp
 )
 
 ################################################################################
@@ -79,7 +67,7 @@ set(SOURCES
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
-    ${OPENSCENEGRAPH_LIBRARIES}
+    ${OPENGL_LIBRARY_DIRS}
 )
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})
