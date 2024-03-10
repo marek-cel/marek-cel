@@ -164,6 +164,21 @@ function installDevelopEssentials()
                 libgtest-dev
         fi
 
+        # LIBSDL2
+        readBold "Do you want to install LIBSDL2? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing LIBSDL2 ..."
+            
+            sudo apt install -y \
+                libsdl2-dev \
+                libsdl2-gfx-dev \
+                libsdl2-image-dev \
+                libsdl2-mixer-dev \
+                libsdl2-net-dev \
+                libsdl2-ttf-dev
+        fi
+
         # OSG
         readBold "Do you want to install OSG? y or n"
         if [[ $REPLY =~ ^[Yy]$ ]]
