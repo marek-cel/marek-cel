@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(hello-world)
+project(HelloWorld)
 
 ################################################################################
 
@@ -25,11 +25,6 @@ elseif(WIN32)
     add_definitions(-D_USE_MATH_DEFINES)
 endif()
 
-if (BUILD_TESTING)
-    add_definitions(-D_GTEST_)
-    add_definitions(-D_TESTS_)
-endif()
-
 ################################################################################
 
 if(UNIX)
@@ -50,22 +45,12 @@ endif()
 
 ################################################################################
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-if(WIN32)
-    find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
-endif()
-
-if(UNIX)
-    find_package(Qt5 REQUIRED COMPONENTS Core Widgets OpenGL)
-endif()
-
 find_package(OpenSceneGraph REQUIRED
     OpenThreads
     osg
+    osgAnimation
     osgDB
+    osgFX
     osgGA
     osgParticle
     osgSim
@@ -82,54 +67,18 @@ include_directories(. ./src ${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 ################################################################################
 
-set(CPP_FILES
+set(SOURCES
     src/main.cpp
-    src/GraphicsWindowQt.cpp
-    src/KeyMap.cpp
-    src/MainWindow.cpp
     src/SceneRoot.cpp
-    src/WidgetCGI.cpp
 )
-
-set(MOC_SRC_FILES
-    src/MainWindow.h
-    src/WidgetCGI.h
-)
-
-set(UIC_SRC_FILES
-    src/MainWindow.ui
-)
-
-set(RCC_SRC_FILES
-    src/project.qrc
-)
-
-set(SOURCES ${CPP_FILES} ${MOC_SRC_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES} ${RCC_SRC_FILES})
-
-if( WIN32 )
-    ENABLE_LANGUAGE(RC)
-    set(SOURCES mc-sim.rc ${SOURCES})
-endif()
 
 ################################################################################
 
 add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
-qt5_use_modules(${PROJECT_NAME} Core Widgets OpenGL)
-
-if(WIN32)
-    set(LIBS
-        ${QT_LIBRARIES}
-        ${OPENSCENEGRAPH_LIBRARIES}
-    )
-endif()
-
-if(UNIX)
-    set(LIBS
-        ${QT_LIBRARIES}
-        ${OPENSCENEGRAPH_LIBRARIES}
-    )
-endif()
+set(LIBS
+    ${OPENSCENEGRAPH_LIBRARIES}
+)
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 

@@ -6,7 +6,7 @@ TEMPLATE = app
 
 ################################################################################
 
-TARGET = hello-world
+TARGET = HelloWorldQt
 
 DESTDIR = $$PWD/bin
 
@@ -57,6 +57,7 @@ win32: LIBS += \
 win32:CONFIG(release, debug|release): LIBS += \
     -lOpenThreads \
     -losg \
+    -losgAnimation \
     -losgDB \
     -losgGA \
     -losgParticle \
@@ -69,6 +70,7 @@ win32:CONFIG(release, debug|release): LIBS += \
 win32:CONFIG(debug, debug|release): LIBS += \
     -lOpenThreadsd \
     -losgd \
+    -losgAnimationd \
     -losgDBd \
     -losgGAd \
     -losgParticled \
@@ -84,6 +86,7 @@ unix: LIBS += \
     -L/usr/local/lib \
     -lOpenThreads \
     -losg \
+    -losgAnimation \
     -losgDB \
     -losgGA \
     -losgParticle \
@@ -96,26 +99,26 @@ unix: LIBS += \
 ################################################################################
 
 HEADERS += \
-    $$PWD/src/GraphicsWindowQt.h \
-    $$PWD/src/KeyMap.h \
-    $$PWD/src/MainWindow.h \
-    $$PWD/src/SceneRoot.h \
-    $$PWD/src/WidgetCGI.h
+    src/GraphicsWindowQt.h \
+    src/KeyMap.h \
+    src/MainWindow.h \
+    src/SceneRoot.h \
+    src/WidgetCGI.h
 
 SOURCES += \
-    $$PWD/src/GraphicsWindowQt.cpp \
-    $$PWD/src/KeyMap.cpp \
-    $$PWD/src/main.cpp \
-    $$PWD/src/MainWindow.cpp \
-    $$PWD/src/SceneRoot.cpp \
-    $$PWD/src/WidgetCGI.cpp
+    src/GraphicsWindowQt.cpp \
+    src/KeyMap.cpp \
+    src/main.cpp \
+    src/MainWindow.cpp \
+    src/SceneRoot.cpp \
+    src/WidgetCGI.cpp
 
 FORMS += \
-    $$PWD/src/MainWindow.ui
+    src/MainWindow.ui
 
 RESOURCES += \
-    $$PWD/src/project.qrc
+    src/project.qrc
 
-DISTFILES += \
-    $$PWD/src/shader.frag \
-    $$PWD/src/shader.vert
+OTHER_FILES += \
+    src/shader.frag \
+    src/shader.vert

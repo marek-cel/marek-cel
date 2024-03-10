@@ -2,9 +2,7 @@
 
 #include <qnamespace.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-osgGA::GUIEventAdapter::KeySymbol KeyMap::remapOSG( int key_qt )
+osgGA::GUIEventAdapter::KeySymbol remapKeysFromQtToOSG(int key_qt)
 {
     switch ( key_qt )
     {

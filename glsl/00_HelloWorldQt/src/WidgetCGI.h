@@ -1,8 +1,6 @@
 #ifndef WIDGETCGI_H
 #define WIDGETCGI_H
 
-////////////////////////////////////////////////////////////////////////////////
-
 #include <QDateTime>
 #include <QGridLayout>
 #include <QWidget>
@@ -14,46 +12,32 @@
 
 #include <GraphicsWindowQt.h>
 
-////////////////////////////////////////////////////////////////////////////////
-
-/** This is widget wrapper for CGI. */
 class WidgetCGI : public QWidget, public osgViewer::Viewer
 {
     Q_OBJECT
 
 public:
 
-    /** Constructor. */
-    WidgetCGI( QWidget *parent = 0 );
-
-    /** Destructor. */
+    WidgetCGI(QWidget* parent = nullptr);
     virtual ~WidgetCGI();
 
-    /** */
     void update();
 
 protected:
 
-    /** */
     void paintEvent( QPaintEvent *event );
 
 private:
 
-    QGridLayout *_gridLayout;
-
+    QGridLayout* _gridLayout = nullptr;
     osg::ref_ptr< GraphicsWindowQt > _gwin;
-
-    SceneRoot *_sceneRoot;
+    SceneRoot* _sceneRoot = nullptr;
 
     QWidget* addViewWidget();
-
     void createCamera();
-
     GraphicsWindowQt* createGraphicsWindow( int x, int y, int w, int h,
                                             const std::string &name = "",
                                             bool windowDecoration = false );
 };
-
-////////////////////////////////////////////////////////////////////////////////
 
 #endif // WIDGETCGI_H
