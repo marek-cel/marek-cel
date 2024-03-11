@@ -48,7 +48,8 @@ endif()
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
 
-find_package(glfw3 3.3 REQUIRED)
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIRS})
 
 ################################################################################
 
@@ -66,7 +67,7 @@ add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
     ${OPENGL_LIBRARIES}
-    glfw
+    ${SDL2_LIBRARIES}
 )
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})

@@ -9,48 +9,58 @@ int main(int argc, char* argv[])
 {
     std::cout << "Hello World!" << std::endl;
 
-// Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+    // Initialize SDL
+    if ( SDL_Init(SDL_INIT_VIDEO) < 0 ) 
+    {
         fprintf(stderr, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 
     // Create a window
-    SDL_Window* window = SDL_CreateWindow("Simple SDL Example", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_SHOWN);
-    if (window == nullptr) {
+    SDL_Window* window = SDL_CreateWindow("SDL", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+        800, 600, SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN);
+    if ( window == nullptr )
+    {
         fprintf(stderr, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
         return -1;
     }
 
-    // Create a renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == nullptr) {
-        fprintf(stderr, "Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+    // Create an OpenGL context
+    SDL_GLContext context = SDL_GL_CreateContext(window);
+    if (!context)
+    {
+        std::cerr << "OpenGL context creation failed: " << SDL_GetError() << std::endl;
         return -1;
     }
 
-    // Set the draw color to black
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+    // Set OpenGL attributes
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-    // Clear the screen
-    SDL_RenderClear(renderer);
+    SDL_GL_MakeCurrent(window, context);
+    SDL_GL_SwapWindow(window);
 
-    // Set the draw color to red
-    SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+    // Main loop
+    bool quit = false;
+    while (!quit)
+    {
+        SDL_Event e;
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                quit = true;
+            }
+        }
 
-    // Draw a triangle
-    SDL_RenderDrawLine(renderer, 400, 100, 200, 500);
-    SDL_RenderDrawLine(renderer, 200, 500, 600, 500);
-    SDL_RenderDrawLine(renderer, 600, 500, 400, 100);
+        drawScene();
 
-    // Present the renderer
-    SDL_RenderPresent(renderer);
-
-    // Wait for a few seconds to see the window (replace with your own event loop as needed)
-    SDL_Delay(3000);
+        // Swap buffers
+        SDL_GL_SwapWindow(window);
+    }
 
     // Cleanup and exit
-    SDL_DestroyRenderer(renderer);
+    SDL_GL_DeleteContext(context);
     SDL_DestroyWindow(window);
     SDL_Quit();
 
