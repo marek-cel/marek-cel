@@ -4,7 +4,10 @@
 
 #include <GL/gl.h>
 #include <GL/glu.h>
+
 #include <GLFW/glfw3.h>
+
+void drawScene();
 
 int main(int argc, char* argv[])
 {
@@ -29,15 +32,18 @@ int main(int argc, char* argv[])
 
     glfwMakeContextCurrent(window);
 
-    std::cout << "" << std::endl;
-    std::cout << "" << "OpenGL Vendor: "   << glGetString(GL_VENDOR)   << std::endl;
-    std::cout << "" << "OpenGL Renderer: " << glGetString(GL_RENDERER) << std::endl;
-    std::cout << "" << "OpenGL Version: "  << glGetString(GL_VERSION)  << std::endl;
-    std::cout << "" << "OpenGL Shading Language Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
-    std::cout << "" << std::endl;
+    glViewport(0, 0, 800, 600);
+    float h2w = 600.0 / 800.0;
+    //glFrustum(-1.0f, 1.0f, -1.0f*h2w, 1.0f*h2w, 1.0f, 10.0f);
+    glOrtho(-1.0f, 1.0f, -1.0f*h2w, 1.0f*h2w, 1.0f, 10.0f);
+
+    glMatrixMode(GL_MODELVIEW);
+    glEnable(GL_DEPTH_TEST);
 
     while (!glfwWindowShouldClose(window))
     {
+        drawScene();
+        glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
@@ -45,4 +51,18 @@ int main(int argc, char* argv[])
     glfwTerminate();
 
     return 0;
+}
+
+void drawScene()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0.0f, 0.0f, -1.0f);
+    const float size = 0.5f;
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_TRIANGLES);
+    glVertex3f(-size, -size, 0.0f);
+    glVertex3f(size, -size, 0.0f);
+    glVertex3f(0.0f, size, 0.0f);
+    glEnd();
 }

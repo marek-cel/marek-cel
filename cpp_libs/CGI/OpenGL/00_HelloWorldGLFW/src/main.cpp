@@ -31,7 +31,6 @@ int main(int argc, char* argv[])
     while (!glfwWindowShouldClose(window))
     {
         drawScene();
-
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
