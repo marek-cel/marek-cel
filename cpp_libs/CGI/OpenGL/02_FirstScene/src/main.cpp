@@ -9,6 +9,7 @@
 
 void drawScene();
 void drawScene2();
+void drawScene3();
 
 int main(int argc, char* argv[])
 {
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
 
     while (!glfwWindowShouldClose(window))
     {
-        drawScene2();
+        drawScene3();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -75,6 +76,25 @@ void drawScene2()
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
     glTranslatef(0.0f, 0.0f, -3.0f);
+    glMatrixMode(GL_MODELVIEW);
+    const float size = 0.5f;
+    glBegin(GL_TRIANGLES);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(-size, -size, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(size, -size, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
+    glVertex3f(0.0f, size, 0.0f);
+    glEnd();
+}
+
+void drawScene3()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    
+    glTranslatef(0.0f, 1.0f, -3.0f);
+    glRotatef(80.0, 1.0, 0.0, 0.0);
     const float size = 0.5f;
     glBegin(GL_TRIANGLES);
     glColor3f(1.0f, 0.0f, 0.0f);
