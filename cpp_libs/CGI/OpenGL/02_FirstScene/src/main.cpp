@@ -8,6 +8,7 @@
 #include <GLFW/glfw3.h>
 
 void drawScene();
+void drawScene2();
 
 int main(int argc, char* argv[])
 {
@@ -33,16 +34,18 @@ int main(int argc, char* argv[])
     glfwMakeContextCurrent(window);
 
     glViewport(0, 0, 800, 600);
-    float h2w = 600.0 / 800.0;
-    //glFrustum(-1.0f, 1.0f, -1.0f*h2w, 1.0f*h2w, 1.0f, 10.0f);
-    glOrtho(-1.0f, 1.0f, -1.0f*h2w, 1.0f*h2w, 1.0f, 10.0f);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    double h2w = 600.0 / 800.0;
+    glFrustum(-1.0, 1.0, -1.0*h2w, 1.0*h2w, 1.0, 10.0);
+    //glOrtho(-1.0, 1.0, -1.0*h2w, 1.0*h2w, 1.0, 10.0);
 
     glMatrixMode(GL_MODELVIEW);
     glEnable(GL_DEPTH_TEST);
 
     while (!glfwWindowShouldClose(window))
     {
-        drawScene();
+        drawScene2();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
@@ -63,6 +66,22 @@ void drawScene()
     glBegin(GL_TRIANGLES);
     glVertex3f(-size, -size, 0.0f);
     glVertex3f(size, -size, 0.0f);
+    glVertex3f(0.0f, size, 0.0f);
+    glEnd();
+}
+
+void drawScene2()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+    glTranslatef(0.0f, 0.0f, -3.0f);
+    const float size = 0.5f;
+    glBegin(GL_TRIANGLES);
+    glColor3f(1.0f, 0.0f, 0.0f);
+    glVertex3f(-size, -size, 0.0f);
+    glColor3f(0.0f, 1.0f, 0.0f);
+    glVertex3f(size, -size, 0.0f);
+    glColor3f(0.0f, 0.0f, 1.0f);
     glVertex3f(0.0f, size, 0.0f);
     glEnd();
 }
