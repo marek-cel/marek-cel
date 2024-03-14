@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(FirstScene)
+project(VertexBuffers)
 
 ################################################################################
 
@@ -50,6 +50,9 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 
 find_package(glfw3 3.3 REQUIRED)
 
+find_package(GLEW REQUIRED)
+include_directories(${GLEW_INCLUDE_DIRS})
+
 ################################################################################
 
 include_directories(. ./src)
@@ -67,6 +70,7 @@ add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
     ${OPENGL_LIBRARIES}
+    ${GLEW_LIBRARIES}
     glfw
 )
 

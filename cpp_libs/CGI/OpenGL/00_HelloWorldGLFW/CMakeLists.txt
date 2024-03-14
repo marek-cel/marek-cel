@@ -58,6 +58,7 @@ include_directories(. ./src)
 
 set(SOURCES
     src/main.cpp
+    src/WindowGL.cpp
 )
 
 ################################################################################
