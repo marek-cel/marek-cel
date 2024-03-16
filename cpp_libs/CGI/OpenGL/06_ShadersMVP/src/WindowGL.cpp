@@ -112,17 +112,48 @@ void WindowGL::SceneSetup()
     GLint paramWaveColor = glGetUniformLocation(shaderProgramId_, "WaveColor");
     float waveColor[4] = { 1.0, 1.0, 0.0, 1.0 };
     glUniform4fv(paramWaveColor, 1, waveColor);
+
+    GLint paramMatModel = glGetUniformLocation(shaderProgramId_, "matModel");
+    float matModel[16] =
+    {
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    };
+    glUniformMatrix4fv(paramMatModel, 1, true, matModel);
+
+    GLint paramMatView = glGetUniformLocation(shaderProgramId_, "matView");
+    float matView[16] =
+    {
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, -1.0,
+        0.0, 0.0, 0.0, 1.0
+    };
+    glUniformMatrix4fv(paramMatView, 1, true, matView);
+
+    GLint paramMatProj = glGetUniformLocation(shaderProgramId_, "matProj");
+    float matProj[16] =
+    {
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.41, 0.0, 0.0,
+        0.0, 0.0, -1.22, -2.22,
+        0.0, 0.0, -1.0, 0.0
+    };
+    glUniformMatrix4fv(paramMatProj, 1, true, matProj);
 }
 
 void WindowGL::InitVertexBuffer()
 {
+    const float del = 0.5;
     const Vertex vertices[] = 
     {
-        Vertex(-1.0, -1.0, -1.0, 1, 0, 0, 1),
-        Vertex( 1.0, -1.0, -1.0, 0, 1, 0, 1),
-        Vertex( 0.0,  1.0, -1.0, 0, 0, 1, 1),
-        Vertex(-1.0,  1.0, -1.0, 1, 1, 0, 1),
-        Vertex( 1.0,  1.0, -1.0, 1, 0, 1, 1)
+        Vertex(-del, -del, -del, 1, 0, 0, 1),
+        Vertex( del, -del, -del, 0, 1, 0, 1),
+        Vertex( 0.0,  del, -del, 0, 0, 1, 1),
+        Vertex(-del,  del, -del, 1, 1, 0, 1),
+        Vertex( del,  del, -del, 1, 0, 1, 1)
     };
 
     GLuint positionAttribute = glGetAttribLocation(shaderProgramId_, "position_in");
