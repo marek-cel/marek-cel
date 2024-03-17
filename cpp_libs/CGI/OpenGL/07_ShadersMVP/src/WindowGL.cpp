@@ -90,6 +90,8 @@ void WindowGL::PrintInfo()
 
 void WindowGL::SceneSetup()
 {
+    glViewport(0, 0, viewportWidth_, viewportHeight_);
+    
     glEnable(GL_DEPTH_TEST);
 
     glFrontFace(GL_CCW);

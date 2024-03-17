@@ -3,6 +3,10 @@
 #include <iostream>
 #include <string>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include <Utils.h>
 #include <Vertex.h>
 
@@ -21,7 +25,7 @@ bool WindowGL::Init()
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    window_ = glfwCreateWindow(viewportWidth_, viewportHeight_, "OpenGL - GLFW", nullptr, nullptr);
+    window_ = glfwCreateWindow(viewportWidth_, viewportHeight_, "OpenGL - GLFW", NULL, NULL);
     if (!window_)
     {
         std::cerr << "Error creating GLFW window" << std::endl;
@@ -91,7 +95,7 @@ void WindowGL::PrintInfo()
 void WindowGL::SceneSetup()
 {
     glViewport(0, 0, viewportWidth_, viewportHeight_);
-    
+
     glEnable(GL_DEPTH_TEST);
 
     glFrontFace(GL_CCW);
@@ -100,12 +104,39 @@ void WindowGL::SceneSetup()
 
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
+
+    GLint paramUseVertexColor = glGetUniformLocation(shaderProgramId_, "UseVertexColor");
+    glUniform1i(paramUseVertexColor, false);
+
+    GLint paramColor = glGetUniformLocation(shaderProgramId_, "Color");
+    float color[4] = { 1.0, 0.0, 1.0, 1.0 };
+    glUniform4fv(paramColor, 1, color);
+
+    GLint paramWave = glGetUniformLocation(shaderProgramId_, "Wave");
+    glUniform1i(paramWave, true);
+
+    GLint paramWaveColor = glGetUniformLocation(shaderProgramId_, "WaveColor");
+    float waveColor[4] = { 1.0, 1.0, 0.0, 1.0 };
+    glUniform4fv(paramWaveColor, 1, waveColor);
+
+    GLint paramMatModel = glGetUniformLocation(shaderProgramId_, "matModel");
+    glm::mat4 matModel = glm::mat4(1.0);
+    glUniformMatrix4fv(paramMatModel, 1, false, glm::value_ptr(matModel));
+
+    GLint paramMatView = glGetUniformLocation(shaderProgramId_, "matView");
+    glm::mat4 matView = glm::translate(glm::mat4(1.0), glm::vec3(0.0, 0.0, -3.0));
+    glUniformMatrix4fv(paramMatView, 1, false, glm::value_ptr(matView));
+
+    GLint paramMatProj = glGetUniformLocation(shaderProgramId_, "matProj");
+    double h2w = static_cast<double>(viewportHeight_) / static_cast<double>(viewportWidth_);
+    glm::mat4 marProj = glm::frustum(-1.0, 1.0, -1.0*h2w, 1.0*h2w, 1.0, 10.0);
+    glUniformMatrix4fv(paramMatProj, 1, false, glm::value_ptr(marProj));
 }
 
 void WindowGL::InitVertexBuffer()
 {
-    float size = 0.5;
-    float z = -1.0;
+    float size = 1.0;
+    float z = 0.0;
     const Vertex vertices[] = 
     {
         Vertex(-size, -size, z, 1, 0, 0, 1),
@@ -114,15 +145,25 @@ void WindowGL::InitVertexBuffer()
         Vertex( size,  size, z, 1, 0, 1, 1)
     };
 
-    GLuint positionAttribute = 0;
-    GLuint colorsAttribute = 3;
+    GLuint positionAttribute = glGetAttribLocation(shaderProgramId_, "position_in");
+    GLuint colorsAttribute = glGetAttribLocation(shaderProgramId_, "color_in");
+
+    if ( positionAttribute == (GLuint)-1 )
+    {
+        positionAttribute = 0;
+    }
+
+    if ( colorsAttribute == (GLuint)-1 )
+    {
+        colorsAttribute = 3;
+    }
 
     // Generate and bind Vertex Array Object (VAO)
     glGenVertexArrays(1, &vao_);
     glBindVertexArray(vao_);
 
     // Vertex Buffer Object (VBO)
-    glGenBuffers(2, &vbo_[0]);
+    glGenBuffers(3, &vbo_[0]);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo_[0]);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
