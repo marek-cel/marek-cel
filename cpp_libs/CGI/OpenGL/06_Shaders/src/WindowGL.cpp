@@ -14,11 +14,12 @@ bool WindowGL::Init()
         return false;
     }
 
+    glfwWindowHint(GLFW_SAMPLES, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
-    glfwWindowHint(GLFW_SAMPLES, 8);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     window_ = glfwCreateWindow(viewportWidth_, viewportHeight_, "OpenGL - GLFW", nullptr, nullptr);
     if (!window_)
@@ -88,8 +89,6 @@ void WindowGL::PrintInfo()
 
 void WindowGL::SceneSetup()
 {
-    glViewport(0, 0, viewportWidth_, viewportHeight_);
-
     glEnable(GL_DEPTH_TEST);
 
     glFrontFace(GL_CCW);
@@ -116,13 +115,14 @@ void WindowGL::SceneSetup()
 
 void WindowGL::InitVertexBuffer()
 {
+    float size = 0.5;
+    float z = -1.0;
     const Vertex vertices[] = 
     {
-        Vertex(-1.0, -1.0, -1.0, 1, 0, 0, 1),
-        Vertex( 1.0, -1.0, -1.0, 0, 1, 0, 1),
-        Vertex( 0.0,  1.0, -1.0, 0, 0, 1, 1),
-        Vertex(-1.0,  1.0, -1.0, 1, 1, 0, 1),
-        Vertex( 1.0,  1.0, -1.0, 1, 0, 1, 1)
+        Vertex(-size, -size, z, 1, 0, 0, 1),
+        Vertex( size, -size, z, 0, 1, 0, 1),
+        Vertex(-size,  size, z, 1, 1, 0, 1),
+        Vertex( size,  size, z, 1, 0, 1, 1)
     };
 
     GLuint positionAttribute = glGetAttribLocation(shaderProgramId_, "position_in");
@@ -156,30 +156,20 @@ void WindowGL::InitVertexBuffer()
     glEnableVertexAttribArray(colorsAttribute);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-    GLubyte indeces[] = { 0, 1, 4, 3 };
-    //GLubyte indeces[] = { 0, 3, 4, 1 };
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo_[2]);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indeces), indeces, GL_STATIC_DRAW);
-
     // Unbind VAO
     glBindVertexArray(0); 
 }
 
 void WindowGL::DrawScene()
 {
+    glClearColor(0.5, 0.5, 0.5, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glLoadIdentity();
-
+    glUseProgram(shaderProgramId_);
     glBindVertexArray(vao_);
-    //glDrawArrays(GL_TRIANGLES, 0, 3);
-    //GLubyte indeces[] = { 0, 1, 2 };
-    //glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_BYTE, indeces);
-    //GLubyte indeces[] = { 0, 1, 4, 3 };
-    glDrawElements(GL_QUADS, 4, GL_UNSIGNED_BYTE, 0);
-    
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
+    glUseProgram(0);
 
     glfwSwapBuffers(window_);
 }

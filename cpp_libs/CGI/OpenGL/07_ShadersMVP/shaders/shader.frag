@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 in vec4 color;
 in vec4 position;
@@ -10,8 +10,8 @@ out vec4 color_out;
 
 void main(void)
 {
-    float amplitude = 0.5;
-    float freq = 5.0;
+    float amplitude = 0.25;
+    float freq = 10.0;
     float phase = 0.0;
 
     if ( Wave && (position.y < amplitude * sin(freq * position.x + phase)) )

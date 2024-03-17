@@ -1,4 +1,4 @@
-#version 330
+#version 330 core
 
 layout(location=0) in vec3 position_in;
 layout(location=3) in vec4 color_in;
@@ -22,4 +22,6 @@ void main()
     position = matModel * position;
 
     color = UseVertexColor ? color_in : Color;
+
+    gl_Position = position;
 }

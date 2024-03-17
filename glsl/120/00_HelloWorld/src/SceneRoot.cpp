@@ -41,7 +41,7 @@ void SceneRoot::createScene()
     //std::cout << "shader.frag:\n" << fragCode;
 
     osg::ref_ptr<osg::Program> program = new osg::Program;
-    //program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode.c_str()));
+    program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode.c_str()));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode.c_str()));
     geode->getOrCreateStateSet()->setAttributeAndModes(program.get());
 }
