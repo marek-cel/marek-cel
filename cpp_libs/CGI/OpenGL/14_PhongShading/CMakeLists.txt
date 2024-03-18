@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(ShadersMVP)
+project(PhongShading)
 
 ################################################################################
 
@@ -53,6 +53,8 @@ find_package(glfw3 3.3 REQUIRED)
 find_package(GLEW REQUIRED)
 include_directories(${GLEW_INCLUDE_DIRS})
 
+find_package(glm REQUIRED)
+
 ################################################################################
 
 include_directories(. ./src)
@@ -61,6 +63,11 @@ include_directories(. ./src)
 
 set(SOURCES
     src/main.cpp
+    src/Actor.cpp
+    src/Box.cpp
+    src/CameraCtrl.cpp
+    src/Sphere.cpp
+    src/Square.cpp
     src/Utils.cpp
     src/WindowGL.cpp
 )

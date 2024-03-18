@@ -7,7 +7,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <Box.h>
+#include <Sphere.h>
 #include <Square.h>
+
 #include <Utils.h>
 #include <Vertex.h>
 
@@ -114,11 +117,13 @@ void WindowGL::SceneSetup()
     paramMatrixModel_ = glGetUniformLocation(shaderProgramId_, "matModel");
     paramMatrixView_  = glGetUniformLocation(shaderProgramId_, "matView");
     paramMatrixProj_  = glGetUniformLocation(shaderProgramId_, "matProj");
+    paramCameraPos_   = glGetUniformLocation(shaderProgramId_, "cameraPos");
 }
 
 void WindowGL::DrawScene()
 {
-    glClearColor(0.5, 0.5, 0.5, 1);
+    //glClearColor(0.5, 0.5, 0.5, 1);
+    glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glUseProgram(shaderProgramId_);
@@ -127,9 +132,11 @@ void WindowGL::DrawScene()
     glm::mat4 viewMatrix = cameraCtrl_.GetViewMatrix();
     glm::mat4 projMatrix = cameraCtrl_.GetProjMatrix();
     glm::mat4 modelMatrix = glm::mat4(1.0);
+    glm::vec3 cameraPos = cameraCtrl_.GetCameraPos();
     glUniformMatrix4fv(paramMatrixModel_ , 1, GL_FALSE, &modelMatrix[0][0]);
     glUniformMatrix4fv(paramMatrixView_  , 1, GL_FALSE, &viewMatrix[0][0]);
     glUniformMatrix4fv(paramMatrixProj_  , 1, GL_FALSE, &projMatrix[0][0]);
+    glUniform3fv(paramCameraPos_, 1, &cameraPos[0]);
 
     DrawActors();
     
@@ -140,28 +147,65 @@ void WindowGL::DrawScene()
 
 void WindowGL::InitActors()
 {
-    GLuint positionAttribute = glGetAttribLocation(shaderProgramId_, "position_in");
-    GLuint colorAttribute = glGetAttribLocation(shaderProgramId_, "color_in");
+    GLuint positionAttrib = glGetAttribLocation(shaderProgramId_, "position_in");
+    GLuint normalAttrib = glGetAttribLocation(shaderProgramId_, "normal_in");
+    GLuint colorAttrib = glGetAttribLocation(shaderProgramId_, "color_in");
 
-    if ( positionAttribute == (GLuint)-1 )
+    if ( positionAttrib == (GLuint)-1 )
     {
-        positionAttribute = 0;
+        positionAttrib = 0;
     }
 
-    if ( colorAttribute == (GLuint)-1 )
+    if ( normalAttrib == (GLuint)-1 )
     {
-        colorAttribute = 3;
+        normalAttrib = 1;
     }
 
-    Actor* square = new Square(positionAttribute, colorAttribute, 2.0);
+    if ( colorAttrib == (GLuint)-1 )
+    {
+        colorAttrib = 3;
+    }
 
-    actors_.push_back(square);
+    if ( false )
+    {
+        float l = 2.0f;
+        float dx = -0.6 * l;
+        for ( int ix = 0; ix < 2; ++ix )
+        {
+            float dy = -0.6 * l;
+            for ( int iy = 0; iy < 2; ++iy )
+            {
+                Actor* square = new Square(positionAttrib, normalAttrib, colorAttrib, l);
+                square->modelMatrix_ = glm::translate(glm::mat4(1.0), glm::vec3(dx, dy, 0.0));
+                actors_.push_back(square);
+                dy += 1.2 * l;
+            }
+            dx += 1.2 * l;
+        }
+    }
+
+    if ( false )
+    {
+        float l = 2.0f;
+        float h = 2.0f;
+        float d = 2.0f;
+        Actor* square = new Box(positionAttrib, normalAttrib, colorAttrib, l, h, d);
+        actors_.push_back(square);
+    }
+
+    if ( true )
+    {
+        float r = 1.0f;
+        Actor* square = new Sphere(positionAttrib, normalAttrib, colorAttrib, r);
+        actors_.push_back(square);
+    }
 }
 
 void WindowGL::DrawActors()
 {
     for ( Actor* actor : actors_ )
     {
+        glUniformMatrix4fv(paramMatrixModel_, 1, false, &actor->modelMatrix_[0][0]);
         actor->Draw();
     }
 }

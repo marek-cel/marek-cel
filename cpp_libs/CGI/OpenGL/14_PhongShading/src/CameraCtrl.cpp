@@ -54,7 +54,7 @@ void CameraCtrl::Update()
 
     glm::vec3 up = glm::cross(right, direction);
 
-    glm::vec3 position = direction * distance_;
+    cameraPos_ = direction * distance_;
     glm::vec3 center;
 
 	// Move forward
@@ -72,7 +72,7 @@ void CameraCtrl::Update()
 
     if ( distance_ < 0.0f ) distance_ = 0.0f;
 
-    viewMatrix_ = glm::lookAt(position, center, up);
+    viewMatrix_ = glm::lookAt(cameraPos_, center, up);
 
     double h2w = static_cast<double>(height) / static_cast<double>(width);
     projMatrix_ = glm::frustum(-1.0, 1.0, -1.0*h2w, 1.0*h2w, 1.0, 10.0);

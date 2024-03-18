@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(Shapes)
+project(Normals)
 
 ################################################################################
 
@@ -64,7 +64,9 @@ include_directories(. ./src)
 set(SOURCES
     src/main.cpp
     src/Actor.cpp
+    src/Box.cpp
     src/CameraCtrl.cpp
+    src/Sphere.cpp
     src/Square.cpp
     src/Utils.cpp
     src/WindowGL.cpp

@@ -4,10 +4,20 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+double g_xoffset = 0.0;
+double g_yoffset = 0.0;
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    g_xoffset = xoffset;
+    g_yoffset = yoffset;
+}
+
 void CameraCtrl::Init(GLFWwindow* window)
 { 
     lastTime_ = glfwGetTime();
     window_ = window; 
+    glfwSetScrollCallback(window_, scroll_callback);
 }
 
 void CameraCtrl::Update()
@@ -48,15 +58,17 @@ void CameraCtrl::Update()
     glm::vec3 center;
 
 	// Move forward
-	if (glfwGetKey( window_, GLFW_KEY_W ) == GLFW_PRESS)
-    {
-		distance_ -= deltaTime * speedDistance_;
-	}
-	// Move backward
-	if (glfwGetKey( window_, GLFW_KEY_S ) == GLFW_PRESS)
-    {
-		distance_ += deltaTime * speedDistance_;
-	}
+	// if (glfwGetKey( window_, GLFW_KEY_W ) == GLFW_PRESS)
+    // {
+	// 	distance_ -= deltaTime * speedDistance_;
+	// }
+	// // Move backward
+	// if (glfwGetKey( window_, GLFW_KEY_S ) == GLFW_PRESS)
+    // {
+	// 	distance_ += deltaTime * speedDistance_;
+	// }
+    distance_ += deltaTime * speedDistanceFrac_ * fabs(distance_) * g_yoffset;
+    g_yoffset = 0.0;
 
     if ( distance_ < 0.0f ) distance_ = 0.0f;
 

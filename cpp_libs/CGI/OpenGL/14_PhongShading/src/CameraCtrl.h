@@ -14,6 +14,8 @@ public:
     glm::mat4 GetViewMatrix() { return viewMatrix_; }
     glm::mat4 GetProjMatrix() { return projMatrix_; }
 
+    glm::vec3 GetCameraPos() { return cameraPos_; }
+
     void Update();
 
 private:
@@ -22,6 +24,8 @@ private:
 
     glm::mat4 viewMatrix_ = glm::mat4(1.0);
     glm::mat4 projMatrix_ = glm::mat4(1.0);
+
+    glm::vec3 cameraPos_;
 
     float azimuth_ = 0.0f;
     float elevation_ = 0.0f;

@@ -29,7 +29,8 @@ private:
 
     double lastTime_ = 0.0;
 
-    float speedDistance_ = 3.0f; // 3 units / second
+    //float speedDistance_ = 3.0f; // 3 units / second
+    float speedDistanceFrac_ = 2.0f;
     float speedRotate_ = 0.003f;
 
     double xpos_prev_ = 0.0;
