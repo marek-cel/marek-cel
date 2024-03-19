@@ -87,28 +87,6 @@ std::vector<Vertex> Sphere::CreateVertexVector()
 
             v.push_back(Vertex(x_prev, y_prev, z_prev, n_prev.x, n_prev.y, n_prev.z, cr, cg, cb, 1.0));
             v.push_back(Vertex(x_next, y_next, z_next, n_next.x, n_next.y, n_next.z, cr, cg, cb, 1.0));
-
-            // if ( texCoords )
-            // {
-            //     if ( projection == Azimuthal )
-            //     {
-            //         double n_arc_prev = ( M_PI_2 - fabs( lat_prev ) ) / M_PI_2;
-            //         double n_arc_next = ( M_PI_2 - fabs( lat_next ) ) / M_PI_2;
-
-            //         double tx_prev = 0.5 + 0.5 * n_arc_prev * sin( lon_prev );
-            //         double ty_prev = 0.5 + 0.5 * n_arc_prev * cos( lon_prev );
-            //         double tx_next = 0.5 + 0.5 * n_arc_next * sin( lon_prev );
-            //         double ty_next = 0.5 + 0.5 * n_arc_next * cos( lon_prev );
-
-            //         t->push_back( osg::Vec2( tx_prev, ty_prev ) );
-            //         t->push_back( osg::Vec2( tx_next, ty_next ) );
-            //     }
-            //     else if ( projection == Cylindrical )
-            //     {
-            //         t->push_back( osg::Vec2( (double)i_lon/lon_segments, (double)(i_lat  )/lat_segments ) );
-            //         t->push_back( osg::Vec2( (double)i_lon/lon_segments, (double)(i_lat+1)/lat_segments ) );
-            //     }
-            // }
         }
 
         lat_prev -= lat_step;

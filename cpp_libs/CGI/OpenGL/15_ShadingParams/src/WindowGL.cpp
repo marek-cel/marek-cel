@@ -119,6 +119,11 @@ void WindowGL::SceneSetup()
     paramMatrixProj_  = glGetUniformLocation(shaderProgramId_, "matProj");
     paramMatrixNorm_  = glGetUniformLocation(shaderProgramId_, "matNormal");
     paramCameraPos_   = glGetUniformLocation(shaderProgramId_, "cameraPos");
+
+    paramAmbientColor_  = glGetUniformLocation(shaderProgramId_, "ambientColor");
+    paramDiffuseColor_  = glGetUniformLocation(shaderProgramId_, "diffuseColor");
+    paramSpecularColor_ = glGetUniformLocation(shaderProgramId_, "specularColor");
+    paramShinessVal_    = glGetUniformLocation(shaderProgramId_, "shinessVal");
 }
 
 void WindowGL::DrawScene()
@@ -146,6 +151,17 @@ void WindowGL::DrawScene()
     glfwSwapBuffers(window_);
 }
 
+void WindowGL::SetMaterialParams(glm::vec3 ambientColor,
+                                 glm::vec3 diffuseColor,
+                                 glm::vec3 specularColor,
+                                 float shinessVal)
+{
+    glUniform3fv(paramAmbientColor_, 1, &ambientColor[0]);
+    glUniform3fv(paramDiffuseColor_, 1, &diffuseColor[0]);
+    glUniform3fv(paramSpecularColor_, 1, &specularColor[0]);
+    glUniform1f(paramShinessVal_, shinessVal);
+}
+
 void WindowGL::InitActors()
 {
     GLuint positionAttrib = glGetAttribLocation(shaderProgramId_, "position_in");
@@ -167,33 +183,18 @@ void WindowGL::InitActors()
         colorAttrib = 3;
     }
 
-    if ( false )
-    {
-        float l = 2.0f;
-        float dx = -0.6 * l;
-        for ( int ix = 0; ix < 2; ++ix )
-        {
-            float dy = -0.6 * l;
-            for ( int iy = 0; iy < 2; ++iy )
-            {
-                Actor* square = new Square(positionAttrib, normalAttrib, colorAttrib, l);
-                square->modelMatrix_ = glm::translate(glm::mat4(1.0), glm::vec3(dx, dy, 0.0));
-                actors_.push_back(square);
-                dy += 1.2 * l;
-            }
-            dx += 1.2 * l;
-        }
-    }
-
     float r = 1.0f;
     float l = 1.6f * r;
 
     Actor* box = new Box(positionAttrib, normalAttrib, colorAttrib, l, l, l);
-    box->modelMatrix_ = glm::translate(glm::mat4(1.0), glm::vec3(-1.1, 0.0, 0.0));
+    box->SetPosition(-1.1, 0.0, 0.0);
+    //box->diffuseColor_ = glm::vec3(0,1,0);
     actors_.push_back(box);
 
     Actor* sphere = new Sphere(positionAttrib, normalAttrib, colorAttrib, r);
-    sphere->modelMatrix_ = glm::translate(glm::mat4(1.0), glm::vec3(1.1, 0.0, 0.0));
+    sphere->SetPosition(1.1, 0.0, 0.0);
+    sphere->ambientColor_ = glm::vec3(0,1,0);
+    sphere->diffuseColor_ = glm::vec3(0,1,0);
     actors_.push_back(sphere);
 }
 
@@ -204,6 +205,12 @@ void WindowGL::DrawActors()
         glUniformMatrix4fv(paramMatrixModel_, 1, false, &actor->modelMatrix_[0][0]);
         glm::mat3 normMatrix = glm::transpose(glm::inverse(glm::mat3(actor->modelMatrix_)));
         glUniformMatrix3fv(paramMatrixNorm_, 1, false, &normMatrix[0][0]);
+
+        SetMaterialParams(actor->ambientColor_,
+                          actor->diffuseColor_,
+                          actor->specularColor_,
+                          actor->shininessVal_);
+
         actor->Draw();
     }
 }
