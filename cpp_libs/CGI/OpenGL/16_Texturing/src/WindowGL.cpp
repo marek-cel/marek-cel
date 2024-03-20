@@ -131,6 +131,8 @@ void WindowGL::InitTextures(std::vector<std::string> textureFiles)
 
         unsigned char* data = stbi_load(textureFiles[i].c_str(), &width, &height, &channels, 0);
 
+        std::cout << "width: " << width << " height: " << height << " channels: " << channels << std::endl;
+
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
         glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
         glGenerateMipmap(GL_TEXTURE_2D);
