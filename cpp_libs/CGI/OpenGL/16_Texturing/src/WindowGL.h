@@ -46,6 +46,9 @@ private:
     GLint paramSpecularColor_ = (GLuint)-1;
     GLint paramShinessVal_    = (GLuint)-1;
 
+    GLuint numberOfTextures_ = 0;
+    GLuint* texturesIndecies_ = nullptr;
+
     void PrintInfo();
 
     void InitTextures(std::vector<std::string> textureFiles);
@@ -61,6 +64,7 @@ private:
                            float shinessVal);
 
     void DeleteActors();
+    void DeleteTextures();
 };
 
 #endif // WINDOWGL_H_

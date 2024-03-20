@@ -7,6 +7,9 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
+
 #include <Box.h>
 #include <Sphere.h>
 #include <Square.h>
@@ -91,6 +94,7 @@ void WindowGL::Run()
     }
 
     DeleteActors();
+    DeleteTextures();
     glfwDestroyWindow(window_);
     glfwTerminate();
 }
@@ -107,11 +111,31 @@ void WindowGL::PrintInfo()
 
 void WindowGL::InitTextures(std::vector<std::string> textureFiles)
 {
-    for ( auto textureFile : textureFiles )
-    {
-        std::cout << textureFile << std::endl;
+    numberOfTextures_ = textureFiles.size();
+    texturesIndecies_ = new GLuint [numberOfTextures_];
+    glGenTextures(numberOfTextures_, texturesIndecies_);
 
-        //glBindTexture();
+    int width;
+    int height;
+    int channels;
+    for ( uint16_t i = 0; i < numberOfTextures_; ++i )
+    {
+        std::cout << textureFiles[i] << std::endl;
+
+        glBindTexture(GL_TEXTURE_2D, texturesIndecies_[i]);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+        unsigned char* data = stbi_load(textureFiles[i].c_str(), &width, &height, &channels, 0);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glHint(GL_GENERATE_MIPMAP_HINT, GL_NICEST);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        stbi_image_free(data);
     }
 }
 
@@ -246,4 +270,12 @@ void WindowGL::DeleteActors()
     }
 
     actors_.clear();
+}
+
+void WindowGL::DeleteTextures()
+{
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glDeleteTextures(numberOfTextures_, texturesIndecies_);
+    delete [] texturesIndecies_;
+    texturesIndecies_ = nullptr;
 }

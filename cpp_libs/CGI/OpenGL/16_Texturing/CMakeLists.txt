@@ -66,7 +66,6 @@ set(SOURCES
     src/Actor.cpp
     src/Box.cpp
     src/CameraCtrl.cpp
-    src/FileUtils.cpp
     src/Sphere.cpp
     src/Square.cpp
     src/Utils.cpp
