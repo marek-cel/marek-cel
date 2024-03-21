@@ -49,7 +49,7 @@ private:
     GLuint numberOfTextures_ = 0;
     GLuint* texturesIndecies_ = nullptr;
 
-    bool verbose_ = false;
+    bool verbose_ = true;
 
     void PrintInfo();
 

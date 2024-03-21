@@ -21,7 +21,7 @@ public:
     glm::vec3 specularColor_ = glm::vec3(1,1,1);
     float shininessVal_ = 32.0;
 
-    GLuint textureIndex_ = (GLuint)-1;
+    GLuint textureIndex_[2] = { (GLuint)-1, (GLuint)-1 };
     
     Actor() = default;
     virtual ~Actor();

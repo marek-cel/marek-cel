@@ -17,7 +17,8 @@ uniform vec3 diffuseColor;
 uniform vec3 specularColor;
 uniform float shinessVal;
 
-uniform sampler2D texSampler;
+uniform sampler2D texSampler0;
+uniform sampler2D texSampler1;
 
 vec3 get_ambient(vec3 color)
 {
@@ -34,14 +35,14 @@ vec3 get_diffuse(vec3 pos, vec3 norm, vec3 color)
     return diffuse;
 }
 
-vec3 get_specular(vec3 pos, vec3 norm)
+vec3 get_specular(vec3 pos, vec3 norm, float coef)
 {
     vec3 n = normalize(norm);
     vec3 viewDir = normalize(cameraPos - pos);
     vec3 lightDir = normalize(lightPos - pos);
     vec3 reflectDir = reflect(-lightDir, n);
 
-    float specularStrength = 0.5;
+    float specularStrength = 0.5*coef;
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shinessVal);
     vec3 specular = specularStrength * spec * lightColor * specularColor;
     return specular;
@@ -49,10 +50,13 @@ vec3 get_specular(vec3 pos, vec3 norm)
 
 vec3 get_phong(vec3 pos, vec3 norm, vec2 texCoord, vec3 color)
 {
-    vec4 texel = texture2D(texSampler, texCoord);
-    vec3 result = get_ambient(color)*vec3(texel)
-                + get_diffuse(pos, norm, color)*vec3(texel)
-                + get_specular(pos, norm);
+    vec4 texel0 = texture2D(texSampler0, texCoord);
+    vec4 texel1 = texture2D(texSampler1, texCoord);
+    //texel0 = texel0 * texel1.x;
+    //texel0 = texel1;
+    vec3 result = get_ambient(color)*vec3(texel0)
+                + get_diffuse(pos, norm, color)*vec3(texel0)
+                + get_specular(pos, norm, texel1.x);
     return result;
 }
 

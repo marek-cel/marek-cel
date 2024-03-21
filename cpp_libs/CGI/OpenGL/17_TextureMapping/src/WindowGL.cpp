@@ -76,8 +76,8 @@ bool WindowGL::Init()
                                    false);
 
     std::vector<std::string> textureFiles;
-    textureFiles.push_back("../data/baby_letter_blobk_b.jpg");
     textureFiles.push_back("../data/land_shallow_topo_1024.jpg");
+    textureFiles.push_back("../data/world_oceanmask_1024.jpg");
     InitTextures(textureFiles);
     InitActors();
     SceneSetup();
@@ -175,20 +175,11 @@ void WindowGL::InitActors()
     }
 
     float r = 1.0f;
-    float l = 1.6f * r;
-
-    Actor* box = new Box(positionAttrib, normalAttrib, texAttribs, colorAttrib, l, l, l);
-    box->SetPosition(-1.1, 0.0, 0.0);
-    box->ambientColor_ = glm::vec3(0,1,0);
-    box->diffuseColor_ = glm::vec3(0,1,0);
-    box->textureIndex_ = texturesIndecies_[0];
-    actors_.push_back(box);
-
     Actor* sphere = new Sphere(positionAttrib, normalAttrib, texAttribs, colorAttrib, r);
-    sphere->SetPosition(1.1, 0.0, 0.0);
     sphere->ambientColor_ = glm::vec3(1,1,1);
     sphere->diffuseColor_ = glm::vec3(1,1,1);
-    sphere->textureIndex_ = texturesIndecies_[1];
+    sphere->textureIndex_[0] = texturesIndecies_[0];
+    sphere->textureIndex_[1] = texturesIndecies_[1];
     actors_.push_back(sphere);
 }
 
@@ -255,7 +246,13 @@ void WindowGL::DrawActors()
                           actor->specularColor_,
                           actor->shininessVal_);
 
-        glBindTexture(GL_TEXTURE_2D, actor->textureIndex_);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[0]);
+        glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler0"), 0);
+
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[1]);
+        glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler1"), 1);
 
         actor->Draw();
     }
