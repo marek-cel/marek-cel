@@ -1,10 +1,20 @@
 #include <Utils.h>
 
+#include <cmath>
 #include <cstring>
 #include <fstream>
 #include <iostream>
 #include <string>
 
+float DegreesToRadians(float deg)
+{
+    return M_PI * deg / 180.0f;
+}
+
+double DegreesToRadians(double deg)
+{
+    return M_PI * deg / 180.0;
+}
 
 GLuint InitShaders(const char* vertFileName, 
                    const char* fragFileName,

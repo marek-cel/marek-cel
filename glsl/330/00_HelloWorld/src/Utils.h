@@ -5,6 +5,9 @@
 
 #include <GL/gl.h>
 
+float DegreesToRadians(float deg);
+double DegreesToRadians(double deg);
+
 GLuint InitShaders(const char* vertFileName, 
                    const char* fragFileName,
                    bool debug = false);

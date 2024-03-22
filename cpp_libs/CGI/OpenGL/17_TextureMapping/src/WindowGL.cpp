@@ -246,13 +246,19 @@ void WindowGL::DrawActors()
                           actor->specularColor_,
                           actor->shininessVal_);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[0]);
-        glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler0"), 0);
+        if ( actor->textureIndex_[0] != (GLuint)-1 )
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[0]);
+            glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler0"), 0);
+        }
 
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[1]);
-        glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler1"), 1);
+        if ( actor->textureIndex_[1] != (GLuint)-1 )
+        {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, actor->textureIndex_[1]);
+            glUniform1i(glGetUniformLocation(shaderProgramId_, "texSampler1"), 1);
+        }
 
         actor->Draw();
     }
