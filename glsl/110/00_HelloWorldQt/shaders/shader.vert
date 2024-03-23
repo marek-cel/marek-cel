@@ -1,6 +1,6 @@
-#version 120
+#version 110
 
-void main()
+void main(void)
 {
     gl_Position = ftransform();
 }

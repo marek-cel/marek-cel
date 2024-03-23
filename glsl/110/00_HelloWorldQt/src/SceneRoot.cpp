@@ -35,8 +35,8 @@ void SceneRoot::createScene()
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
 
-    std::string vertCode = readShaderFromFile(":/shader.vert");
-    std::string fragCode = readShaderFromFile(":/shader.frag");
+    std::string vertCode = readShaderFromFile(":/shaders/shader.vert");
+    std::string fragCode = readShaderFromFile(":/shaders/shader.frag");
 
     //std::cout << "shader.vert:\n" << vertCode;
     //std::cout << "shader.frag:\n" << fragCode;

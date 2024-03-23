@@ -98,7 +98,7 @@ set(UIC_SRC_FILES
 )
 
 set(RCC_SRC_FILES
-    src/project.qrc
+    project.qrc
 )
 
 set(SOURCES ${CPP_FILES} ${MOC_SRC_FILES} ${MOC_SRC_FILES} ${UIC_SRC_FILES} ${RCC_SRC_FILES})

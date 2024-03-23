@@ -117,8 +117,8 @@ FORMS += \
     src/MainWindow.ui
 
 RESOURCES += \
-    src/project.qrc
+    project.qrc
 
 OTHER_FILES += \
-    src/shader.frag \
-    src/shader.vert
+    shaders/shader.frag \
+    shaders/shader.vert
