@@ -76,8 +76,8 @@ bool WindowGL::Init()
                                    false);
 
     std::vector<std::string> textureFiles;
-    textureFiles.push_back("../data/baby_letter_blobk_b.jpg");
-    textureFiles.push_back("../data/land_shallow_topo_1024.jpg");
+    textureFiles.push_back("../../../data/baby_letter_blobk_b.jpg");
+    textureFiles.push_back("../../../data/land_shallow_topo_1024.jpg");
     InitTextures(textureFiles);
     InitActors();
     SceneSetup();

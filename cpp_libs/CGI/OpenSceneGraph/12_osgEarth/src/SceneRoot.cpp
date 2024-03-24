@@ -33,7 +33,7 @@ SceneRoot::~SceneRoot() {}
 
 void SceneRoot::create()
 {
-    osg::ref_ptr<osg::Node> node = osgDB::readNodeFile( "../../Data/simple.earth" );
+    osg::ref_ptr<osg::Node> node = osgDB::readNodeFile( "../../../data/simple.earth" );
 
     if ( node.valid() )
     {

@@ -24,7 +24,7 @@ SceneRoot::SceneRoot()
 
 void SceneRoot::createScene()
 {
-    osg::ref_ptr<osg::Node> node = osgDB::readNodeFile("../../OpenSceneGraph-Data-3.0.0/bignathan.osg");
+    osg::ref_ptr<osg::Node> node = osgDB::readNodeFile("../../../OpenSceneGraph-Data-3.0.0/bignathan.osg");
     _root->addChild(node.get());
 
     osgAnimation::BasicAnimationManager* manager =

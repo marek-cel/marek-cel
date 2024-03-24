@@ -81,7 +81,7 @@ void SceneRoot::create()
     geom->setInitialBound( osg::BoundingBox(-1.0f,-1.0f,-100.0f, 1.0f, 1.0f, 100.0f) );
 
     osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D();
-    texture->setImage( osgDB::readImageFile( "../../00_data/osg256.png" ) );
+    texture->setImage( osgDB::readImageFile( "../../osg256.png" ) );
     texture->setFilter( osg::Texture2D::MIN_FILTER, osg::Texture2D::LINEAR );
     texture->setFilter( osg::Texture2D::MAG_FILTER, osg::Texture2D::LINEAR );
 

@@ -27,7 +27,7 @@ SceneRoot::SceneRoot()
 
 void SceneRoot::createScene()
 {
-    osg::Node* loadedModel = osgDB::readNodeFile( "../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
+    osg::Node* loadedModel = osgDB::readNodeFile( "../../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
 
     osg::ref_ptr<osg::Material> material = new osg::Material;
     material->setAmbient( osg::Material::FRONT_AND_BACK, osg::Vec4(0.0f, 0.0f, 0.0f, 1.0f) );

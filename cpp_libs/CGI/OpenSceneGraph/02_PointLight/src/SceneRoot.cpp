@@ -32,7 +32,7 @@ void SceneRoot::createScene()
 
     patMain->setPosition( osg::Vec3d( 100.0, 0.0, 0.0 ) );
 
-    osg::ref_ptr<osg::Node> glider = osgDB::readNodeFile( "../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
+    osg::ref_ptr<osg::Node> glider = osgDB::readNodeFile( "../../../OpenSceneGraph-Data-3.0.0/cessna.osgt" );
 
     if ( glider.valid() )
     {

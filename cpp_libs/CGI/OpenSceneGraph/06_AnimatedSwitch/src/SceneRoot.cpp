@@ -24,8 +24,8 @@ SceneRoot::SceneRoot()
 
 void SceneRoot::createScene()
 {
-    osg::ref_ptr<osg::Node> model1 = osgDB::readNodeFile("../../OpenSceneGraph-Data-3.0.0/cessna.osg");
-    osg::ref_ptr<osg::Node> model2 = osgDB::readNodeFile("../../OpenSceneGraph-Data-3.0.0/cessnafire.osg");
+    osg::ref_ptr<osg::Node> model1 = osgDB::readNodeFile("../../../OpenSceneGraph-Data-3.0.0/cessna.osg");
+    osg::ref_ptr<osg::Node> model2 = osgDB::readNodeFile("../../../OpenSceneGraph-Data-3.0.0/cessnafire.osg");
 
     _switch = new osg::Switch();
     _root->addChild(_switch.get());

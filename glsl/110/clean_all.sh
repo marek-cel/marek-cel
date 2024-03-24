@@ -10,6 +10,7 @@ for DIR in "${DIRS[@]}"; do
     cd $DIR
     rm -r bin
     rm -r build
+    rm -r .vscode
     cd ..
 done
 

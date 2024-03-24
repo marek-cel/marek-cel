@@ -67,7 +67,7 @@ void SceneRoot::createEarth()
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-    osg::ref_ptr<osg::Image> image = osgDB::readImageFile( "../../Data/land_shallow_topo_1024.jpg" );
+    osg::ref_ptr<osg::Image> image = osgDB::readImageFile( "../../../data/land_shallow_topo_1024.jpg" );
 
     if ( image.valid() )
     {
@@ -144,7 +144,7 @@ void SceneRoot::createSquare()
 
     osg::ref_ptr<osg::StateSet> stateSet = geode->getOrCreateStateSet();
 
-    osg::ref_ptr<osg::Image> image = osgDB::readImageFile( "../00_data/shadow.jpg" );
+    osg::ref_ptr<osg::Image> image = osgDB::readImageFile( "../../../data/shadow.jpg" );
 
     if ( image.valid() )
     {
