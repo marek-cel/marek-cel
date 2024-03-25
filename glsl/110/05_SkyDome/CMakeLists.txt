@@ -82,6 +82,7 @@ include_directories(. ./src ${OPENSCENEGRAPH_INCLUDE_DIRS})
 set(CPP_FILES
     src/main.cpp
     src/utils.cpp
+    src/Colors.cpp
     src/GraphicsWindowQt.cpp
     src/KeyMap.cpp
     src/MainWindow.cpp

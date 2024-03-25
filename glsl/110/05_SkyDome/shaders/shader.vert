@@ -1,12 +1,14 @@
 #version 110
 
-varying vec3 position0;
+varying vec3 position_orig_norm;
 varying vec3 position;
 varying vec3 normal;
 varying vec3 lightDir;
 varying vec3 viewDir;
 varying vec3 color;
 varying vec2 texCoord;
+
+uniform float dome_radius;
 
 void main(void)
 {
@@ -24,6 +26,6 @@ void main(void)
 
     gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
 
-    position0 = gl_Vertex.xyz;
+    position_orig_norm = gl_Vertex.xyz / dome_radius;
     position = gl_Position.xyz;
 }

@@ -8,6 +8,8 @@
 #include <osg/LineWidth>
 #include <osg/ShapeDrawable>
 
+#include <Colors.h>
+
 const float sunRadius = 0.1;
 
 SceneRoot::SceneRoot()
@@ -65,7 +67,7 @@ void SceneRoot::createLight()
     osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource();
     pat->addChild(lightSource.get());
 
-    bool drawSun = true;
+    bool drawSun = false;
     if ( drawSun )
     {
         osg::ref_ptr<osg::Geode> geode = new osg::Geode();
@@ -119,7 +121,7 @@ void SceneRoot::createPlane()
     v->push_back(osg::Vec3(-half_size,  half_size, 0.0));
 
     n->push_back(osg::Vec3(0.0, 0.0, 1.0));
-    c->push_back(osg::Vec4(0.0, 0.2, 0.0, 1.0));
+    c->push_back(osg::Vec4(Colors::green * 0.5, 1.0));
 
     geom->setVertexArray( v.get() );
     geom->addPrimitiveSet( new osg::DrawArrays( osg::PrimitiveSet::TRIANGLE_FAN, 0, v->size() ) );
@@ -133,10 +135,6 @@ void SceneRoot::createAxes()
 {
     constexpr double len = 10.0;
 
-    osg::Vec3 red  (1.0, 0.0, 0.0);
-    osg::Vec3 lime (0.0, 1.0, 0.0);
-    osg::Vec3 blue (0.0, 0.0, 1.0);
-
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _root->addChild(geode.get());
 
@@ -148,18 +146,18 @@ void SceneRoot::createAxes()
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
     v->push_back(osg::Vec3d(len, 0.0, 0.0));
-    c->push_back(osg::Vec4(red, 1.0));
-    c->push_back(osg::Vec4(red, 1.0));
+    c->push_back(osg::Vec4(Colors::red, 1.0));
+    c->push_back(osg::Vec4(Colors::red, 1.0));
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
     v->push_back(osg::Vec3d(0.0, len, 0.0));
-    c->push_back(osg::Vec4(lime, 1.0));
-    c->push_back(osg::Vec4(lime, 1.0));
+    c->push_back(osg::Vec4(Colors::lime, 1.0));
+    c->push_back(osg::Vec4(Colors::lime, 1.0));
 
     v->push_back(osg::Vec3d(0.0, 0.0, 0.0));
     v->push_back(osg::Vec3d(0.0, 0.0, len));
-    c->push_back(osg::Vec4(blue, 1.0));
-    c->push_back(osg::Vec4(blue, 1.0));
+    c->push_back(osg::Vec4(Colors::blue, 1.0));
+    c->push_back(osg::Vec4(Colors::blue, 1.0));
 
     n->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
 
