@@ -95,7 +95,6 @@ function installDevelopEssentials()
             printGreen "Installing C++ EXTRA LIBS ..."
             
             sudo apt install -y \
-                freeglut3-dev \
                 libalut-dev \
                 libarmadillo-dev \
                 libboost-all-dev \
@@ -103,13 +102,14 @@ function installDevelopEssentials()
                 libeigen3-dev \
                 libfltk1.3-dev \
                 libgdal-dev \
-                libglfw3-dev \
                 libgnuplot-iostream-dev \
+                libimgui-dev \
                 liboce-foundation-dev \
                 liboce-modeling-dev \
                 liboce-visualization-dev \
                 libopenal-dev \
                 libproj-dev \
+                libstb-dev \
                 libtbb-dev \
                 libtinfo5 \
                 libtool \
@@ -133,6 +133,27 @@ function installDevelopEssentials()
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing FORTRAN ..."
+
+            sudo apt install -y gfortran
+        fi
+
+        # IDEs
+        readBold "Do you want to install IDEs? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing IDEs ..."
+
+            sudo apt-get install wget gpg
+            wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+            sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+            sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+            rm -f packages.microsoft.gpg
+
+            sudo apt install apt-transport-https
+            sudo apt update
+            sudo apt install code
+
+            sudo flatpak install flathub org.shadered.SHADERed
 
             sudo apt install -y gfortran
         fi
@@ -178,6 +199,22 @@ function installDevelopEssentials()
                 libsdl2-mixer-dev \
                 libsdl2-net-dev \
                 libsdl2-ttf-dev
+        fi
+
+        # OpenGL
+        readBold "Do you want to install OpenGL LIBS? y or n"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing OpenGL LIBS ..."
+            
+            sudo apt install -y \
+                freeglut3-dev \
+                glslang-dev \
+                glslang-tools \
+                libgl-dev \
+                libglew-dev \
+                libglfw3-dev \
+                libglm-dev
         fi
 
         # OSG
@@ -247,6 +284,8 @@ function installDevelopEssentials()
                 pyside2-tools \
                 python3-all \
                 python3-all-dev \
+                python3-astropy \
+                python3-ephem \
                 python3-fluids \
                 python3-gnuplotlib \
                 python3-matplotlib \
@@ -267,6 +306,8 @@ function installDevelopEssentials()
                 python3-pysph \
                 python3-scipy \
                 python3-setuptools \
+                python3-solar \
+                python3-sunpy \
                 python3-vtk7
             
             pip3 install ussa1976
