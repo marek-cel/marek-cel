@@ -306,7 +306,6 @@ function installDevelopEssentials()
                 python3-pysph \
                 python3-scipy \
                 python3-setuptools \
-                python3-solar \
                 python3-sunpy \
                 python3-vtk7
             
