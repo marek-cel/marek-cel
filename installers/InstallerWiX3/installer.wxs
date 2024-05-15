@@ -11,7 +11,7 @@
     UpgradeCode="{48adf836-38c4-4093-b04e-6d07c26e08d7}">
         
     <Package
-      Description="MScSim Windows Installer Package"
+      Description="Test App Windows Installer Package"
       Manufacturer="Marek Cel (marekcel.pl)"
       InstallerVersion="300"
       Compressed="yes" />
@@ -48,7 +48,7 @@
     </Directory>
 
     <!-- main program -->
-    <Feature Id="mscsim_main" Title="MScSim" Level="1">
+    <Feature Id="mscsim_main" Title="TestApp" Level="1">
       <ComponentGroupRef Id="cg_dir_bin" />
       <ComponentRef Id="menu_shortcuts" />      <!-- start menu shortcuts -->      
     </Feature>
