@@ -30,8 +30,8 @@ private:
     struct ImGuiNewFrameCallback;
     struct ImGuiRenderCallback;
 
-    double time_;
-    bool mousePressed_[3];
-    float mouseWheel_;
-    bool initialized_;
+    double _time;
+    bool _mousePressed[3];
+    float _mouseWheel;
+    bool _initialized;
 };

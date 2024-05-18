@@ -13,8 +13,7 @@ struct OsgImGuiHandler::ImGuiNewFrameCallback : public osg::Camera::DrawCallback
 {
     ImGuiNewFrameCallback(OsgImGuiHandler& handler)
         : handler_(handler)
-    {
-    }
+    {}
 
     void operator()(osg::RenderInfo& renderInfo) const override
     {
@@ -29,8 +28,7 @@ struct OsgImGuiHandler::ImGuiRenderCallback : public osg::Camera::DrawCallback
 {
     ImGuiRenderCallback(OsgImGuiHandler& handler)
         : handler_(handler)
-    {
-    }
+    {}
 
     void operator()(osg::RenderInfo& renderInfo) const override
     {
@@ -42,7 +40,10 @@ private:
 };
 
 OsgImGuiHandler::OsgImGuiHandler()
-    : time_(0.0f), mousePressed_{false}, mouseWheel_(0.0f), initialized_(false)
+    : _time(0.0f)
+    , _mousePressed{false}
+    , _mouseWheel(0.0f)
+    , _initialized(false)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -136,16 +137,16 @@ void OsgImGuiHandler::newFrame(osg::RenderInfo& renderInfo)
     io.DisplaySize = ImVec2(viewport->width(), viewport->height());
 
     double currentTime = renderInfo.getView()->getFrameStamp()->getSimulationTime();
-    io.DeltaTime = currentTime - time_ + 0.0000001;
-    time_ = currentTime;
+    io.DeltaTime = currentTime - _time + 0.0000001;
+    _time = currentTime;
 
     for (int i = 0; i < 3; i++)
     {
-        io.MouseDown[i] = mousePressed_[i];
+        io.MouseDown[i] = _mousePressed[i];
     }
 
-    io.MouseWheel = mouseWheel_;
-    mouseWheel_ = 0.0f;
+    io.MouseWheel = _mouseWheel;
+    _mouseWheel = 0.0f;
 
     ImGui::NewFrame();
 }
@@ -159,13 +160,13 @@ void OsgImGuiHandler::render(osg::RenderInfo&)
 
 bool OsgImGuiHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa)
 {
-    if (!initialized_)
+    if (!_initialized)
     {
         auto view = aa.asView();
         if (view)
         {
             setCameraCallbacks(view->getCamera());
-            initialized_ = true;
+            _initialized = true;
         }
     }
 
@@ -202,9 +203,9 @@ bool OsgImGuiHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
         case (osgGA::GUIEventAdapter::PUSH):
         {
             io.MousePos = ImVec2(ea.getX(), io.DisplaySize.y - ea.getY());
-            mousePressed_[0] = ea.getButtonMask() & osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON;
-            mousePressed_[1] = ea.getButtonMask() & osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON;
-            mousePressed_[2] = ea.getButtonMask() & osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON;
+            _mousePressed[0] = ea.getButtonMask() & osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON;
+            _mousePressed[1] = ea.getButtonMask() & osgGA::GUIEventAdapter::RIGHT_MOUSE_BUTTON;
+            _mousePressed[2] = ea.getButtonMask() & osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON;
             return wantCaptureMouse;
         }
         case (osgGA::GUIEventAdapter::DRAG):
@@ -215,7 +216,7 @@ bool OsgImGuiHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionA
         }
         case (osgGA::GUIEventAdapter::SCROLL):
         {
-            mouseWheel_ = ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP ? 1.0 : -1.0;
+            _mouseWheel = ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP ? 1.0 : -1.0;
             return wantCaptureMouse;
         }
         default:
