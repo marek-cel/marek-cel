@@ -31,7 +31,7 @@ SceneRoot::SceneRoot()
     //initThreeBodiesSymmetric();
     //initThreeBodiesAsymmetric();
     //initThreeBodiesAsymmetric3D();
-    //initThreeBodiesAsymmetric3DWithPlanet();
+    initThreeBodiesAsymmetric3DWithPlanet();
     //initThreeBodiesAsymmetric3DWithPlanetStatic();
 
     createScene();
