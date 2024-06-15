@@ -53,10 +53,13 @@ private:
 
     void PrintInfo();
 
+    void InitImGui();
+
     void InitTextures(std::vector<std::string> textureFiles);
     void InitActors();
     void SceneSetup();
 
+    void DrawImGui();
     void DrawScene();
     void DrawActors();
 

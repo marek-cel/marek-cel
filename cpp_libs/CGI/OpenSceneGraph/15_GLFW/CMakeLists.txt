@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.22)
 
 ################################################################################
 
-project(TextureMappping)
+project(FirstScene)
 
 ################################################################################
 
@@ -50,32 +50,14 @@ include_directories(${OPENGL_INCLUDE_DIRS})
 
 find_package(glfw3 3.3 REQUIRED)
 
-find_package(GLEW REQUIRED)
-include_directories(${GLEW_INCLUDE_DIRS})
-
-find_package(glm REQUIRED)
-
 ################################################################################
 
-include_directories(. ./src ./imgui ./imgui/backends)
+include_directories(. ./src)
 
 ################################################################################
 
 set(SOURCES
-    imgui/backends/imgui_impl_opengl3.cpp
-    imgui/backends/imgui_impl_glfw.cpp
-    imgui/imgui_demo.cpp
-    imgui/imgui_draw.cpp
-    imgui/imgui_tables.cpp
-    imgui/imgui_widgets.cpp
-    imgui/imgui.cpp
     src/main.cpp
-    src/Actor.cpp
-    src/Box.cpp
-    src/CameraCtrl.cpp
-    src/Sphere.cpp
-    src/Square.cpp
-    src/Utils.cpp
     src/WindowGL.cpp
 )
 
@@ -85,7 +67,6 @@ add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
     ${OPENGL_LIBRARIES}
-    ${GLEW_LIBRARIES}
     glfw
 )
 
