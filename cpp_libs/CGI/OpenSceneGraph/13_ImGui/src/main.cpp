@@ -71,7 +71,7 @@ int main(int argc, char* argv[])
 
     SceneRoot sceneRoot;
 
-    viewer.setUpViewInWindow(400, 200, 800, 600);
+    viewer.setUpViewInWindow(400, 200, 1200, 800);
     viewer.setSceneData(sceneRoot.getNode());
 
     viewer.setRealizeOperation(new ImGuiInitOperation);
@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
     return viewer.run();
 }
 
-void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments)
+void setupCameraManipulators(osgViewer::Viewer *viewer, osg::ArgumentParser *arguments)
 {
     osg::ref_ptr<osgGA::KeySwitchMatrixManipulator> keyswitchManip = new osgGA::KeySwitchMatrixManipulator();
 
