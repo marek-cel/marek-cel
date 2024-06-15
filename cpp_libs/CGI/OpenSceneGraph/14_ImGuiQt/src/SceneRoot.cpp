@@ -1,17 +1,15 @@
 #include <SceneRoot.h>
 
-#include <osgDB/ReadFile>
-#include <osgDB/WriteFile>
-
-#include <osgEarth/MapNode>
+#include <osg/Geode>
+#include <osg/ShapeDrawable>
 
 ////////////////////////////////////////////////////////////////////////////////
 
 SceneRoot::SceneRoot()
 {
-    m_root = new osg::Group();
+    _root = new osg::Group();
 
-    osg::ref_ptr<osg::StateSet> stateSet = m_root->getOrCreateStateSet();
+    osg::ref_ptr<osg::StateSet> stateSet = _root->getOrCreateStateSet();
 
     stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
     stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
@@ -33,10 +31,11 @@ SceneRoot::~SceneRoot() {}
 
 void SceneRoot::create()
 {
-    osg::ref_ptr<osg::Node> node = osgDB::readNodeFile( "../../../data/simple.earth" );
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    _root->addChild(geode.get());
 
-    if ( node.valid() )
-    {
-        m_root->addChild( node.get() );
-    }
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 10.0, 10.0, 10.0);
+
+    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
+    geode->addDrawable(shape.get());
 }

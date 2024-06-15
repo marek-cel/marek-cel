@@ -6,7 +6,7 @@ TEMPLATE = app
 
 ################################################################################
 
-TARGET = osgEarth
+TARGET = ImGuiQt
 
 DESTDIR = $$PWD/bin
 
@@ -33,7 +33,7 @@ unix: DEFINES += _LINUX_
 
 ################################################################################
 
-INCLUDEPATH += ./src
+INCLUDEPATH += ./src ./imgui ./imgui/backends ./imgui-osg/src
 
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/
@@ -91,21 +91,33 @@ unix: LIBS += \
     -losgText \
     -losgUtil \
     -losgViewer \
-    -losgWidget \
-    -losgEarth
+    -losgWidget
 
 ################################################################################
 
 HEADERS += \
+    imgui-osg/src/OsgImGuiHandler.hpp \
+    imgui/backends/imgui_impl_opengl3.h \
+    imgui/imgui.h \
     src/GraphicsWindowQt.h \
+    src/ImGuiInitOperation.h \
     src/KeyMap.h \
     src/MainWindow.h \
+    src/MyImGui.h \
     src/SceneRoot.h \
     src/WidgetCGI.h
 
 SOURCES += \
+    imgui-osg/src/OsgImGuiHandler.cpp \
+    imgui/backends/imgui_impl_opengl3.cpp \
+    imgui/imgui_demo.cpp \
+    imgui/imgui_draw.cpp \
+    imgui/imgui_tables.cpp \
+    imgui/imgui_widgets.cpp \
+    imgui/imgui.cpp \
     src/GraphicsWindowQt.cpp \
     src/KeyMap.cpp \
+    src/MyImGui.cpp \
     src/main.cpp \
     src/MainWindow.cpp \
     src/SceneRoot.cpp \

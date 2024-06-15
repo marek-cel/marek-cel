@@ -64,8 +64,8 @@ include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 ################################################################################
 
-find_library(IMGUI_LIBRARY NAMES imgui)
-include_directories("/usr/include/imgui")
+#find_library(IMGUI_LIBRARY NAMES imgui)
+#include_directories("/usr/include/imgui")
 
 ################################################################################
 
@@ -73,14 +73,20 @@ find_library(STB_LIBRARY NAMES stb)
 
 ################################################################################
 
-include_directories(. ./src)
+include_directories(. ./src ./imgui ./imgui/backends ./imgui-osg/src)
 
 ################################################################################
 
 set(SOURCES
     src/main.cpp
-    src/OsgImGuiHandler.cpp
     src/SceneRoot.cpp
+    imgui-osg/src/OsgImGuiHandler.cpp
+    imgui/backends/imgui_impl_opengl3.cpp
+    imgui/imgui_demo.cpp
+    imgui/imgui_draw.cpp
+    imgui/imgui_tables.cpp
+    imgui/imgui_widgets.cpp
+    imgui/imgui.cpp
 )
 
 ################################################################################
@@ -89,7 +95,6 @@ add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
 
 set(LIBS
     ${OPENSCENEGRAPH_LIBRARIES}
-    ${IMGUI_LIBRARY}
     ${STB_LIBRARY}
 )
 

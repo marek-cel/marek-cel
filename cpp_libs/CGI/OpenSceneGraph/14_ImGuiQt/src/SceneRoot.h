@@ -15,11 +15,11 @@ public:
 
     virtual ~SceneRoot();
 
-    inline osg::Node* getNode() { m_root.get(); }
+    inline osg::Node* getNode() { _root.get(); }
 
 private:
 
-    osg::ref_ptr<osg::Group> m_root;
+    osg::ref_ptr<osg::Group> _root;
 
     void create();
 };

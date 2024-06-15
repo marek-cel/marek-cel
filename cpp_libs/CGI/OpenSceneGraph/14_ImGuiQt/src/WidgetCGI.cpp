@@ -6,6 +6,9 @@
 
 #include <WidgetCGI.h>
 
+#include <ImGuiInitOperation.h>
+#include <MyImGui.h>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 WidgetCGI::WidgetCGI( QWidget *parent ) :
@@ -24,6 +27,13 @@ WidgetCGI::WidgetCGI( QWidget *parent ) :
     _gwin = createGraphicsWindow( x(), y(), width(), height() );
 
     QWidget *widget = addViewWidget();
+
+    /////////////////
+
+    setRealizeOperation(new ImGuiInitOperation);
+    addEventHandler(new MyImGui);
+
+    /////////////////
 
     _gridLayout = new QGridLayout( this );
     _gridLayout->setContentsMargins( 1, 1, 1, 1 );
@@ -68,8 +78,8 @@ QWidget* WidgetCGI::addViewWidget()
 
     setSceneData( _sceneRoot->getNode() );
     addEventHandler( new osgViewer::StatsHandler );
-    //setCameraManipulator( new osgGA::TrackballManipulator() );
-    setCameraManipulator( new osgGA::TerrainManipulator() );
+    setCameraManipulator( new osgGA::TrackballManipulator() );
+    //setCameraManipulator( new osgGA::TerrainManipulator() );
 
     assignSceneDataToCameras();
 
