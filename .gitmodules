@@ -10,3 +10,6 @@
 [submodule "cpp_libs/CGI/OpenSceneGraph/13_ImGui/imgui"]
 	path = cpp_libs/CGI/OpenSceneGraph/13_ImGui/imgui
 	url = git@github.com:ocornut/imgui.git
+[submodule "cpp_libs/CGI/ImGui/01_HelloWorld/imgui"]
+	path = cpp_libs/CGI/ImGui/01_HelloWorld/imgui
+	url = git@github.com:ocornut/imgui.git
