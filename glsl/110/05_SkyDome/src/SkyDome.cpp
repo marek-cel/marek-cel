@@ -23,7 +23,7 @@ SkyDome::SkyDome()
 void SkyDome::update()
 {
     osg::Quat q(_sunElev_rad, osg::X_AXIS,
-               -_sunAzim_rad, osg::Z_AXIS,  
+               -_sunAzim_rad, osg::Z_AXIS,
                 0.0, osg::Y_AXIS);
     _sunPosNorm = q * _sunPosNorm0;
 
@@ -46,7 +46,7 @@ void SkyDome::createScene()
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     _root->addChild(geode.get());
 
-    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere(osg::Vec3f(), 5.0);
+    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere(osg::Vec3f(), _skyDomeRadius);
 
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(sphere.get());
     //shape->setColor(osg::Vec4(1.0, 0.0, 0.0, 1.0));
@@ -102,7 +102,7 @@ void SkyDome::updateColors(float sun_elev_deg)
     _colorSkyZenith = Colors::sky[0];
     _colorSkyHorizon = Colors::haze[0];
     _colorSun = Colors::sun[0];
-    
+
     if ( sun_elev_deg >= -10.0f )
     {
         if ( sun_elev_deg < 10.0f )

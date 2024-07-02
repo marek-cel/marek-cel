@@ -39,7 +39,7 @@ private:
     osg::Vec3 _colorSkyHorizon;
     osg::Vec3 _colorSun;
 
-    float _skyDomeRadius = 5.0f;
+    float _skyDomeRadius = 10000.0f;
 
     void createScene();
 
