@@ -1,8 +1,8 @@
 ### [Hello there](https://www.youtube.com/watch?v=rEq1Z0bjdwc). 👋
 
 I am an aerospace engineer with a strong software engineering background. I graduated from Faculty of Power and Aeronautical Engineering of Warsaw University of Technology and since then I work on flight simulators as a flight dynamics specialist.
-      
-I am interested in 3D printing, scale modeling, electronics, role-playing games, science fiction, photography, cooking and horticulture.
+
+I am interested in 3D printing, scale modeling, electronics, science fiction, photography, cooking and horticulture.
 
 <!--
 **marek-cel/marek-cel** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
