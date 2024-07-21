@@ -80,7 +80,6 @@ include_directories(. ./src ./imgui ./imgui/backends ./imgui-osg/src)
 set(SOURCES
     src/main.cpp
     src/SceneRoot.cpp
-    src/SceneView.cpp
     imgui-osg/src/OsgImGuiHandler.cpp
     imgui/backends/imgui_impl_opengl3.cpp
     imgui/imgui_demo.cpp

@@ -99,6 +99,12 @@ int main(int argc, char* argv[])
     viewer.setRealizeOperation(new ImGuiInitOperation);
     viewer.addEventHandler(new ImGuiDemo);
 
+    osg::GraphicsContext* context = viewer.getCamera()->getGraphicsContext();
+    osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits(*context->getTraits());
+    traits->windowName = "ImGui Example";
+    osg::ref_ptr<osg::GraphicsContext> gc = osg::GraphicsContext::createGraphicsContext(traits.get());
+    viewer.getCamera()->setGraphicsContext(gc);
+
     return viewer.run();
 }
 
