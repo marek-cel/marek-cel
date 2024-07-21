@@ -6,7 +6,7 @@ source install_common.sh
 
 ################################################################################
 
-readBold "Do you want to upgrade THE SYSTEM? y or n"
+readBold "Do you want to upgrade THE SYSTEM?"
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
     printGreen "UPGRADING THE SYSTEM ..."

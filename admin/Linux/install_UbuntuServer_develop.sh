@@ -8,7 +8,7 @@ source install_common.sh
 
 function installDevelopEssentials()
 {
-    readBold "Do you want to install DEVELOPMENT ESSENTIALS? y or n"
+    readBold "Do you want to install DEVELOPMENT ESSENTIALS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing DEVELOPMENT ESSENTIALS ..."
@@ -18,7 +18,7 @@ function installDevelopEssentials()
             subversion
         
         # C++ TOOLS
-        readBold "Do you want to install C++ TOOLS? y or n"
+        readBold "Do you want to install C++ TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing C++ TOOLS ..."
@@ -34,7 +34,7 @@ function installDevelopEssentials()
         fi
 
         # GOOGLE TOOLS
-        readBold "Do you want to install GOOGLE TOOLS? y or n"
+        readBold "Do you want to install GOOGLE TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing GOOGLE TOOLS ..."

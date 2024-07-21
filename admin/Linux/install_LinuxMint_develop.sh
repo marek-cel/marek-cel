@@ -8,12 +8,12 @@ source install_common.sh
 
 function installDevelopEssentials()
 {
-    readBold "Do you want to install DEVELOPMENT ESSENTIALS? y or n"
+    readBold "Do you want to install DEVELOPMENT ESSENTIALS?"
 
     if [[ $REPLY =~ ^[Yy]$ ]]
-    then   
+    then
         printGreen "Installing DEVELOPMENT ESSENTIALS ..."
-        
+
         sudo apt install -y \
             cloc \
             dia \
@@ -29,9 +29,9 @@ function installDevelopEssentials()
             meld \
             subversion \
             wireshark
-        
+
         # ANDROID TOOLS
-        readBold "Do you want to install ANDROID TOOLS? y or n"
+        readBold "Do you want to install ANDROID TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing ANDROID TOOLS ..."
@@ -41,9 +41,9 @@ function installDevelopEssentials()
                 android-tools-adb \
                 android-sdk-platform-tools-common
         fi
-        
+
         # ARDUINO IDE
-        readBold "Do you want to install ARDUINO IDE? y or n"
+        readBold "Do you want to install ARDUINO IDE?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing ARDUINO IDE ..."
@@ -55,9 +55,9 @@ function installDevelopEssentials()
 
             sudo gpasswd -a cel dialout
         fi
-        
+
         # AVR TOOLS
-        readBold "Do you want to install AVR TOOLS? y or n"
+        readBold "Do you want to install AVR TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing AVR TOOLS ..."
@@ -67,13 +67,13 @@ function installDevelopEssentials()
                 avrdude \
                 gcc-avr
         fi
-        
+
         # C++ TOOLS
-        readBold "Do you want to install C++ TOOLS? y or n"
+        readBold "Do you want to install C++ TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing C++ TOOLS ..."
-            
+
             sudo apt install -y \
                 autoconf \
                 automake \
@@ -87,13 +87,13 @@ function installDevelopEssentials()
                 rustfilt \
                 valgrind
         fi
-        
+
         # C++ EXTRA LIBS
-        readBold "Do you want to install C++ EXTRA LIBS? y or n"
+        readBold "Do you want to install C++ EXTRA LIBS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing C++ EXTRA LIBS ..."
-            
+
             sudo apt install -y \
                 libalut-dev \
                 libarmadillo-dev \
@@ -116,11 +116,15 @@ function installDevelopEssentials()
                 libxft-dev \
                 libxinerama-dev \
                 libxml2-dev \
-                libxss-dev  
+                libxss-dev \
+                libzip-dev \
+                zipcmp \
+                zipmerge \
+                ziptool
         fi
-        
+
         # DIA2CODE
-        readBold "Do you want to install DIA2CODE? y or n"
+        readBold "Do you want to install DIA2CODE?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing DIA2CODE ..."
@@ -129,7 +133,7 @@ function installDevelopEssentials()
         fi
 
         # FORTRAN
-        readBold "Do you want to install FORTRAN? y or n"
+        readBold "Do you want to install FORTRAN?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing FORTRAN ..."
@@ -138,7 +142,7 @@ function installDevelopEssentials()
         fi
 
         # IDEs
-        readBold "Do you want to install IDEs? y or n"
+        readBold "Do you want to install IDEs?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing IDEs ..."
@@ -157,26 +161,26 @@ function installDevelopEssentials()
 
             sudo apt install -y gfortran
         fi
-        
+
         # JAVA
-        readBold "Do you want to install JAVA? y or n"
+        readBold "Do you want to install JAVA?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing JAVA ..."
-            
+
             sudo apt install -y \
                 ant \
                 default-jdk \
                 default-jre \
                 maven
         fi
-        
+
         # GOOGLE TOOLS
-        readBold "Do you want to install GOOGLE TOOLS? y or n"
+        readBold "Do you want to install GOOGLE TOOLS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing GOOGLE TOOLS ..."
-            
+
             sudo apt install -y \
                 google-mock \
                 google-perftools \
@@ -187,11 +191,11 @@ function installDevelopEssentials()
         fi
 
         # LIBSDL2
-        readBold "Do you want to install LIBSDL2? y or n"
+        readBold "Do you want to install LIBSDL2?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing LIBSDL2 ..."
-            
+
             sudo apt install -y \
                 libsdl2-dev \
                 libsdl2-gfx-dev \
@@ -202,11 +206,11 @@ function installDevelopEssentials()
         fi
 
         # OpenGL
-        readBold "Do you want to install OpenGL LIBS? y or n"
+        readBold "Do you want to install OpenGL LIBS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OpenGL LIBS ..."
-            
+
             sudo apt install -y \
                 freeglut3-dev \
                 glslang-dev \
@@ -218,7 +222,7 @@ function installDevelopEssentials()
         fi
 
         # OSG
-        readBold "Do you want to install OSG? y or n"
+        readBold "Do you want to install OSG?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OSG ..."
@@ -231,7 +235,7 @@ function installDevelopEssentials()
         fi
 
         # OSGEARTH
-        readBold "Do you want to install OSGEARTH? y or n"
+        readBold "Do you want to install OSGEARTH?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OSGEARTH ..."
@@ -242,8 +246,24 @@ function installDevelopEssentials()
                 osgearth
         fi
 
+        # PHP
+        readBold "Do you want to install PHP?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing PHP ..."
+
+            sudo apt install -y \
+                apache2 \
+                mysql-client \
+                mysql-server \
+                php \
+                php-intl \
+                phpmyadmin \
+                phpunit
+        fi
+
         # POWER SHELL
-        readBold "Do you want to install POWERSHELL? y or n"
+        readBold "Do you want to install POWERSHELL?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing POWERSHELL ..."
@@ -251,7 +271,7 @@ function installDevelopEssentials()
             sudo apt-get install -y wget apt-transport-https software-properties-common
 
             VERSION_ID="22.04"
-            readBold "Are you running Ubuntu $VERSION_ID? y or n"
+            readBold "Are you running Ubuntu $VERSION_ID?"
             if [[ $REPLY =~ ^[Nn]$ ]]
             then
                 echo Enter you Ubuntu version ID.
@@ -269,13 +289,13 @@ function installDevelopEssentials()
 
             printYellow "To run PowerShell type pwsh."
         fi
-            
+
         # PYTHON
-        readBold "Do you want to install PYTHON3? y or n"
+        readBold "Do you want to install PYTHON3?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing PYTHON3 ..."
-            
+
             sudo apt install -y \
                 idle \
                 jupyter \
@@ -308,16 +328,16 @@ function installDevelopEssentials()
                 python3-setuptools \
                 python3-sunpy \
                 python3-vtk7
-            
+
             pip3 install ussa1976
         fi
-        
+
         # QT
-        readBold "Do you want to install QT? y or n"
+        readBold "Do you want to install QT?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing QT ..."
-            
+
             sudo apt install -y \
                 libmarble-dev \
                 libmarblewidget-qt5-28 \
@@ -333,10 +353,10 @@ function installDevelopEssentials()
                 libqwt-qt5-dev \
                 qtbase5-dev \
                 qtcreator
-            
+
             # QT EXAMPLES
             # /usr/lib/x86_64-linux-gnu/qt5/examples1
-            readBold "Do you want to install QT EXAMPLES? y or n"
+            readBold "Do you want to install QT EXAMPLES?"
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                 printGreen "Installing QT EXAMPLES ..."
@@ -360,13 +380,13 @@ function installDevelopEssentials()
                     qtsvg5-examples \
                     qttools5-examples \
                     qtvirtualkeyboard5-examples
-                    
+
                 cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
             fi
         fi
 
         # SCRATCH
-        readBold "Do you want to install SCRATCH? y or n"
+        readBold "Do you want to install SCRATCH?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing SCRATCH ..."
@@ -374,13 +394,13 @@ function installDevelopEssentials()
             sudo apt install -y \
                 scratch
         fi
-        
+
         # VTK
-        readBold "Do you want to install VTK? y or n"
+        readBold "Do you want to install VTK?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing VTK ..."
-            
+
             sudo apt install -y \
                 libvtk7.1p \
                 libvtk7.1p-qt \

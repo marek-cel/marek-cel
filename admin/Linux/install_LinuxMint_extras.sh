@@ -8,7 +8,7 @@ source install_common.sh
 
 function installExtras()
 {
-    readBold "Do you want to install ENTERTEINMENT? y or n"
+    readBold "Do you want to install ENTERTEINMENT?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then   
         printGreen "Installing ENTERTEINMENT ..."
@@ -22,7 +22,7 @@ function installExtras()
             spotify-client
     fi
 
-    readBold "Do you want to install EMULATORS? y or n"
+    readBold "Do you want to install EMULATORS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing EMULATORS ..."
@@ -33,7 +33,7 @@ function installExtras()
             wine
     fi
 
-    readBold "Do you want to install REMOTE DESKTOP CLIENTS? y or n"
+    readBold "Do you want to install REMOTE DESKTOP CLIENTS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing REMOTE DESKTOP CLIENTS ..."
@@ -44,7 +44,7 @@ function installExtras()
             remmina-plugin-vnc
     fi
 
-    readBold "Do you want to install VIRTUAL BOX? y or n"
+    readBold "Do you want to install VIRTUAL BOX?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing VIRTUAL BOX ..."
@@ -56,7 +56,7 @@ function installExtras()
             virtualbox-qt
     fi
 
-    readBold "Do you want to install QEMU/KVM? y or n"
+    readBold "Do you want to install QEMU/KVM?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing QEMU/KVM ..."

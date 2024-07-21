@@ -8,7 +8,7 @@ source install_common.sh
 
 function installCelestia()
 {
-    readBold "Do you want to install CELESTIA? y or n"
+    readBold "Do you want to install CELESTIA?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then   
         printGreen "Installing CELESTIA ..."

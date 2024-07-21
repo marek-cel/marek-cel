@@ -8,7 +8,7 @@ source install_common.sh
 
 function installCaxGisScientific()
 {
-    readBold "Do you want to install CAx / GIS / SCIENTIFIC TOOLS? y or n"
+    readBold "Do you want to install CAx / GIS / SCIENTIFIC TOOLS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing CAx / GIS / SCIENTIFIC TOOLS ..."
@@ -24,7 +24,7 @@ function installCaxGisScientific()
             xfoil
         
         # XFLR5
-        readBold "Do you want to install XFLR5? y or n"
+        readBold "Do you want to install XFLR5?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing XFLR5 ..."
@@ -47,7 +47,7 @@ function installCaxGisScientific()
         fi
 
         # FREECAD and LIBRECAD
-        readBold "Do you want to install FREECAD and LIBRECAD? y or n"
+        readBold "Do you want to install FREECAD and LIBRECAD?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing FREECAD and LIBRECAD ..."
@@ -58,7 +58,7 @@ function installCaxGisScientific()
         fi
 
         # CALCULIX
-        readBold "Do you want to install CALCULIX? y or n"
+        readBold "Do you want to install CALCULIX?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing CALCULIX ..."
@@ -70,7 +70,7 @@ function installCaxGisScientific()
         fi
 
         # GIS
-        readBold "Do you want to install GIS? y or n"
+        readBold "Do you want to install GIS?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing GIS ..."
@@ -83,7 +83,7 @@ function installCaxGisScientific()
         fi
 
         # OCTAVE
-        readBold "Do you want to install OCTAVE and SCILAB? y or n"
+        readBold "Do you want to install OCTAVE and SCILAB?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OCTAVE and SCILAB ..."
@@ -99,7 +99,7 @@ function installCaxGisScientific()
         fi
             
         # KICAD
-        readBold "Do you want to install KICAD? y or n"
+        readBold "Do you want to install KICAD?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing KICAD ..."
@@ -113,7 +113,7 @@ function installCaxGisScientific()
         fi
 
         # FRITZING
-        readBold "Do you want to install FRITZING? y or n"
+        readBold "Do you want to install FRITZING?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing FRITZING ..."
@@ -125,7 +125,7 @@ function installCaxGisScientific()
         fi
         
         # OPENFOAM.COM
-        readBold "Do you want to install OPENFOAM.COM? y or n"
+        readBold "Do you want to install OPENFOAM.COM?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OPENFOAM.COM ..."
@@ -152,7 +152,7 @@ function installCaxGisScientific()
         fi
 
         # OPENFOAM.ORG
-        readBold "Do you want to install OPENFOAM.ORG? y or n"
+        readBold "Do you want to install OPENFOAM.ORG?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing OPENFOAM.ORG ..."

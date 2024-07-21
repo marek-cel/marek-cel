@@ -9,7 +9,7 @@ source install_common.sh
 # https://docs.docker.com/get-docker/
 function installDcoker()
 {
-    readBold "Do you want to install DOCKER? y or n"
+    readBold "Do you want to install DOCKER?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing DOCKER ..."

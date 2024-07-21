@@ -8,12 +8,12 @@ source install_common.sh
 
 function installWebServer()
 {
-    readBold "Do you want to install WEB SERVER? y or n"
+    readBold "Do you want to install WEB SERVER?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing WEB SERVER ..."
 
-        readBold "Do you want to install APACHE2? y or n"
+        readBold "Do you want to install APACHE2?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing APACHE2 ..."
@@ -22,7 +22,7 @@ function installWebServer()
                 apache2
         fi
 
-        readBold "Do you want to install NGINX? y or n"
+        readBold "Do you want to install NGINX?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing NGINX ..."
@@ -31,7 +31,7 @@ function installWebServer()
                 nginx
         fi
 
-        readBold "Do you want to install MYSQL? y or n"
+        readBold "Do you want to install MYSQL?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing MYSQL ..."
@@ -41,7 +41,7 @@ function installWebServer()
                 mysql-server
         fi
 
-        readBold "Do you want to install MARIADB? y or n"
+        readBold "Do you want to install MARIADB?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing MARIADB ..."
@@ -51,7 +51,7 @@ function installWebServer()
                 mariadb-server
         fi
 
-        readBold "Do you want to install PHP? y or n"
+        readBold "Do you want to install PHP?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing PHP ..."
@@ -61,7 +61,7 @@ function installWebServer()
                 php-intl
         fi
 
-        readBold "Do you want to install PHPMYADMIN? y or n"
+        readBold "Do you want to install PHPMYADMIN?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing PHPMYADMIN ..."

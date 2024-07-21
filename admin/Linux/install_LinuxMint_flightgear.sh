@@ -8,7 +8,7 @@ source install_common.sh
 
 function installFlightGear()
 {
-    readBold "Do you want to install FLIGHTGEAR? y or n"
+    readBold "Do you want to install FLIGHTGEAR?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing FLIGHTGEAR ..."

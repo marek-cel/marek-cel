@@ -8,7 +8,7 @@ source install_common.sh
 
 function installKodi()
 {
-    readBold "Do you want to install KODI? y or n"
+    readBold "Do you want to install KODI?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing KODI ..."

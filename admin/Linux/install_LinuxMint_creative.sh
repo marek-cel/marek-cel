@@ -8,7 +8,7 @@ source install_common.sh
 
 function installCreativeTools()
 {
-    readBold "Do you want to install CREATIVE TOOLS? y or n"
+    readBold "Do you want to install CREATIVE TOOLS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then   
         printGreen "Installing CREATIVE TOOLS ..."

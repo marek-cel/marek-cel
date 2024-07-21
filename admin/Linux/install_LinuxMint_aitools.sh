@@ -8,7 +8,7 @@ source install_common.sh
 
 function installAiTools()
 {
-    readBold "Do you want to install AI TOOLS? y or n"
+    readBold "Do you want to install AI TOOLS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing AI TOOLS ..."

@@ -9,10 +9,10 @@ source install_common.sh
 # https://forums.linuxmint.com/viewtopic.php?t=369092
 function installVnc()
 {
-    readBold "Do you want to install VNC? y or n"
+    readBold "Do you want to install VNC?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        readBold "Do you want to install VNC SERVER? y or n"
+        readBold "Do you want to install VNC SERVER?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing VNC SERVER ..."
@@ -42,7 +42,7 @@ function installVnc()
             sudo systemctl start x11vnc
             sudo systemctl status x11vnc
 
-            readBold "Did it say \"active\"? y or n"
+            readBold "Did it say \"active\"?"
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                 sudo systemctl enable x11vnc.service

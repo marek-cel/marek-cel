@@ -8,7 +8,7 @@ source install_common.sh
 
 function installEssentials()
 {
-    readBold "Do you want to install ESSENTIALS? y or n"
+    readBold "Do you want to install ESSENTIALS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing ESSENTIALS ..."
@@ -55,7 +55,7 @@ function installEssentials()
         sudo flatpak install flathub md.obsidian.Obsidian
 
         # BRAVE BROWSER
-        readBold "Do you want to install BRAVE BROWSER? y or n"
+        readBold "Do you want to install BRAVE BROWSER?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing BRAVE BROWSER ..."

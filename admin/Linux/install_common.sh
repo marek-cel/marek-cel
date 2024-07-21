@@ -21,6 +21,6 @@ function printYellow()
 function readBold()
 {
     echo
-    read -p "$(echo -e "\e[1m"$1"\e[0m") " -n 1 -r
+    read -p "$(echo -e "\e[1m"$1 [y/n] "\e[0m") " -n 1 -r
     echo
 }
