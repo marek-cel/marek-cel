@@ -18,33 +18,12 @@
 #include <imgui/backends/imgui_impl_opengl3.h>
 
 #include <SceneRoot.h>
-#include <OsgImGuiHandler.hpp>
+#include <ImGuiEventHandler.h>
 
-class ImGuiInitOperation : public osg::Operation
-{
-public:
-    ImGuiInitOperation()
-        : osg::Operation("ImGuiInitOperation", false)
-    {
-    }
-
-    void operator()(osg::Object* object) override
-    {
-        osg::GraphicsContext* context = dynamic_cast<osg::GraphicsContext*>(object);
-        if (!context)
-            return;
-
-        if (!ImGui_ImplOpenGL3_Init())
-        {
-            std::cout << "ImGui_ImplOpenGL3_Init() failed\n";
-        }
-    }
-};
-
-class ImGuiDemo : public OsgImGuiHandler
+class ImGuiDemo : public ImGuiEventHandler
 {
 protected:
-    void drawUi() override
+    void drawUi(osg::RenderInfo& renderInfo) override
     {
         // ImGui code goes here...
         ImGui::ShowDemoWindow();
@@ -87,17 +66,25 @@ int main(int argc, char* argv[])
     osg::ArgumentParser arguments(&argc, argv);
 
     osgViewer::Viewer viewer(arguments);
+    viewer.setThreadingModel(viewer.SingleThreaded);
 
     setupCameraManipulators(&viewer, &arguments);
     setupEventHandlers(&viewer, &arguments);
+
+    // This is normally called by Viewer::run but we are running our frame loop manually so we need to call it here.
+    viewer.setReleaseContextAtEndOfFrameHint(false);
 
     SceneRoot sceneRoot;
 
     viewer.setUpViewInWindow(400, 200, 1200, 800);
     viewer.setSceneData(sceneRoot.getNode());
 
-    viewer.setRealizeOperation(new ImGuiInitOperation);
-    viewer.addEventHandler(new ImGuiDemo);
+    // Call this to enable ImGui rendering.
+    // If you use the MapNodeHelper, call this first.
+    viewer.setRealizeOperation(new ImGuiRealizeOperation);
+
+    //viewer.addEventHandler(new ImGuiDemo);
+    viewer.getEventHandlers().push_front(new ImGuiDemo);
 
     osg::GraphicsContext* context = viewer.getCamera()->getGraphicsContext();
     osg::ref_ptr<osg::GraphicsContext::Traits> traits = new osg::GraphicsContext::Traits(*context->getTraits());
@@ -107,6 +94,7 @@ int main(int argc, char* argv[])
 
     return viewer.run();
 }
+
 
 void setupCameraManipulators(osgViewer::Viewer *viewer, osg::ArgumentParser *arguments)
 {
@@ -167,3 +155,4 @@ void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* argument
     // add the screen capture handler
     viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
 }
+
