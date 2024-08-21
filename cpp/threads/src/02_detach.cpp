@@ -1,5 +1,6 @@
 #include <iostream>
 #include <thread>
+#include <chrono>
 
 #ifdef WIN32
 #   include <windows.h>
@@ -41,6 +42,9 @@ int main()
     t1.detach();
     t2.detach();
 
+    std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
+    std::chrono::seconds delay(10);
+    std::this_thread::sleep_for(delay);
     std::cout << __FILE__ << "(" << __LINE__ << ")" << std::endl;
 
     return 0;
