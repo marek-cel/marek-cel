@@ -20,7 +20,7 @@ double calc_pi( int terms )
         sign *= -1;
     }
 
-    return 4.0 * result;
+    return -4.0 * result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -31,6 +31,7 @@ int main()
     std::cout << __cplusplus << std::endl;
     std::cout << std::endl;
 
+    // promise and future work together
     std::promise<double> prom;
 
     auto func = [&]( int terms )
@@ -39,11 +40,11 @@ int main()
         prom.set_value( result );
     };
 
-    std::thread t1( func, 1e8 );
+    std::thread t1( func, 1e9 );
 
     std::future<double> fut = prom.get_future();
-
-    std::cout << std::setprecision(15) << fut.get() << std::endl;
+    double result = fut.get();
+    std::cout << std::setprecision(15) << result << std::endl;
 
     t1.join();
 

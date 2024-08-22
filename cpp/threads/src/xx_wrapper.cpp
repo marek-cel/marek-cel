@@ -9,25 +9,41 @@ class ThreadBase
 {
 public:
 
+    ThreadBase() = delete;
+    ThreadBase(const ThreadBase&) = delete;
+    ThreadBase& operator=(const ThreadBase&) = delete;
+    ThreadBase(ThreadBase&&) = delete;
+    ThreadBase& operator=(ThreadBase&&) = delete;
+
+    virtual ~ThreadBase()
+    {
+        quit();
+    }
+
     ThreadBase(const char* name, int interval)
     {
         _name = name;
         _interval = interval;
     }
 
-    void init()
+    void start()
     {
-        if ( !_thread )
+        if (!_thread)
         {
             _isRunning = true;
-            _thread = std::make_shared<std::thread>(&ThreadBase::run, this);
-            _thread->detach();
+            _thread = std::make_unique<std::thread>(&ThreadBase::run, this);
         }
     }
 
     void quit()
     {
         _isRunning = false;
+
+        if (_thread && _thread->joinable())
+        {
+            _thread->join();
+        }
+        _thread = nullptr;
     }
 
     void step()
@@ -38,7 +54,7 @@ public:
 
 private:
 
-    std::shared_ptr<std::thread> _thread;
+    std::unique_ptr<std::thread> _thread;
 
     std::atomic<bool> _isRunning = false;
 
@@ -47,14 +63,9 @@ private:
 
     void run()
     {
-        while ( _isRunning )
+        while (_isRunning)
         {
             step();
-        }
-
-        if ( _thread )
-        {
-            _thread = nullptr;
         }
     }
 };
@@ -67,8 +78,8 @@ int main()
 
     ThreadBase t1("t1", 1);
     ThreadBase t2("t2", 2);
-    t1.init();
-    t2.init();
+    t1.start();
+    t2.start();
 
     std::chrono::seconds delay(10);
 
