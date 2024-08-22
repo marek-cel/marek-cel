@@ -46,7 +46,7 @@ SOURCES = \
 	src/20_thread_pool.cpp \
 	src/21_distributing_work.cpp \
     src/22_timing.cpp \
-    src/23_wrapper.cpp
+    src/xx_wrapper.cpp
 
 ################################################################################
 
