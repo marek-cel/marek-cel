@@ -9,7 +9,7 @@ class ThreadBase
 {
 public:
 
-    ThreadBase() = delete;
+    ThreadBase() = default;
     ThreadBase(const ThreadBase&) = delete;
     ThreadBase& operator=(const ThreadBase&) = delete;
     ThreadBase(ThreadBase&&) = delete;
@@ -20,18 +20,18 @@ public:
         quit();
     }
 
-    ThreadBase(const char* name, int interval)
-    {
-        _name = name;
-        _interval = interval;
-    }
-
     void start()
     {
         if (!_thread)
         {
             _isRunning = true;
-            _thread = std::make_unique<std::thread>(&ThreadBase::run, this);
+            _thread = std::make_unique<std::thread>([&]()
+            {
+                while (_isRunning)
+                {
+                    this->step();
+                }
+            });
         }
     }
 
@@ -46,7 +46,25 @@ public:
         _thread = nullptr;
     }
 
-    void step()
+    virtual void step() = 0;
+
+private:
+
+    std::unique_ptr<std::thread> _thread;
+    std::atomic<bool> _isRunning = false;
+};
+
+class Thread : public ThreadBase
+{
+public:
+
+    Thread(const char* name, int interval)
+    {
+        _name = name;
+        _interval = interval;
+    }
+
+    void step() override
     {
         std::cout << _name << " " << time(nullptr) << std::endl;
         std::this_thread::sleep_for(std::chrono::seconds(_interval));
@@ -54,20 +72,8 @@ public:
 
 private:
 
-    std::unique_ptr<std::thread> _thread;
-
-    std::atomic<bool> _isRunning = false;
-
     std::string _name;
     unsigned int _interval;
-
-    void run()
-    {
-        while (_isRunning)
-        {
-            step();
-        }
-    }
 };
 
 int main()
@@ -76,8 +82,8 @@ int main()
     std::cout << __cplusplus << std::endl;
     std::cout << std::endl;
 
-    ThreadBase t1("t1", 1);
-    ThreadBase t2("t2", 2);
+    Thread t1("t1", 1);
+    Thread t2("t2", 2);
     t1.start();
     t2.start();
 
