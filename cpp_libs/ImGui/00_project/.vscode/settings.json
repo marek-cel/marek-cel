@@ -1,8 +1,0 @@
-{
-    "files.associations": {
-        "group": "cpp",
-        "graphicswindow": "cpp",
-        "view": "cpp",
-        "geode": "cpp"
-    }
-}
