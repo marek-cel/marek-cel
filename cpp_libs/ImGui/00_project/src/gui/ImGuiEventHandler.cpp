@@ -32,23 +32,6 @@ struct PostDrawOp : public osg::Camera::DrawCallback
     }
 };
 
-
-ImGuiRealizeOperation::ImGuiRealizeOperation()
-    : osg::Operation("ImGuiRealizeOperation", false)
-{}
-
-void ImGuiRealizeOperation::operator()(osg::Object* object)
-{
-    osg::GraphicsContext* context = dynamic_cast<osg::GraphicsContext*>(object);
-    if (!context)
-        return;
-
-    if (!ImGui_ImplOpenGL3_Init())
-    {
-        std::cout << "ImGui_ImplOpenGL3_Init() failed\n";
-    }
-}
-
 ImGuiEventHandler::ImGuiEventHandler()
 {
     IMGUI_CHECKVERSION();
@@ -115,7 +98,7 @@ bool ImGuiEventHandler::handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActio
             // toggle imgui
             if (isKeyDown && c == 'y')
             {
-                _show = !_show;
+                _visible = !_visible;
                 return true;
             }
         }
@@ -168,22 +151,19 @@ void ImGuiEventHandler::newFrame(osg::RenderInfo& renderInfo)
 {
     if (_firstFrame)
     {
-         ImGui::CreateContext();
-
-         //ImGui_ImplOpenGL3_Init();
-
-//#       ifdef IMGUI_HAS_DOCK
+        ImGui::CreateContext();
+        ImGui_ImplOpenGL3_Init();
         ImGuiIO& io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-//#       endif
     }
 
     ImGui_ImplOpenGL3_NewFrame();
 
     ImGuiIO& io = ImGui::GetIO();
 
-    io.DisplaySize = ImVec2(renderInfo.getCurrentCamera()->getGraphicsContext()->getTraits()->width,
-                            renderInfo.getCurrentCamera()->getGraphicsContext()->getTraits()->height);
+    io.DisplaySize = ImVec2(
+        renderInfo.getCurrentCamera()->getGraphicsContext()->getTraits()->width,
+        renderInfo.getCurrentCamera()->getGraphicsContext()->getTraits()->height);
 
     double currentTime = renderInfo.getView()->getFrameStamp()->getSimulationTime();
     io.DeltaTime = currentTime - _time + 0.0000001;
@@ -191,7 +171,6 @@ void ImGuiEventHandler::newFrame(osg::RenderInfo& renderInfo)
 
     if ( _firstFrame )
     {
-        //installSettingsHandler();
         _firstFrame = false;
     }
 
@@ -200,19 +179,16 @@ void ImGuiEventHandler::newFrame(osg::RenderInfo& renderInfo)
 
 void ImGuiEventHandler::render(osg::RenderInfo& renderInfo)
 {
-    // drawUi(renderInfo);
-    // ImGui::Render();
-    // ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
     osg::Camera* camera = renderInfo.getCurrentCamera();
     osg::Viewport* viewport = camera->getViewport();
 
-    if ( _show )
+    if ( _visible )
     {
         constexpr ImGuiDockNodeFlags dockspace_flags =
             ImGuiDockNodeFlags_NoDockingInCentralNode | ImGuiDockNodeFlags_PassthruCentralNode;
-
-        ImGuiID dockSpaceId = ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), dockspace_flags);
+        //constexpr ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+        //_dockSpaceId = ImGui::GetID("MyDockSpace");
+        _dockSpaceId = ImGui::DockSpaceOverViewport(_dockSpaceId, ImGui::GetMainViewport(), dockspace_flags);
 
         glDisable(GL_MULTISAMPLE);
 
@@ -221,7 +197,7 @@ void ImGuiEventHandler::render(osg::RenderInfo& renderInfo)
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-        ImGuiDockNode* centralNode = ImGui::DockBuilderGetCentralNode(dockSpaceId);
+        ImGuiDockNode* centralNode = ImGui::DockBuilderGetCentralNode(_dockSpaceId);
 
         auto io = ImGui::GetIO();
         viewport->x() = centralNode->Pos.x;
@@ -235,6 +211,7 @@ void ImGuiEventHandler::render(osg::RenderInfo& renderInfo)
         viewport->y() = 0;
         viewport->width() = camera->getGraphicsContext()->getTraits()->width;
         viewport->height() = camera->getGraphicsContext()->getTraits()->height;
+        ImGui::EndFrame();
     }
 
     if ( _autoAdjustProjMatrix )
@@ -255,19 +232,6 @@ void ImGuiEventHandler::render(osg::RenderInfo& renderInfo)
         }
     }
 }
-
-// void ImGuiEventHandler::installSettingsHandler()
-// {
-//     OE_HARD_ASSERT(ImGui::GetCurrentContext() != nullptr);
-//     s_guiHandler = this;
-//     ImGuiSettingsHandler s;
-//     s.TypeName = "osgEarth";
-//     s.TypeHash = ImHashStr(s.TypeName);
-//     s.ReadOpenFn = handleStartEntry;
-//     s.ReadLineFn = handleReadSetting;
-//     s.WriteAllFn = handleWriteSettings;
-//     ImGui::GetCurrentContext()->SettingsHandlers.push_back(s);
-// }
 
 void ImGuiEventHandler::setCameraCallbacks(osg::Camera* camera)
 {

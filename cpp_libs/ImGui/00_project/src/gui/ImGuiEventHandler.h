@@ -11,13 +11,6 @@
 namespace mc {
 namespace gui {
 
-class ImGuiRealizeOperation : public osg::Operation
-{
-public:
-    ImGuiRealizeOperation();
-    void operator()(osg::Object* object) override;
-};
-
 class ImGuiEventHandler : public osgGA::GUIEventHandler
 {
 public:
@@ -29,6 +22,16 @@ public:
     void newFrame(osg::RenderInfo& renderInfo);
     void render(osg::RenderInfo& renderInfo);
 
+    void setVisible(bool visible) { _visible = visible; }
+
+    bool visible() const { return _visible; }
+
+    ImGuiID dockSpaceId () const { return _dockSpaceId; }
+    // ImGuiID leftDockId  () const { return _leftDockId;  }
+    // ImGuiID rightDockId () const { return _rightDockId; }
+    // ImGuiID topDockId   () const { return _topDockId;   }
+    // ImGuiID downDockId  () const { return _downDockId;  }
+
 protected:
 
     // Put your ImGui code inside this function
@@ -39,8 +42,16 @@ private:
     double _time = 0.0;
     bool _initialized = false;
     bool _firstFrame = true;
-    bool _show = true;
+    bool _visible = true;
     bool _autoAdjustProjMatrix = true;
+
+    ImGuiID _dockSpaceId = 0;
+    // ImGuiID _leftDockId  = 0;
+    // ImGuiID _rightDockId = 0;
+    // ImGuiID _topDockId   = 0;
+    // ImGuiID _downDockId  = 0;
+
+    void initializeDockSpace(osg::Viewport* viewport);
 
     void setCameraCallbacks(osg::Camera* camera);
 
