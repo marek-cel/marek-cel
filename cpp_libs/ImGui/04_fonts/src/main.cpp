@@ -13,7 +13,7 @@ int main()
     SceneRoot* sceneRoot = new SceneRoot();
 
     osg::ref_ptr<osgViewer::Viewer> viewer = new osgViewer::Viewer();
-    viewer->setThreadingModel(viewer->SingleThreaded);
+    viewer->setThreadingModel(osgViewer::Viewer::SingleThreaded);
     viewer->setReleaseContextAtEndOfFrameHint(false);
 
     viewer->setUpViewInWindow(400, 200, 1200, 800);
