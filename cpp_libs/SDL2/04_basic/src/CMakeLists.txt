@@ -1,5 +1,6 @@
 set(CPP_FILES
     main.cpp
+    Game.cpp
 )
 
 set(SOURCES ${CPP_FILES})

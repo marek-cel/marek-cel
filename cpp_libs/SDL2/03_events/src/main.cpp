@@ -66,6 +66,7 @@ bool loop()
 	{
 		if ( e.type == SDL_QUIT )
 		{
+			std::cout << "Quit event" << std::endl;
 			return false;
 		}
 	}
