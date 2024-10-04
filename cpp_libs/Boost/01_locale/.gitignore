@@ -1,5 +1,5 @@
 bin/*
-lib/*
+build/*
 
 # C++ objects and libs
 *.slo
@@ -12,6 +12,8 @@ lib/*
 *.dll
 *.dylib
 
+################################################################################
+
 # Qt-es
 object_script.*.Release
 object_script.*.Debug
@@ -22,8 +24,6 @@ object_script.*.Debug
 *.pro.user.*
 *.qbs.user
 *.qbs.user.*
-*.creator.user
-*.creator.user.*
 *.moc
 moc_*.cpp
 moc_*.h
@@ -46,3 +46,17 @@ target_wrapper.*
 
 # QtCreator CMake
 CMakeLists.txt.user*
+
+# VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+
+# Local History for Visual Studio Code
+.history/
+
+# Built Visual Studio Code Extensions
+*.vsix
