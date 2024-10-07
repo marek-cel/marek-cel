@@ -49,8 +49,19 @@ endif()
 
 ################################################################################
 
-find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIRS})
+find_package(OpenSceneGraph REQUIRED
+    OpenThreads
+    osg
+    osgDB
+    osgGA
+    osgParticle
+    osgSim
+    osgText
+    osgUtil
+    osgViewer
+    osgWidget
+)
+include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 ################################################################################
 
@@ -69,5 +80,5 @@ set(SOURCES ${CPP_FILES})
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME}
-
+    ${OPENSCENEGRAPH_LIBRARIES}
 )
