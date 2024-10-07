@@ -6,7 +6,7 @@ set(SOURCES ${CPP_FILES})
 
 ################################################################################
 
-add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 if(WIN32)
     set(LIBS
