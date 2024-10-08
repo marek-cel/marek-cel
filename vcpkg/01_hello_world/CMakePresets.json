@@ -2,8 +2,13 @@
     "version": 2,
     "configurePresets": [
         {
+            "name": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Unix Makefiles"
+        },
+        {
             "name": "vcpkg",
-            "generator": "Visual Studio 17 2022",
+
             "binaryDir": "${sourceDir}/build",
             "cacheVariables": {
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
