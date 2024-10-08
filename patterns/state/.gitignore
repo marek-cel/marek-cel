@@ -1,3 +1,5 @@
 *.creator.user
 ./bin
 ./build
+
+*.o
