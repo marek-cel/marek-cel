@@ -50,7 +50,8 @@ void ImGuiApp::drawWindow1()
 
     //ImGui::DockBuilderDockWindow("Window 1", leftDockId());
 
-    if (ImGui::Begin("Window 1"))
+    bool open;
+    if (ImGui::Begin("Window 1", &open, ImGuiWindowFlags_MenuBar))
     {
         if (ImGui::CollapsingHeader("Test Collapsing Header", nullptr, ImGuiTreeNodeFlags_DefaultOpen))
         {
