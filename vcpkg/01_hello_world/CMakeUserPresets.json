@@ -5,6 +5,7 @@
         "name": "vcpkg - win",
         "inherits": "vcpkg",
         "generator": "Visual Studio 17 2022",
+        "architecture": "x64",
         "environment": {
           "VCPKG_ROOT": "D:/bin/vcpkg"
         }
