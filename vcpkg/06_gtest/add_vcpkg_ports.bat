@@ -1,0 +1,1 @@
+vcpkg add port gtest
