@@ -106,10 +106,6 @@ int main()
     }
     sigMyClass(40);
 
-    // signal delayed execution
-    std::cout << std::endl;
-    sig(7);
-
     // disconnecting all slots
     std::cout << std::endl;
     std::cout << "Disconnecting all slots" << std::endl;
