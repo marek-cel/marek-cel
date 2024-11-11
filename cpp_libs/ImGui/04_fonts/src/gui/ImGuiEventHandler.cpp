@@ -257,7 +257,7 @@ void ImGuiEventHandler::initialize()
 
     io.Fonts->AddFontDefault();
     //ImFont* mainFont = io.Fonts->Fonts[0];
-    _mainFont = io.Fonts->AddFontFromFileTTF("../../fsg_stencil.ttf", 16.0f);
+    _mainFont = io.Fonts->AddFontFromFileTTF("../fsg_stencil.ttf", 16.0f);
     IM_ASSERT(_mainFont != nullptr);
 
     ImGuiStyle& style = ImGui::GetStyle();
