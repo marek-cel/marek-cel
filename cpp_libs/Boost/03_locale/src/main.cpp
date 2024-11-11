@@ -6,8 +6,12 @@
 int main()
 {
     boost::locale::generator gen;
-    std::locale loc=gen("");
+    std::locale loc=gen("en_US.UTF-8");
     // Create system default locale
+
+    // Specify location of dictionaries
+    gen.add_messages_path("../data");
+    gen.add_messages_domain("hello");
 
     std::locale::global(loc);
     // Make it system global
@@ -29,4 +33,7 @@ int main()
     std::cout << "This is title case " << boost::locale::to_title("Hello World!")  << std::endl;
     std::cout << "This is fold case "  << boost::locale::fold_case("Hello World!") << std::endl;
 
+    std::cout << boost::locale::translate("Hello World!") << std::endl;
+
+    return 0;
 }
