@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 
-project(armadillo-test)
+project(units-test)
+
+include(FetchContent)
 
 ################################################################################
 
@@ -22,6 +24,15 @@ elseif(WIN32)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
     add_definitions(-D_USE_MATH_DEFINES)
 endif()
+
+################################################################################
+
+FetchContent_Declare(LIBUNITS
+    GIT_REPOSITORY https://github.com/nholthaus/units.git
+    GIT_TAG origin/master
+    SOURCE_DIR "${CMAKE_BINARY_DIR}/units")
+    FetchContent_MakeAvailable(LIBUNITS)
+include_directories(${CMAKE_BINARY_DIR}/units/include)
 
 ################################################################################
 
