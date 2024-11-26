@@ -26,5 +26,8 @@ int main(int argc, char* argv[])
     auto str = units::angle::to_string(d);
     std::cout << "d = " << str << std::endl;
 
+    std::cout << "a= " << static_cast<double>(a) << std::endl;
+    std::cout << "d= " << static_cast<double>(d) << std::endl;
+
     return 0;
 }
