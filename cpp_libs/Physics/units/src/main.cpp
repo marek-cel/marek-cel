@@ -101,6 +101,24 @@ class UnitsVector3 : public Vector3<TYPE>
 {
 public:
 
+    UnitsVector3(TYPE x = TYPE{0}, TYPE y = TYPE{0}, TYPE z = TYPE{0})
+    {
+        this->x() = x;
+        this->y() = y;
+        this->z() = z;
+    }
+
+    template <class RHS>
+    UnitsVector3(const UnitsVector3<RHS>& rhs)
+    {
+        //using UnitsLhs = typename units::traits::unit_t_traits<LHS>::unit_type;
+        using UnitsRhs = typename units::traits::unit_t_traits<RHS>::unit_type;
+
+        this->x() = rhs.x();
+        this->y() = rhs.y();
+        this->z() = rhs.z();
+    }
+
     UnitsVector3<TYPE> operator+(const UnitsVector3<TYPE>& vect) const
     {
         UnitsVector3<TYPE> result(*this);
@@ -114,6 +132,18 @@ public:
         result.MultiplyByValue(value);
         return result;
     }
+
+    template <class RHS>
+    auto operator=(const UnitsVector3<RHS>& rhs)
+    {
+        //using UnitsLhs = typename units::traits::unit_t_traits<LHS>::unit_type;
+        using UnitsRhs = typename units::traits::unit_t_traits<RHS>::unit_type;
+
+        this->x() = rhs.x();
+        this->y() = rhs.y();
+        this->z() = rhs.z();
+        return *this;
+    }
 };
 
 template <class LHS, class RHS>
@@ -126,6 +156,19 @@ auto operator*(const UnitsVector3<LHS> &vect, RHS value)
     result.x() = vect.x() * value;
     result.y() = vect.y() * value;
     result.z() = vect.z() * value;
+    return result;
+}
+
+template <class LHS, class RHS>
+auto operator*(const UnitsVector3<LHS> &lhs, UnitsVector3<RHS> rhs)
+{
+    using UnitsLhs = typename units::traits::unit_t_traits<LHS>::unit_type;
+    using UnitsRhs = typename units::traits::unit_t_traits<RHS>::unit_type;
+
+    UnitsVector3< units::unit_t<units::compound_unit<UnitsLhs, UnitsRhs>> > result;
+    result.x() = lhs.x() * rhs.x();
+    result.y() = lhs.y() * rhs.y();
+    result.z() = lhs.z() * rhs.z();
     return result;
 }
 
@@ -184,6 +227,17 @@ int main(int argc, char* argv[])
     std::cout << "v3m_4= " << v3m_4(0) << ", " << v3m_4(1) << ", " << v3m_4(2) << std::endl;
     UnitsVector3<units::area::square_meter_t> v3a_1 = v3m_1 * 2.0_m;
     std::cout << "v3a_1= " << v3a_1(0) << ", " << v3a_1(1) << ", " << v3a_1(2) << std::endl;
+
+    std::cout << std::endl;
+    UnitsVector3<units::length::meter_t> r(1.0_m, 2.0_m, 3.0_m);
+    UnitsVector3<units::force::newton_t> f(4.0_N, 5.0_N, 6.0_N);
+    UnitsVector3<units::torque::newton_meter_t> t1;
+    t1 = f * r;
+    UnitsVector3<units::torque::newton_meter_t> t2 = f * r;
+    auto t3 = f * r;
+    std::cout << "t1= " << t1(0) << ", " << t1(1) << ", " << t1(2) << std::endl;
+    std::cout << "t2= " << t2(0) << ", " << t2(1) << ", " << t2(2) << std::endl;
+    std::cout << "t3= " << t3(0) << ", " << t3(1) << ", " << t3(2) << std::endl;
 
 
     return 0;
