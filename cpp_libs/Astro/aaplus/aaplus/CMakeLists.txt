@@ -1,16 +1,16 @@
-PROJECT (AstronomicalAlgorithms)
+# PROJECT (AstronomicalAlgorithms)
 
-cmake_minimum_required(VERSION 3.8)
+# cmake_minimum_required(VERSION 3.8)
 
-SET(CMAKE_CXX_STANDARD 17)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+# SET(CMAKE_CXX_STANDARD 17)
+# SET(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #-----------------------------------------------------------------------------
 # Output directories.
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin CACHE PATH
-  "Single output directory for building all executables.")
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib CACHE PATH
-  "Single output directory for building all libraries.")
+# SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin CACHE PATH
+#   "Single output directory for building all executables.")
+# SET(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib CACHE PATH
+#   "Single output directory for building all libraries.")
 
 
 #-----------------------------------------------------------------------------
@@ -262,18 +262,18 @@ SET ( SRCS
 #-----------------------------------------------------------------------------
 # Executables.
 #-----------------------------------------------------------------------------
-ADD_EXECUTABLE(AATest ${SRCS} )
+# ADD_EXECUTABLE(AATest ${SRCS} )
 
 #-----------------------------------------------------------------------------
 # Libraries.
-ADD_LIBRARY(aaplus-static STATIC ${SRCS_LIB} ${INCS})
-SET_TARGET_PROPERTIES(aaplus-static PROPERTIES OUTPUT_NAME "aaplus")
+# ADD_LIBRARY(aaplus-static STATIC ${SRCS_LIB} ${INCS})
+# SET_TARGET_PROPERTIES(aaplus-static PROPERTIES OUTPUT_NAME "aaplus")
 
 ADD_LIBRARY(aaplus-shared SHARED ${SRCS_LIB} ${INCS})
 SET_TARGET_PROPERTIES(aaplus-shared PROPERTIES OUTPUT_NAME "aaplus")
 
-install(TARGETS aaplus-shared aaplus-static 
-		DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )
+# install(TARGETS aaplus-shared aaplus-static
+# 		DESTINATION "${CMAKE_INSTALL_PREFIX}/lib" )
 
-TARGET_LINK_LIBRARIES(AATest aaplus-static)
+# TARGET_LINK_LIBRARIES(AATest aaplus-static)
 

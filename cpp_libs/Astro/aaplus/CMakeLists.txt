@@ -72,8 +72,9 @@ endif()
 
 ################################################################################
 
-include_directories(. ./src)
+include_directories(. ./src ./aaplus)
 
 ################################################################################
 
+add_subdirectory(aaplus)
 add_subdirectory(src)
