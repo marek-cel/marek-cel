@@ -1,0 +1,85 @@
+cmake_minimum_required(VERSION 3.22)
+
+project(proj-test)
+
+include(FetchContent)
+
+################################################################################
+
+option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+
+################################################################################
+
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
+
+if(WIN32)
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+    set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+endif()
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+################################################################################
+
+if(UNIX)
+    if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        add_definitions(-D_LINUX_)
+    endif()
+elseif(WIN32)
+    add_definitions(-DWIN32)
+    add_definitions(-D_WINDOWS)
+    add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+    add_definitions(-D_SCL_SECURE_NO_WARNINGS)
+    add_definitions(-D_USE_MATH_DEFINES)
+endif()
+
+################################################################################
+
+FetchContent_Declare(
+    units
+    GIT_REPOSITORY https://github.com/nholthaus/units.git
+    GIT_TAG        v2.3.4
+)
+FetchContent_MakeAvailable(units)
+
+include_directories(${units_SOURCE_DIR}/include)
+
+################################################################################
+
+# FetchContent_Declare(
+#     liberfa
+#     GIT_REPOSITORY https://github.com/liberfa/liberfa.git
+#     GIT_TAG        v2.0.1
+# )
+# FetchContent_MakeAvailable(liberfa)
+
+# include_directories(${liberfa_SOURCE_DIR}/include)
+
+################################################################################
+
+if(UNIX)
+    set(CMAKE_CXX_FLAGS "-Wall -std=c++17")
+    set(CMAKE_CXX_FLAGS_DEBUG   "-O0")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O2")
+elseif(WIN32)
+    set(CMAKE_CXX_FLAGS_DEBUG   "-Wall -std=c++1z")
+    set(CMAKE_CXX_FLAGS_RELEASE "-Wall -std=c++1z -O2")
+    if (MSVC_VERSION GREATER_EQUAL "1900")
+        include(CheckCXXCompilerFlag)
+        CHECK_CXX_COMPILER_FLAG("/std:c++17" _cpp_latest_flag_supported)
+        if (_cpp_latest_flag_supported)
+            add_compile_options("/std:c++17")
+        endif()
+    endif()
+endif()
+
+################################################################################
+
+include_directories(. ./src)
+
+################################################################################
+
+add_subdirectory(src)
