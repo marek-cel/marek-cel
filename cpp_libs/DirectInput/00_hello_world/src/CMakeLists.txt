@@ -1,23 +1,33 @@
-add_subdirectory(gui)
 
-################################################################################
+set(CPP_FILES
+    main.cpp
+    MainWindow.cpp
+    Joystick.cpp
+)
+
+set(MOC_SRC_FILES
+    MainWindow.h
+)
+
+set(UIC_SRC_FILES
+    MainWindow.ui
+)
 
 set(SOURCES
-    main.cpp
+    ${CPP_FILES}
     ${MOC_SRC_FILES}
 )
 
 ################################################################################
 
-add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
+# add_executable(${PROJECT_NAME} WIN32 ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 qt5_use_modules(${PROJECT_NAME} Core Widgets)
 
-#     set(LIBS
-#         ${Boost_LIBRARIES}
-#     )
-
-target_link_libraries(${PROJECT_NAME}
-    gui
-    ${LIBS}
+set(LIBS
+    dinput8
+    dxguid
 )
+
+target_link_libraries(${PROJECT_NAME} ${LIBS})

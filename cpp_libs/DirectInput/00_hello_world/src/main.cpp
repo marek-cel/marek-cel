@@ -2,7 +2,7 @@
 
 #include <QApplication>
 
-#include <gui/MainWindow.h>
+#include <MainWindow.h>
 
 int main(int argc, char* argv[])
 {
@@ -10,6 +10,7 @@ int main(int argc, char* argv[])
 
     MainWindow win;
     win.show();
+    win.init();
 
     int result = app.exec();
 
