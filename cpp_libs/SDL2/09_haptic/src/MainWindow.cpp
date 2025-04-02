@@ -17,6 +17,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
+    _joysticks.init();
+
     _timer_id = startTimer(1000 / 60); // 60 FPS
 }
 
