@@ -61,6 +61,16 @@ function installWebServer()
                 php-intl
         fi
 
+        readBold "Do you want to install POSTGRESQL?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing POSTGRESQL ..."
+
+            sudo apt install -y \
+                postgresql \
+                postgresql-contrib
+        fi
+
         readBold "Do you want to install PHPMYADMIN?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -68,6 +78,15 @@ function installWebServer()
 
             sudo apt install -y \
                 phpmyadmin
+        fi
+
+        readBold "Do you want to install PHPPGADMIN?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing PHPPGADMIN ..."
+
+            sudo apt install -y \
+                phppgadmin
         fi
     fi
 }

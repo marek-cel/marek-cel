@@ -99,23 +99,29 @@ function installDevelopEssentials()
                 libarmadillo-dev \
                 libboost-all-dev \
                 libbullet-dev \
+                libdrm-dev \
                 libeigen3-dev \
+                libflac-dev \
                 libfltk1.3-dev \
+                libgbm-dev \
                 libgdal-dev \
+                libgl1-mesa-dev \
+                libegl1-mesa-dev \
                 libgnuplot-iostream-dev \
                 libimgui-dev \
-                liboce-foundation-dev \
-                liboce-modeling-dev \
-                liboce-visualization-dev \
                 libopenal-dev \
                 libproj-dev \
+                libsqlite3-dev \
                 libstb-dev \
                 libtbb-dev \
-                libtinfo5 \
                 libtool \
+                libudev-dev \
+                libvorbis-dev \
+                libxcursor-dev \
                 libxft-dev \
                 libxinerama-dev \
                 libxml2-dev \
+                libxrandr-dev \
                 libxss-dev \
                 libzip-dev \
                 zipcmp \
@@ -185,7 +191,6 @@ function installDevelopEssentials()
                 google-mock \
                 google-perftools \
                 googletest \
-                googletest-tools \
                 libgmock-dev \
                 libgtest-dev
         fi
@@ -203,6 +208,17 @@ function installDevelopEssentials()
                 libsdl2-mixer-dev \
                 libsdl2-net-dev \
                 libsdl2-ttf-dev
+        fi
+
+        # LUA
+        readBold "Do you want to install LUA?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing LIBSDL2 ..."
+
+            sudo apt install -y \
+                liblua5.4-dev \
+                lua5.4
         fi
 
         # OpenGL
@@ -232,18 +248,6 @@ function installDevelopEssentials()
                 openscenegraph \
                 openscenegraph-doc \
                 openscenegraph-examples
-        fi
-
-        # OSGEARTH
-        readBold "Do you want to install OSGEARTH?"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing OSGEARTH ..."
-
-            sudo apt install -y \
-                libosgearth-dev \
-                openscenegraph-plugin-osgearth \
-                osgearth
         fi
 
         # PHP
@@ -314,6 +318,7 @@ function installDevelopEssentials()
                 python3-paraview \
                 python3-pendulum \
                 python3-pip \
+                python3-psycopg2 \
                 python3-pyproj \
                 python3-pyside2.qtcore \
                 python3-pyside2.qtgui \
@@ -326,8 +331,7 @@ function installDevelopEssentials()
                 python3-pysph \
                 python3-scipy \
                 python3-setuptools \
-                python3-sunpy \
-                python3-vtk7
+                python3-sunpy
 
             pip3 install ussa1976
         fi
@@ -393,6 +397,16 @@ function installDevelopEssentials()
 
             sudo apt install -y \
                 scratch
+        fi
+
+        # SFML
+        readBold "Do you want to install SFML?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing SFML ..."
+
+            sudo apt install -y \
+                libsfml-dev
         fi
 
         # VTK

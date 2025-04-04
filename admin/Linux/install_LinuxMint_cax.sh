@@ -22,7 +22,7 @@ function installCaxGisScientific()
             stellarium \
             wxmaxima \
             xfoil
-        
+
         # XFLR5
         readBold "Do you want to install XFLR5?"
         if [[ $REPLY =~ ^[Yy]$ ]]
@@ -34,7 +34,7 @@ function installCaxGisScientific()
                 libgl1-mesa-dev \
                 qt5-qmake \
                 qtbase5-dev
-            
+
             CURRENT_DIR=$(pwd)
             cd /tmp
             git clone https://github.com/polmes/xflr5-ubuntu.git
@@ -97,7 +97,7 @@ function installCaxGisScientific()
                 octave-quaternion \
                 scilab
         fi
-            
+
         # KICAD
         readBold "Do you want to install KICAD?"
         if [[ $REPLY =~ ^[Yy]$ ]]
@@ -108,8 +108,7 @@ function installCaxGisScientific()
             sudo apt update
             sudo apt install -y --install-recommends kicad
             sudo apt install -y \
-                kicad-demos \
-                pcb2gcode
+                kicad-demos
         fi
 
         # FRITZING
@@ -123,7 +122,7 @@ function installCaxGisScientific()
                 fritzing-data \
                 fritzing-parts
         fi
-        
+
         # OPENFOAM.COM
         readBold "Do you want to install OPENFOAM.COM?"
         if [[ $REPLY =~ ^[Yy]$ ]]
@@ -140,6 +139,7 @@ function installCaxGisScientific()
 
             echo "Installing PyFoam"
             sudo apt install -y \
+                python3-full \
                 python3-gnuplot \
                 python3-gnuplotlib \
                 python3-matplotlib \
@@ -147,8 +147,8 @@ function installCaxGisScientific()
                 python3-paraview \
                 python3-pyqt5 \
                 python3-setuptools \
-                python3-vtk7
-            pip3 install PyFoam
+                pipx
+            pipx install PyFoam
         fi
 
         # OPENFOAM.ORG

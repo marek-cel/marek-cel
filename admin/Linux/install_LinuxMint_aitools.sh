@@ -13,7 +13,6 @@ function installAiTools()
     then
         printGreen "Installing AI TOOLS ..."
 
-        echo "Installing PyFoam"
         sudo apt install -y \
             libmlpack-dev \
             python3-all \
@@ -21,6 +20,14 @@ function installAiTools()
             python3-pip \
             python3-setuptools
         pip3 install deep-daze
+    fi
+
+    readBold "Do you want to install OLLAMA?"
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
+        printGreen "Installing OLLAMA ..."
+        curl -fsSL https://ollama.com/install.sh | sh
+        ollama run llama3.1
     fi
 }
 

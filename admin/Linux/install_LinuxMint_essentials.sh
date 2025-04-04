@@ -51,19 +51,22 @@ function installEssentials()
             webp \
             whois \
             xboxdrv
-        
-        sudo flatpak install flathub md.obsidian.Obsidian
+
+        sudo flatpak install flathub \
+            md.obsidian.Obsidian \
+            com.bitwarden.desktop \
+            io.dbeaver.DBeaverCommunity
 
         # BRAVE BROWSER
         readBold "Do you want to install BRAVE BROWSER?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             printGreen "Installing BRAVE BROWSER ..."
-            
+
             sudo apt install -y \
                 apt-transport-https \
                 curl
-                
+
             sudo curl -fsSLo /usr/share/keyrings/brave-browser-archive-keyring.gpg \
                 https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
 
