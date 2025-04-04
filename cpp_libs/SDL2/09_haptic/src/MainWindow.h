@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#include <Joysticks.h>
+#include <Controllers.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,7 +31,7 @@ private:
     int _timer_id = 0;
     int _joystick_index = 0;
 
-    Joysticks _joysticks;
+    Controllers _controllers;
 
 private slots:
 

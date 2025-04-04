@@ -2,7 +2,7 @@
 set(CPP_FILES
     main.cpp
     MainWindow.cpp
-    Joysticks.cpp
+    Controllers.cpp
 )
 
 set(MOC_SRC_FILES

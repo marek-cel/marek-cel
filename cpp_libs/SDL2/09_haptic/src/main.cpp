@@ -23,5 +23,7 @@ int main(int argc, char* argv[])
 
     int result = app.exec();
 
+    SDL_Quit();
+
     return result;
 }
