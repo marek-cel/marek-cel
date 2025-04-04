@@ -8,18 +8,16 @@ conn = psycopg2.connect(
     password="pass"
 )
 
-cursor = conn.cursor()
+cur = conn.cursor()
 
-cursor.execute("SELECT * FROM contacts")
-rows = cursor.fetchall()
-print("Fetching data...")
+# Run a query
+cur.execute("SELECT * FROM contacts")
+
+# Fetch and display results
+rows = cur.fetchall()
 for row in rows:
     print(row)
 
-
-# export the data to a CSV file
-with open('contacts.csv', 'w') as f:
-    cursor.copy_expert("COPY contacts TO STDOUT WITH CSV HEADER", f)
-
-print("Closing the connection...")
+# Cleanup
+cur.close()
 conn.close()
