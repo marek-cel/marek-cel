@@ -6,8 +6,6 @@ void runPythonScript(const char* script_name, const char* name)
 {
     Py_Initialize(); // Initialize Python interpreter
 
-    Py_Initialize(); // Initialize Python interpreter
-
     // Create a dictionary to store variables
     PyObject* global = PyDict_New();
 
