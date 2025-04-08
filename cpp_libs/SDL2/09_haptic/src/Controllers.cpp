@@ -30,34 +30,34 @@ void Controllers::init()
 		switch ( type )
 		{
 		case SDL_JOYSTICK_TYPE_GAMECONTROLLER:
-			std::cout << "Joystick " << i << " is a game controller." << std::endl;
+			std::cout << "Joystick " << i << " is a GAME CONTROLLER." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_WHEEL:
-			std::cout << "Joystick " << i << " is a wheel." << std::endl;
+			std::cout << "Joystick " << i << " is a WHEEL." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_ARCADE_STICK:
-			std::cout << "Joystick " << i << " is an arcade stick." << std::endl;
+			std::cout << "Joystick " << i << " is an ARCADE STICK." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_FLIGHT_STICK:
-			std::cout << "Joystick " << i << " is a flight stick." << std::endl;
+			std::cout << "Joystick " << i << " is a FLIGHT STICK." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_DANCE_PAD:
-			std::cout << "Joystick " << i << " is a dance pad." << std::endl;
+			std::cout << "Joystick " << i << " is a DANCE PAD." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_GUITAR:
-			std::cout << "Joystick " << i << " is a guitar." << std::endl;
+			std::cout << "Joystick " << i << " is a GUITAR." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_DRUM_KIT:
-			std::cout << "Joystick " << i << " is a drum kit." << std::endl;
+			std::cout << "Joystick " << i << " is a DRUM KIT." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_ARCADE_PAD:
-			std::cout << "Joystick " << i << " is an arcade pad." << std::endl;
+			std::cout << "Joystick " << i << " is an ARCADE PAD." << std::endl;
 			break;
 		case SDL_JOYSTICK_TYPE_THROTTLE:
-			std::cout << "Joystick " << i << " is a throttle." << std::endl;
+			std::cout << "Joystick " << i << " is a THROTTLE." << std::endl;
 			break;
 		default:
-			std::cout << "Joystick " << i << " is of unknown type." << std::endl;
+			std::cout << "Joystick " << i << " is of UNKNOWN TYPE." << std::endl;
 			break;
 		}
 
