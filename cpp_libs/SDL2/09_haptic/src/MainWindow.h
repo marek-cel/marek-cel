@@ -36,6 +36,11 @@ private:
 private slots:
 
     void on_comboBoxJoysticks_currentIndexChanged(int index);
-    void on_pushButtonStartConstForce_toggled(bool checked);
+    void on_pushButtonConstForce_toggled(bool checked);
+    void on_pushButtonSineWave_toggled(bool checked);
+    void on_pushButtonLeftRight_toggled(bool checked);
+    void on_pushButtonTriangular_toggled(bool checked);
+    void on_pushButtonSawtoothUp_toggled(bool checked);
+    void on_pushButtonSawtoothDn_toggled(bool checked);
 };
 #endif // MAINWINDOW_H

@@ -19,6 +19,7 @@ void MainWindow::init()
 {
     _controllers.init();
 
+    _ui->comboBoxJoysticks->setCurrentIndex(-1);
     auto controllers = _controllers.getControllers();
     for ( const auto& controller : controllers )
     {
@@ -81,21 +82,89 @@ void MainWindow::timerEvent(QTimerEvent* event)
         _ui->pushButton_31->setChecked(controller.buttons[30]);
         _ui->pushButton_32->setChecked(controller.buttons[31]);
 
-        _controllers.updateConstantForce(_joystick_index,
-                                        _ui->doubleSpinBoxForceX->value(),
-                                        _ui->doubleSpinBoxForceY->value());
+        if ( controller.has_constant_effect )
+        {
+            _controllers.updateConstantForce(_joystick_index,
+                _ui->doubleSpinBoxForceX->value(),
+                _ui->doubleSpinBoxForceY->value());
+        }
+
+        if ( controller.has_sine_wave_effect )
+        {
+            _controllers.updateSineWave(_joystick_index,
+                _ui->doubleSpinBoxPeriod->value(),
+                _ui->doubleSpinBoxMagnitude->value());
+        }
+
+        if ( controller.has_left_right_effect )
+        {
+            _controllers.updateLeftRight(_joystick_index,
+                _ui->doubleSpinBoxPeriod->value(),
+                _ui->doubleSpinBoxMagnitude->value());
+        }
+
+        if ( controller.has_triangle_wave_effect )
+        {
+            _controllers.updateTriangularWave(_joystick_index,
+                _ui->doubleSpinBoxPeriod->value(),
+                _ui->doubleSpinBoxMagnitude->value());
+        }
+
+        if ( controller.has_sawtooth_up_effect )
+        {
+            _controllers.updateSawtoothUp(_joystick_index,
+                _ui->doubleSpinBoxPeriod->value(),
+                _ui->doubleSpinBoxMagnitude->value());
+        }
+
+        if ( controller.has_sawtooth_dn_effect )
+        {
+            _controllers.updateSawtoothDn(_joystick_index,
+                _ui->doubleSpinBoxPeriod->value(),
+                _ui->doubleSpinBoxMagnitude->value());
+        }
     }
 }
 
 void MainWindow::on_comboBoxJoysticks_currentIndexChanged(int index)
 {
+    _controllers.stopAllEffects();
+
+    if ( index < 0 || index >= static_cast<int>(_controllers.getControllers().size()) )
+    {
+        std::cerr << "Invalid joystick index: " << index << std::endl;
+        return;
+    }
+
     _joystick_index = index;
+
+    auto controllers = _controllers.getControllers();
+    auto ctrl = controllers[index];
+
+    _ui->groupBoxConstForce->setEnabled(ctrl.has_constant_effect);
+    _ui->groupBoxPeriodic->setEnabled(ctrl.has_periodic_effect);
+
+    if ( ctrl.has_periodic_effect )
+    {
+        _ui->pushButtonSineWave->setEnabled(ctrl.has_sine_wave_effect);
+        _ui->pushButtonLeftRight->setEnabled(ctrl.has_left_right_effect);
+        _ui->pushButtonTriangular->setEnabled(ctrl.has_triangle_wave_effect);
+        _ui->pushButtonSawtoothUp->setEnabled(ctrl.has_sawtooth_up_effect);
+        _ui->pushButtonSawtoothDn->setEnabled(ctrl.has_sawtooth_dn_effect);
+    }
+    else
+    {
+        _ui->pushButtonNone->setChecked(true);
+        _ui->pushButtonSineWave->setEnabled(false);
+        _ui->pushButtonLeftRight->setEnabled(false);
+        _ui->pushButtonTriangular->setEnabled(false);
+        _ui->pushButtonSawtoothUp->setEnabled(false);
+        _ui->pushButtonSawtoothDn->setEnabled(false);
+    }
 }
 
-void MainWindow::on_pushButtonStartConstForce_toggled(bool checked)
+void MainWindow::on_pushButtonConstForce_toggled(bool checked)
 {
-    std::cout << "Force X: " << (checked ? "ON" : "OFF") << std::endl;
-
     if ( checked )
     {
         _ui->doubleSpinBoxForceX->setEnabled(true);
@@ -108,7 +177,67 @@ void MainWindow::on_pushButtonStartConstForce_toggled(bool checked)
         _ui->doubleSpinBoxForceY->setValue(0);
         _ui->doubleSpinBoxForceX->setEnabled(false);
         _ui->doubleSpinBoxForceY->setEnabled(false);
-        _controllers.stopAllEffects();
+        _controllers.stopConstantForce(_joystick_index);
+    }
+}
+
+void MainWindow::on_pushButtonSineWave_toggled(bool checked)
+{
+    if ( checked )
+    {
+        _controllers.startSineWave(_joystick_index);
+    }
+    else
+    {
+        _controllers.stopSineWave(_joystick_index);
+    }
+}
+
+void MainWindow::on_pushButtonLeftRight_toggled(bool checked)
+{
+    if ( checked )
+    {
+        _controllers.startLeftRight(_joystick_index);
+    }
+    else
+    {
+        _controllers.stopLeftRight(_joystick_index);
+    }
+}
+
+void MainWindow::on_pushButtonTriangular_toggled(bool checked)
+{
+    if ( checked )
+    {
+        _controllers.startTriangularWave(_joystick_index);
+    }
+    else
+    {
+        _controllers.stopTriangularWave(_joystick_index);
+    }
+}
+
+void MainWindow::on_pushButtonSawtoothUp_toggled(bool checked)
+{
+    if ( checked )
+    {
+        _controllers.startSawtoothUp(_joystick_index);
+    }
+    else
+    {
+        _controllers.stopSawtoothUp(_joystick_index);
+    }
+}
+
+void MainWindow::on_pushButtonSawtoothDn_toggled(bool checked)
+{
+    if ( checked )
+    {
+        _controllers.startSawtoothDn(_joystick_index);
+    }
+    else
+    {
+        _controllers.stopSawtoothDn(_joystick_index);
     }
 }
 
