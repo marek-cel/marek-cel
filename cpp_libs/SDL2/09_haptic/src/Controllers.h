@@ -30,6 +30,10 @@ public:
 
         double axes[kMaxAxes] = {0};
         bool buttons[kMaxButtons] = {false};
+
+        SDL_Haptic* haptic = nullptr; ///< Pointer to the SDL haptic device
+        SDL_HapticEffect constant_effect;
+        int constant_effect_id = -1;
     };
 
     void init();
@@ -40,10 +44,17 @@ public:
         return _controllers;
     }
 
+    void stopAllEffects();
+
+    void startConstantForce(unsigned int index);
+    void updateConstantForce(unsigned int index, double force_x, double force_y);
+
 private:
 
     //std::vector<SDL_Joystick*> _joysticks;
     std::vector<Controller> _controllers;
+
+    int initConstantEffects(SDL_Haptic* haptic, SDL_HapticEffect* effect);
 
 };
 

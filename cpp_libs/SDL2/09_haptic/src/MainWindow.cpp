@@ -81,8 +81,9 @@ void MainWindow::timerEvent(QTimerEvent* event)
         _ui->pushButton_31->setChecked(controller.buttons[30]);
         _ui->pushButton_32->setChecked(controller.buttons[31]);
 
-
-        // Update other UI elements based on the controller state
+        _controllers.updateConstantForce(_joystick_index,
+                                        _ui->doubleSpinBoxForceX->value(),
+                                        _ui->doubleSpinBoxForceY->value());
     }
 }
 
@@ -91,42 +92,23 @@ void MainWindow::on_comboBoxJoysticks_currentIndexChanged(int index)
     _joystick_index = index;
 }
 
-void MainWindow::on_pushButtonForceX_toggled(bool checked)
+void MainWindow::on_pushButtonStartConstForce_toggled(bool checked)
 {
     std::cout << "Force X: " << (checked ? "ON" : "OFF") << std::endl;
 
     if ( checked )
     {
         _ui->doubleSpinBoxForceX->setEnabled(true);
-        _ui->doubleSpinBoxForceCoefX->setEnabled(true);
-        // _joystick.startForcesX();
+        _ui->doubleSpinBoxForceY->setEnabled(true);
+        _controllers.startConstantForce(_joystick_index);
     }
     else
     {
         _ui->doubleSpinBoxForceX->setValue(0);
-        _ui->doubleSpinBoxForceCoefX->setValue(1);
-        _ui->doubleSpinBoxForceX->setEnabled(false);
-        _ui->doubleSpinBoxForceCoefX->setEnabled(false);
-        // _joystick.stopForcesX();
-    }
-}
-
-void MainWindow::on_pushButtonForceY_toggled(bool checked)
-{
-    std::cout << "Force Y: " << (checked ? "ON" : "OFF") << std::endl;
-
-    if ( checked )
-    {
-        _ui->doubleSpinBoxForceY->setEnabled(true);
-        _ui->doubleSpinBoxForceCoefY->setEnabled(true);
-        // _joystick.startForcesY();
-    }
-    else
-    {
         _ui->doubleSpinBoxForceY->setValue(0);
-        _ui->doubleSpinBoxForceCoefY->setValue(1);
+        _ui->doubleSpinBoxForceX->setEnabled(false);
         _ui->doubleSpinBoxForceY->setEnabled(false);
-        _ui->doubleSpinBoxForceCoefY->setEnabled(false);
-        // _joystick.stopForcesY();
+        _controllers.stopAllEffects();
     }
 }
+

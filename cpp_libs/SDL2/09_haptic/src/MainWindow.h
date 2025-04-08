@@ -29,14 +29,13 @@ private:
     Ui::MainWindow* _ui;
 
     int _timer_id = 0;
-    int _joystick_index = 0;
+    unsigned int _joystick_index = 0;
 
     Controllers _controllers;
 
 private slots:
 
     void on_comboBoxJoysticks_currentIndexChanged(int index);
-    void on_pushButtonForceX_toggled(bool checked);
-    void on_pushButtonForceY_toggled(bool checked);
+    void on_pushButtonStartConstForce_toggled(bool checked);
 };
 #endif // MAINWINDOW_H

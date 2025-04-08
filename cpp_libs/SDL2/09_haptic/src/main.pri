@@ -1,10 +1,10 @@
 HEADERS += \
-    $$PWD/Joystick.h \
+    $$PWD/Controllers.h \
     $$PWD/MainWindow.h
 
 SOURCES += \
     $$PWD/main.cpp \
-    $$PWD/Joystick.cpp \
+    $$PWD/Controllers.cpp \
     $$PWD/MainWindow.cpp
 
 FORMS += \

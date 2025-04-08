@@ -45,6 +45,9 @@ unix: DEFINES += _LINUX_
 
 INCLUDEPATH += ./src
 
+unix: INCLUDEPATH += \
+    /usr/include/SDL2/
+
 win32: INCLUDEPATH += \
     $(OSG_ROOT)/include/
 
@@ -62,12 +65,8 @@ win32: LIBS += \
     -L$(OSG_ROOT)/lib
 
 unix: LIBS += \
-    -lxml2
-
-win32: LIBS += \
-    -ldinput8 \
-    -ldxguid
+    -lSDL2
 
 ################################################################################
 
-include($$PWD/src/direct-input.pri)
+include($$PWD/src/main.pri)
