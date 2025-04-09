@@ -26,6 +26,14 @@ void Controllers::init()
 			continue;
 		}
 
+		int num_axes = SDL_JoystickNumAxes(joystick.joystick);
+		int num_buttons = SDL_JoystickNumButtons(joystick.joystick);
+		int num_hats = SDL_JoystickNumHats(joystick.joystick);
+		std::cout << "Joystick " << i << ": " << SDL_JoystickName(joystick.joystick) << std::endl;
+		std::cout << "  Number of axes: " << num_axes << std::endl;
+		std::cout << "  Number of buttons: " << num_buttons << std::endl;
+		std::cout << "  Number of hats: " << num_hats << std::endl;
+
 		SDL_JoystickType type = SDL_JoystickGetDeviceType(i);
 		switch ( type )
 		{
