@@ -28,6 +28,7 @@ qt5_use_modules(${PROJECT_NAME} Core Widgets)
 set(LIBS
     dinput8
     dxguid
+    Xinput
 )
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})

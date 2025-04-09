@@ -81,6 +81,7 @@ void Joystick::init(HWND winID)
             if ( joy_data.is_xinput_compatible )
             {
                 std::cout << "Joystick " << joy_data.name << " is XInput compatible." << std::endl;
+                joy_data.has_sine_wave
             }
             else
             {
@@ -103,69 +104,21 @@ void Joystick::init(HWND winID)
 
 void Joystick::update()
 {
+    int index = 0;
     for (auto& joy_data : _data.joys)
     {
-        //std::cout << "Updating joystick" << std::endl;
-        LPDIRECTINPUTDEVICE8 dev = joy_data.dev;
-
-        HRESULT result;
-        DIJOYSTATE joy_state;
-
-        result = dev->Poll();
-        if ( FAILED(result) )
+        if ( joy_data.is_xinput_compatible )
         {
-            result = dev->Acquire();
-
-            while ( result == DIERR_INPUTLOST )
-            {
-                result = dev->Acquire();
-            }
-
-            // // If we encounter a fatal error, return failure.
-            // if ( result == DIERR_INVALIDPARAM || result == DIERR_NOTINITIALIZED )
-            // {
-            //     return E_FAIL;
-            // }
-
-            // // If another application has control of this device, return successfully.
-            // // We'll just have to wait our turn to use the joystick.
-            // if ( result == DIERR_OTHERAPPHASPRIO )
-            // {
-            //     return S_OK;
-            // }
+            // XInput joystick
+            updateXInput(index, joy_data);
+        }
+        else
+        {
+            // DirectInput joystick
+            updateDirectInput(joy_data);
         }
 
-        result = dev->GetDeviceState(sizeof(DIJOYSTATE), &joy_state);
-
-        if( FAILED(result) )
-        {
-            std::cerr << "Getting device state of " << joy_data.name << " failed." << std::endl;
-            return;
-        }
-
-        // Axes
-        joy_data.axes[0] = (double)joy_state.lX  / kAxisRange;
-        joy_data.axes[1] = (double)joy_state.lY  / kAxisRange;
-        joy_data.axes[2] = (double)joy_state.lZ  / kAxisRange;
-
-        joy_data.axes[3] = (double)joy_state.lRx / kAxisRange;
-        joy_data.axes[4] = (double)joy_state.lRy / kAxisRange;
-        joy_data.axes[5] = (double)joy_state.lRz / kAxisRange;
-
-        joy_data.axes[6] = (double)joy_state.rglSlider[0] / kAxisRange;
-        joy_data.axes[7] = (double)joy_state.rglSlider[1] / kAxisRange;
-
-        // Buttons
-        for ( unsigned int i = 0; i < kMaxButtons; ++i )
-        {
-            joy_data.buttons[i] = ( joy_state.rgbButtons[i] & 0x80 ) >> 7;
-        }
-
-        // Force feedback
-        if ( joy_data.force_feedback )
-        {
-            updateForces(joy_data);
-        }
+        index++;
     }
 }
 
@@ -265,6 +218,102 @@ void Joystick::initConstantForce(LPDIRECTINPUTDEVICE8 dev, DWORD axes, LPDIRECTI
     }
 
     (*force)->Stop();
+}
+
+void Joystick::updateDirectInput(Data::Joystick& joy_data)
+{
+    //std::cout << "Updating joystick" << std::endl;
+    LPDIRECTINPUTDEVICE8 dev = joy_data.dev;
+
+    HRESULT result;
+    DIJOYSTATE joy_state;
+
+    result = dev->Poll();
+    if ( FAILED(result) )
+    {
+        result = dev->Acquire();
+
+        while ( result == DIERR_INPUTLOST )
+        {
+            result = dev->Acquire();
+        }
+
+        // // If we encounter a fatal error, return failure.
+        // if ( result == DIERR_INVALIDPARAM || result == DIERR_NOTINITIALIZED )
+        // {
+        //     return E_FAIL;
+        // }
+
+        // // If another application has control of this device, return successfully.
+        // // We'll just have to wait our turn to use the joystick.
+        // if ( result == DIERR_OTHERAPPHASPRIO )
+        // {
+        //     return S_OK;
+        // }
+    }
+
+    result = dev->GetDeviceState(sizeof(DIJOYSTATE), &joy_state);
+
+    if( FAILED(result) )
+    {
+        std::cerr << "Getting device state of " << joy_data.name << " failed." << std::endl;
+        return;
+    }
+
+    // Axes
+    joy_data.axes[0] = (double)joy_state.lX  / kAxisRange;
+    joy_data.axes[1] = (double)joy_state.lY  / kAxisRange;
+    joy_data.axes[2] = (double)joy_state.lZ  / kAxisRange;
+
+    joy_data.axes[3] = (double)joy_state.lRx / kAxisRange;
+    joy_data.axes[4] = (double)joy_state.lRy / kAxisRange;
+    joy_data.axes[5] = (double)joy_state.lRz / kAxisRange;
+
+    joy_data.axes[6] = (double)joy_state.rglSlider[0] / kAxisRange;
+    joy_data.axes[7] = (double)joy_state.rglSlider[1] / kAxisRange;
+
+    // Buttons
+    for ( unsigned int i = 0; i < kMaxButtons; ++i )
+    {
+        joy_data.buttons[i] = ( joy_state.rgbButtons[i] & 0x80 ) >> 7;
+    }
+
+    // Force feedback
+    if ( joy_data.force_feedback )
+    {
+        updateForces(joy_data);
+    }
+}
+
+void Joystick::updateXInput(int index, Data::Joystick& joy_data)
+{
+    XInputGetState(index, &joy_data.xinput_state);
+
+    // Axes
+    joy_data.axes[0] = (double)joy_data.xinput_state.Gamepad.sThumbLX / kAxisRange;
+    joy_data.axes[1] = (double)joy_data.xinput_state.Gamepad.sThumbLY / kAxisRange;
+    joy_data.axes[2] = (double)joy_data.xinput_state.Gamepad.sThumbRX / kAxisRange;
+    joy_data.axes[3] = (double)joy_data.xinput_state.Gamepad.sThumbRY / kAxisRange;
+    joy_data.axes[4] = (double)joy_data.xinput_state.Gamepad.bLeftTrigger / 255.0;
+    joy_data.axes[5] = (double)joy_data.xinput_state.Gamepad.bRightTrigger / 255.0;
+
+    // Buttons
+    joy_data.buttons[0] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_A) ? 1.0 : 0.0;
+    joy_data.buttons[1] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_B) ? 1.0 : 0.0;
+    joy_data.buttons[2] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_X) ? 1.0 : 0.0;
+    joy_data.buttons[3] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_Y) ? 1.0 : 0.0;
+    joy_data.buttons[4] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) ? 1.0 : 0.0;
+    joy_data.buttons[5] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) ? 1.0 : 0.0;
+    joy_data.buttons[6] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_BACK) ? 1.0 : 0.0;
+    joy_data.buttons[7] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_START) ? 1.0 : 0.0;
+    joy_data.buttons[8] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) ? 1.0 : 0.0;
+    joy_data.buttons[9] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) ? 1.0 : 0.0;
+    joy_data.buttons[10] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) ? 1.0 : 0.0;
+    joy_data.buttons[11] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) ? 1.0 : 0.0;
+    joy_data.buttons[12] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) ? 1.0 : 0.0;
+    joy_data.buttons[13] = (joy_data.xinput_state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) ? 1.0 : 0.0;
+
+
 }
 
 void Joystick::updateForces(Data::Joystick& joy_data)

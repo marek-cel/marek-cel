@@ -5,6 +5,7 @@
 #include <vector>
 
 #include <dinput.h>
+#include <Xinput.h>
 
 class Joystick
 {
@@ -30,6 +31,12 @@ public:
             uint8_t buttons_count = 0;
             bool force_feedback = false;
             bool is_xinput_compatible = false;
+
+            XINPUT_STATE xinput_state;
+
+            bool has_sine_wave_effect = false;
+            bool has_constant_force = false;
+            bool has_ramp_force = false;
 
             double axes[kMaxAxes] = {0};
             double buttons[kMaxButtons] = {0};
@@ -59,6 +66,9 @@ private:
 
     void initForces(Data::Joystick& joy_data);
     void initConstantForce(LPDIRECTINPUTDEVICE8 dev, DWORD axes, LPDIRECTINPUTEFFECT* force);
+
+    void updateDirectInput(Data::Joystick& joy_data);
+    void updateXInput(int index, Data::Joystick& joy_data);
 
     void updateForces(Data::Joystick& joy_data);
     void updateConstantForce(DWORD axes, LPDIRECTINPUTEFFECT* force, double magnitude);
