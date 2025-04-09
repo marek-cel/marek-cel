@@ -67,10 +67,24 @@ void Joystick::init(HWND winID)
             joy_data.axes_count = dev_caps.dwAxes;
             joy_data.buttons_count = dev_caps.dwButtons;
             joy_data.force_feedback = (dev_caps.dwFlags & DIDC_FORCEFEEDBACK) ? true : false;
+            joy_data.is_xinput_compatible = (dev_caps.dwFlags & DIDC_ATTACHED) ? true : false;
 
             if ( joy_data.force_feedback )
             {
                 std::cout << "Joystick " << joy_data.name << " has force feedback." << std::endl;
+            }
+            else
+            {
+                std::cout << "Joystick " << joy_data.name << " has no force feedback." << std::endl;
+            }
+
+            if ( joy_data.is_xinput_compatible )
+            {
+                std::cout << "Joystick " << joy_data.name << " is XInput compatible." << std::endl;
+            }
+            else
+            {
+                std::cout << "Joystick " << joy_data.name << " is not XInput compatible." << std::endl;
             }
         }
 

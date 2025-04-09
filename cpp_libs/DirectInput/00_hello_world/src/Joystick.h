@@ -29,6 +29,7 @@ public:
             uint8_t axes_count = 0;
             uint8_t buttons_count = 0;
             bool force_feedback = false;
+            bool is_xinput_compatible = false;
 
             double axes[kMaxAxes] = {0};
             double buttons[kMaxButtons] = {0};
