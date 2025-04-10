@@ -15,9 +15,6 @@ function installEssentials()
 
         sudo apt install -y \
             git \
-            kdesvn \
-            kdiff3 \
-            meld \
             subversion
 
 
@@ -31,8 +28,7 @@ function installEssentials()
                 autoconf \
                 automake \
                 build-essential \
-                cmake \
-                ninja-build
+                cmake
         fi
 
         # C++ EXTRA LIBS
@@ -66,7 +62,6 @@ function installEssentials()
                 python3-matplotlib \
                 python3-numpy \
                 python3-pandas \
-                python3-paraview \
                 python3-pendulum \
                 python3-pip \
                 python3-psycopg2 \
@@ -79,7 +74,6 @@ function installEssentials()
                 python3-pyside2.qtsvg \
                 python3-pyside2.qtuitools \
                 python3-pyqt5 \
-                python3-pysph \
                 python3-scipy \
                 python3-setuptools \
                 python3-sunpy
@@ -100,6 +94,7 @@ function installEssentials()
                 qtbase5-dev \
                 qtcreator
         fi
+    fi
 }
 
 installEssentials

@@ -18,7 +18,6 @@ function installEssentials()
             imagemagick \
             joystick \
             jstest-gtk \
-            linux-tools-common \
             mc \
             mplayer \
             ntfs-3g \
@@ -29,6 +28,7 @@ function installEssentials()
             tree \
             vim \
             whois
+    fi
 }
 
 installEssentials
