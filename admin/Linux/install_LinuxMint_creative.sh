@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -10,7 +10,7 @@ function installCreativeTools()
 {
     readBold "Do you want to install CREATIVE TOOLS?"
     if [[ $REPLY =~ ^[Yy]$ ]]
-    then   
+    then
         printGreen "Installing CREATIVE TOOLS ..."
 
         sudo apt install -y \

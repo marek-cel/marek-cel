@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -15,7 +15,7 @@ function installKVM()
 
         sudo apt install -y \
             cpu-checker
-        
+
         sudo apt install -y \
             bridge-utils \
             guestfs-tools \
@@ -28,7 +28,7 @@ function installKVM()
             virt-manager \
             virt-viewer \
             virtinst
-            
+
 
         sudo systemctl enable --now libvirtd
         sudo systemctl start libvirtd

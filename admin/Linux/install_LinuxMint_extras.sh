@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -10,7 +10,7 @@ function installExtras()
 {
     readBold "Do you want to install ENTERTEINMENT?"
     if [[ $REPLY =~ ^[Yy]$ ]]
-    then   
+    then
         printGreen "Installing ENTERTEINMENT ..."
 
         sudo apt install -y \
@@ -63,7 +63,7 @@ function installExtras()
 
         sudo apt install -y \
             cpu-checker
-        
+
         sudo apt install -y \
             bridge-utils \
             guestfs-tools \

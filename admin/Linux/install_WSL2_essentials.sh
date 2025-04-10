@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -12,7 +12,7 @@ function installEssentials()
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         printGreen "Installing ESSENTIALS ..."
-		
+
         sudo apt install -y \
             autoconf \
             automake \

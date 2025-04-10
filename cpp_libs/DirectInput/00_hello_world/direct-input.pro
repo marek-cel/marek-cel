@@ -70,4 +70,4 @@ win32: LIBS += \
 
 ################################################################################
 
-include($$PWD/src/direct-input.pri)
+include($$PWD/src/main.pri)

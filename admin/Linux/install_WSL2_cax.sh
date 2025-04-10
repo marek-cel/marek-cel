@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -18,7 +18,7 @@ function installCaxGisScientific()
             gnuplot \
             proj-bin \
             xfoil
-        
+
         # OPENFOAM.COM
         readBold "Do you want to install OPENFOAM.COM? y or n"
         if [[ $REPLY =~ ^[Yy]$ ]]

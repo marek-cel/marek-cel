@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ################################################################################
 
@@ -41,7 +41,6 @@ function installEssentials()
             smartmontools \
             smplayer \
             systemsettings \
-            torbrowser-launcher \
             traceroute \
             tree \
             ttf-mscorefonts-installer \

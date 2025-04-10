@@ -1,39 +1,14 @@
-#!/bin/bash
-
-################################################################################
-# ESSENTIALS
-################################################################################
-
-# sudo apt update
-
-sudo mysql_secure_installation
-
-sudo apt install -y \
-    apache2 \
-    ffmpeg \
-    imagemagick \
-    mc \
-    mplayer \
-    ntfs-3g \
-    openssh-server \
-    php \
-    phpmyadmin \
-    psensor \
-    rsync \
-    samba \
-    samba-common-bin \
-    vsftpd \
-    whois
-
-# TODO: mysql phpmyadmin
-
-################################################################################
-# UPGRADE
-################################################################################
-
-sudo apt full-upgrade
-# sudo apt upgrade
+#!/usr/bin/env bash
 
 ################################################################################
 
+source install_common.sh
+
+source install_RPiOS_essentials.sh
+source install_RPiOS_develop.sh
+
+################################################################################
+
+printGreen "Installation finished."
 read -p "Press any key to continue... " -n1 -s
+echo
