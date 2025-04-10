@@ -20,6 +20,7 @@ function installEssentials()
             jstest-gtk \
             mc \
             mplayer \
+            neovim \
             ntfs-3g \
             openssh-server \
             psensor \

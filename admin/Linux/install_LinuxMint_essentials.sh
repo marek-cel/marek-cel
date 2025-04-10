@@ -31,6 +31,7 @@ function installEssentials()
             mc \
             mesa-utils \
             mplayer \
+            neovim \
             nfs-common \
             okular \
             openssh-server \
