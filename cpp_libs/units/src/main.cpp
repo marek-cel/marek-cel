@@ -240,6 +240,7 @@ int main(int argc, char* argv[])
     std::cout << "t2= " << t2(0) << ", " << t2(1) << ", " << t2(2) << std::endl;
     std::cout << "t3= " << t3(0) << ", " << t3(1) << ", " << t3(2) << std::endl;
 
+    test();
 
     return 0;
 }
@@ -266,4 +267,7 @@ void test()
 
     std::cout << "a= " << static_cast<double>(a) << std::endl;
     std::cout << "d= " << static_cast<double>(d) << std::endl;
+
+    auto i = 1.0_kg * 1.0_m * 1.0_m;
+    std::cout << "i = " << i << std::endl;
 }
