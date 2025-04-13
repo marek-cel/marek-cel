@@ -240,7 +240,7 @@ public:
 
     double getGroundHeight(double x_NED)
     {
-        double maxHeight = 5.0; // Maximum height of the ground
+        double maxHeight = 4.0; // Maximum height of the ground
         double waveLength = 100.0;
 
         return maxHeight * cos(2.0 * M_PI * x_NED / waveLength) - maxHeight;
