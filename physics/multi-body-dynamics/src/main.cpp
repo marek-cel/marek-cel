@@ -1,132 +1,45 @@
-#include <iostream>
-#include <cmath>
-#include <array>
+#include <Vehicle.h>
 
-const double dt = 0.01; // timestep
-const int steps = 1000;
-const double pi = 3.141592653589793;
-
-struct Vec3
-{
-    double x, y, z;
-
-    Vec3 operator+(const Vec3& rhs) const
-    {
-        return {x + rhs.x, y + rhs.y, z + rhs.z};
-    }
-
-    Vec3 operator-(const Vec3& rhs) const
-    {
-        return {x - rhs.x, y - rhs.y, z - rhs.z};
-    }
-
-    Vec3 operator*(double s) const
-    {
-        return {x * s, y * s, z * s};
-    }
-
-    Vec3& operator+=(const Vec3& rhs)
-    {
-        x += rhs.x; y += rhs.y; z += rhs.z;
-        return *this;
-    }
-};
-
-Vec3 cross(const Vec3& a, const Vec3& b)
-{
-    return
-    {
-        a.y * b.z - a.z * b.y,
-        a.z * b.x - a.x * b.z,
-        a.x * b.y - a.y * b.x
-    };
-}
-
-struct Quaternion
-{
-    double w, x, y, z;
-
-    static Quaternion identity()
-    {
-        return {1, 0, 0, 0};
-    }
-
-    Quaternion operator*(const Quaternion& q) const
-    {
-        return
-        {
-            w*q.w - x*q.x - y*q.y - z*q.z,
-            w*q.x + x*q.w + y*q.z - z*q.y,
-            w*q.y - x*q.z + y*q.w + z*q.x,
-            w*q.z + x*q.y - y*q.x + z*q.w
-        };
-    }
-
-    Quaternion normalize() const
-    {
-        double norm = std::sqrt(w*w + x*x + y*y + z*z);
-        return {w/norm, x/norm, y/norm, z/norm};
-    }
-
-    void integrateAngularVelocity(const Vec3& omega, double dt)
-    {
-        Quaternion dq = {0, omega.x, omega.y, omega.z};
-        Quaternion result = *this * dq;
-        w += 0.5 * result.w * dt;
-        x += 0.5 * result.x * dt;
-        y += 0.5 * result.y * dt;
-        z += 0.5 * result.z * dt;
-        *this = normalize();
-    }
-};
-
-struct RigidBody
-{
-    Vec3 position;
-    Quaternion orientation;
-    Vec3 velocity;
-    Vec3 angularVelocity;
-
-    void integrate(double dt)
-    {
-        position += velocity * dt;
-        orientation.integrateAngularVelocity(angularVelocity, dt);
-    }
-};
-
-void applyHingeConstraint(RigidBody& trailer, const RigidBody& tractor)
-{
-    // Hinge around Y axis of the tractor
-    trailer.position = tractor.position - Vec3{2.0, 0, 0}; // fixed offset
-    trailer.velocity = tractor.velocity;
-
-    // Allow only Y-axis rotation
-    trailer.angularVelocity = {0.0, trailer.angularVelocity.y, 0.0};
-}
+void initTractor(Vehicle* tractor);
 
 int main()
 {
-    RigidBody tractor =
+    std::cout << "Multibody Dynamics Simulation" << std::endl;
+
+    Vehicle Tractor("tractor");
+
+    // Initialize tractor parameters
+    initTractor(&Tractor);
+
+    for ( int i = 0; i < 1000; ++i )
     {
-        {0, 0, 0}, Quaternion::identity(), {1, 0, 0}, {0, 0.1, 0}
-    };
-
-    RigidBody trailer =
-    {
-        {-2, 0, 0}, Quaternion::identity(), {1, 0, 0}, {0, 0, 0}
-    };
-
-    for (int i = 0; i < steps; ++i)
-    {
-        applyHingeConstraint(trailer, tractor);
-
-        tractor.integrate(dt);
-        trailer.integrate(dt);
-
-        std::cout << "Step " << i << ":\n";
-        std::cout << "  Tractor Position: (" << tractor.position.x << ", " << tractor.position.y << ", " << tractor.position.z << ")\n";
-        std::cout << "  Trailer Position: (" << trailer.position.x << ", " << trailer.position.y << ", " << trailer.position.z << ")\n";
+        Tractor.update(0.01); // Update the vehicle state with a time step of 0.01 seconds
     }
 
     return 0;
+}
+
+void initTractor(Vehicle* tractor)
+{
+    // Mercedes Actros
+    tractor->_mass = 5000.0; // kg
+    tractor->_inertia_BAS._m[0][0] = 10000.0; // kg*m^2
+    tractor->_inertia_BAS._m[1][1] = 10000.0; // kg*m^2
+    tractor->_inertia_BAS._m[2][2] = 10000.0; // kg*m^2
+    tractor->_CD = 0.8; // Coefficient of drag
+    tractor->_referenceArea = 10.0; // m^2
+    tractor->_wheelPos_BAS[0] = Vector3(1.0, -0.5, 0.5); // Front left wheel position
+    tractor->_wheelPos_BAS[1] = Vector3(1.0, 0.5, 0.5); // Front right wheel position
+    tractor->_wheelPos_BAS[2] = Vector3(-1.0, -0.5, 0.5); // Rear left wheel position
+    tractor->_wheelPos_BAS[3] = Vector3(-1.0, 0.5, 0.5); // Rear right wheel position
+    tractor->_springCoef = 100000.0; // N/m
+    tractor->_dampingCoef = 5000.0; // N*s/m
+    tractor->_wheelRadius = 0.5; // m
+    tractor->_engineTorque = 1000.0; // N*m
+    tractor->_gearRatio = 10.0; // Gear ratio
+
+    tractor->_position_NED = Vector3(0.0, 0.0, -0.5); // Initial position
+    tractor->_attitude.setRollPitchYaw(RollPitchYaw(0.0, 0.0, 0.0)); // Initial orientation
+    tractor->_velocity_BAS = Vector3(0.0, 0.0, 0.0); // Initial linear velocity
+    tractor->_angularVelocity_BAS = Vector3(0.0, 0.0, 0.0); // Initial angular velocity
 }
