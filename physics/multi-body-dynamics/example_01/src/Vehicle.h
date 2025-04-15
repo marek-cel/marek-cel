@@ -3,7 +3,6 @@
 
 #include <cmath>
 #include <iostream>
-#include <fstream>
 #include <string>
 
 #include <Vector3.h>
@@ -36,9 +35,6 @@ class Vehicle
 {
 public:
 
-    std::ofstream *_of = nullptr; ///< Output file stream
-
-
     static constexpr double airDensity = 1.225;         ///< [kg/m^3] air density at sea level
     static constexpr double rollingFriction = 0.05;    ///< rolling friction coefficient
     static constexpr double staticFriction = 0.5;        ///< static friction coefficient
@@ -60,6 +56,7 @@ public:
     Vector3 _position_NED;               ///< [m] vehicle position in Global Axis
     Quaternion _attitude;               ///< quaternion orientation (rotation from Global Axis to Body Axis)
     Quaternion _attitude_inv;           ///< quaternion orientation (rotation from Body Axis to Global Axis)
+    Quaternion _attitude_dot;           ///< quaternion derivative (angular velocity in Body Axis)
     RollPitchYaw _attitude_RPY;     ///< roll, pitch, yaw angles in radians
     Vector3 _velocity_BAS;               ///< [m/s] vehicle linear velocity in Body Axis
     Vector3 _velocity_NED;               ///< [m/s] vehicle linear velocity in Global Axis
@@ -74,46 +71,13 @@ public:
     double _engineTorque = 0.0;         ///< [N*m] engine torque
     double _gearRatio = 0.0;           ///< gear ratio
 
-    double _cumulativeTime = 0.0;           ///< [s] cumulative time for simulation
-
-    Vehicle(const char* name)
-    {
-        std::string filename = name + std::string(".csv");
-        _of = new std::ofstream(filename, std::ios::out | std::ios::trunc);
-        if (!_of->is_open())
-        {
-            std::cerr << "Error opening file for writing: " << filename << std::endl;
-            exit(1);
-        }
-
-        writeHeaderToFile();
-    }
-
-    ~Vehicle()
-    {
-        if (_of)
-        {
-            _of->close();
-            delete _of;
-        }
-    }
-
     void update(double dt)
     {
-        // Update time
-        _cumulativeTime += dt;
-
         // Update forces and moments
         updateForcesAndMoments();
 
-        // Compute accelerations
-        computeAcceleration();
-
-        // Integrate to update position and velocity
-        integrate(dt);
-
-        // Write data to file
-        writeDataToFile();
+        // Compute derivatives
+        computeDerivatives();
     }
 
     void updateForcesAndMoments()
@@ -132,10 +96,13 @@ public:
         double dragForce = getDragForce(velMagnitude);
         _force_BAS -= velNormalized * dragForce;
 
+        std::cout << std::endl;
+        std::cout << _force_BAS.x() << " " << _force_BAS.y() << " " << _force_BAS.z() << std::endl;
         // Wheel forces and moments
         for ( int i = 0; i < numWheels; ++i )
         {
             updateWheelForcesAndMoments(i);
+            std::cout << _force_BAS.x() << " " << _force_BAS.y() << " " << _force_BAS.z() << std::endl;
         }
     }
 
@@ -151,6 +118,8 @@ public:
         double strutDeflection = wheelPos_BAS.z() - contactPoint_BAS.z();
         if ( strutDeflection > 0 )
         {
+            //std::cout << strutDeflection << std::endl;
+
             Vector3 wheelForce(0.0, 0.0, 0.0);
             Vector3 wheelMoment(0.0, 0.0, 0.0);
 
@@ -177,6 +146,8 @@ public:
             wheelForce.x() = longitudinalForce;
             wheelForce.z() = springForce + dampingForce;
 
+            std::cout << "wheel: " << wheelForce.x() << " " << wheelForce.y() << " " << wheelForce.z() << std::endl;
+
 
             wheelMoment = contactPoint_BAS % wheelForce;
 
@@ -185,8 +156,12 @@ public:
         }
     }
 
-    void computeAcceleration()
+    void computeDerivatives()
     {
+        _velocity_NED = _attitude * _velocity_BAS;
+
+        _attitude_dot = _attitude.getDerivative(_angularVelocity_BAS);
+
         // Compute linear acceleration
         _acceleration_BAS = _force_BAS / _mass;
 
@@ -196,23 +171,6 @@ public:
             std::cerr << "Error: Unable to compute angular acceleration." << std::endl;
             exit(1);
         }
-    }
-
-    void integrate(double dt)
-    {
-        // Update velocity and angular velocity
-        _velocity_BAS += _acceleration_BAS * dt;
-        _velocity_NED = _attitude * _velocity_BAS;
-        _angularVelocity_BAS += _angularAcceleration_BAS * dt;
-        _angularVelocity_NED = _attitude * _angularVelocity_BAS;
-
-        // Update position and attitude
-        _position_NED += _velocity_NED * dt;
-        _attitude = _attitude + _attitude.getDerivative(_angularVelocity_BAS, dt);
-        _attitude.setRollPitchYaw(_attitude.getRollPitchYaw());
-        _attitude.normalize();
-        _attitude_inv = _attitude.getInverse();
-        _attitude_RPY = _attitude.getRollPitchYaw();
     }
 
     double getEngineWheelForce()
@@ -240,47 +198,12 @@ public:
 
     double getGroundHeight(double x_NED)
     {
+        return 0.0;
         double maxHeight = 4.0; // Maximum height of the ground
         double waveLength = 100.0;
 
         return maxHeight * cos(2.0 * M_PI * x_NED / waveLength) - maxHeight;
     }
-
-    void writeHeaderToFile()
-    {
-        (*_of) << "Time, "
-            << "Position_NED_X, "
-            << "Position_NED_Y, "
-            << "Position_NED_Z, "
-            << "Attitude_RPY_Phi, "
-            << "Attitude_RPY_Tht, "
-            << "Attitude_RPY_Psi, "
-            << "Velocity_BAS_X, "
-            << "Velocity_BAS_Y, "
-            << "Velocity_BAS_Z, "
-            << "AngularVelocity_BAS_X, "
-            << "AngularVelocity_BAS_Y, "
-            << "AngularVelocity_BAS_Z" << std::endl;
-
-    }
-
-    void writeDataToFile()
-    {
-        (*_of) << _cumulativeTime << ", "
-            << _position_NED.x() << ", "
-            << _position_NED.y() << ", "
-            << _position_NED.z() << ", "
-            << _attitude_RPY._phi * 180.0 / M_PI << ", "
-            << _attitude_RPY._tht * 180.0 / M_PI << ", "
-            << _attitude_RPY._psi * 180.0 / M_PI << ", "
-            << _velocity_BAS.x() << ", "
-            << _velocity_BAS.y() << ", "
-            << _velocity_BAS.z() << ", "
-            << _angularVelocity_BAS.x() << ", "
-            << _angularVelocity_BAS.y() << ", "
-            << _angularVelocity_BAS.z() << std::endl;
-    }
-
 };
 
 #endif // VEHICLE_H
