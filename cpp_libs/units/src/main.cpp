@@ -250,6 +250,9 @@ void test()
     units::length::meter_t l = 1.0_m;
     std::cout << "l = " << l << std::endl;
 
+    double xxx = 2.0_m / l;
+    std::cout << "xxx = " << xxx << std::endl;
+
     l = 1.0_ft;
     std::cout << "l = " << l << std::endl;
 
