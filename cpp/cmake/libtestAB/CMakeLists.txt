@@ -32,6 +32,18 @@ if(CMAKE_COMPILER_IS_GNUCC)
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Og -g")
 endif()
 
+if(BUILD_TESTING)
+    message(STATUS "Building tests")
+else()
+    message(STATUS "Not building tests")
+endif()
+
+if(TESTS_COVERAGE)
+    message(STATUS "Building tests with coverage")
+else()
+    message(STATUS "Not building tests with coverage")
+endif()
+
 ################################################################################
 
 include_directories(.)
