@@ -41,14 +41,14 @@ endif()
 
 ################################################################################
 
-FetchContent_Declare(
-    libnova
-    GIT_REPOSITORY https://git.code.sf.net/p/libnova/libnova
-    GIT_TAG        v0.16
-)
-FetchContent_MakeAvailable(libnova)
+# FetchContent_Declare(
+#     libnova
+#     GIT_REPOSITORY https://git.code.sf.net/p/libnova/libnova
+#     GIT_TAG        v0.16
+# )
+# FetchContent_MakeAvailable(libnova)
 
-include_directories(${libnova_SOURCE_DIR} ${libnova_SOURCE_DIR}/src)
+# include_directories(${libnova_SOURCE_DIR} ${libnova_SOURCE_DIR}/src)
 
 # set(IMGUI_SOURCES
 #     ${imgui_SOURCE_DIR}/imgui.cpp
@@ -85,4 +85,4 @@ include_directories(. ./src)
 
 ################################################################################
 
-# add_subdirectory(src)
+add_subdirectory(src)
