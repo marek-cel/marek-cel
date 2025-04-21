@@ -41,28 +41,6 @@ endif()
 
 ################################################################################
 
-# FetchContent_Declare(
-#     libnova
-#     GIT_REPOSITORY https://git.code.sf.net/p/libnova/libnova
-#     GIT_TAG        v0.16
-# )
-# FetchContent_MakeAvailable(libnova)
-
-# include_directories(${libnova_SOURCE_DIR} ${libnova_SOURCE_DIR}/src)
-
-# set(IMGUI_SOURCES
-#     ${imgui_SOURCE_DIR}/imgui.cpp
-#     ${imgui_SOURCE_DIR}/imgui_demo.cpp
-#     ${imgui_SOURCE_DIR}/imgui_draw.cpp
-#     ${imgui_SOURCE_DIR}/imgui_tables.cpp
-#     ${imgui_SOURCE_DIR}/imgui_widgets.cpp
-#     ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
-#     ${imgui_SOURCE_DIR}/backends/imgui_impl_sdl2.cpp
-# )
-# add_library(imgui STATIC ${IMGUI_SOURCES})
-
-################################################################################
-
 if(UNIX)
     set(CMAKE_CXX_FLAGS "-Wall -std=c++20")
     set(CMAKE_CXX_FLAGS_DEBUG   "-O0")
