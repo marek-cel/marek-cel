@@ -59,6 +59,17 @@ endif()
 
 ################################################################################
 
+FetchContent_Declare(
+    libnova
+    GIT_REPOSITORY https://github.com/marek-cel/libnova.git
+    GIT_TAG        feature/CMake-based-building
+)
+FetchContent_MakeAvailable(libnova)
+
+include_directories(${libnova_SOURCE_DIR}/src)
+
+################################################################################
+
 include_directories(. ./src)
 
 ################################################################################

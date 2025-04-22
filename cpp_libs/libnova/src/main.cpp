@@ -15,25 +15,19 @@ void printHorizontalCoordinates(const char* name, struct ln_hrz_posn* hrz)
 
 int main()
 {
-    // Observer's location (example: New York City)
-    double observer_lat = 40.7128;  // latitude in degrees (North is positive)
-    double observer_lng = -74.0060; // longitude in degrees (East is positive)
-    double observer_alt = 10.0;     // altitude in meters
-
-    // Get current time
-    time_t rawtime;
-    struct tm* timeinfo;
-    time(&rawtime);
-    timeinfo = gmtime(&rawtime); // Use UTC time
+    // Observer's location (example: Warsaw, Poland)
+    double observer_lat = 52.2296756;  // latitude in degrees (North is positive)
+    double observer_lng = 21.0122287; // longitude in degrees (East is positive)
+    double observer_alt = 100.0;     // altitude in meters
 
     // Convert to Julian Day
     struct ln_date date;
-    date.years = timeinfo->tm_year + 1900;
-    date.months = timeinfo->tm_mon + 1;
-    date.days = timeinfo->tm_mday;
-    date.hours = timeinfo->tm_hour;
-    date.minutes = timeinfo->tm_min;
-    date.seconds = timeinfo->tm_sec;
+    date.years = 2024;
+    date.months = 4;
+    date.days = 24;
+    date.hours = 17;
+    date.minutes = 15;
+    date.seconds = 30;
 
     double JD = ln_get_julian_day(&date);
 

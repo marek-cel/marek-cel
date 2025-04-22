@@ -10,8 +10,6 @@ set(SOURCES
 
 add_executable(${TARGET_NAME} ${SOURCES})
 
-set(LIBS
-    nova
-)
+set(LIBS nova)
 
 target_link_libraries(${TARGET_NAME} ${LIBS})
