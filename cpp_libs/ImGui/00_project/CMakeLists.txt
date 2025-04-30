@@ -6,6 +6,10 @@ project(exec)
 
 ################################################################################
 
+include(FetchContent)
+
+################################################################################
+
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin)
@@ -74,6 +78,27 @@ include_directories(${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIRS})
+
+################################################################################
+
+FetchContent_Declare(
+    imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui.git
+    GIT_TAG        docking
+)
+FetchContent_MakeAvailable(imgui)
+
+include_directories(${imgui_SOURCE_DIR} ${imgui_SOURCE_DIR}/backends)
+
+set(IMGUI_SOURCES
+    ${imgui_SOURCE_DIR}/imgui.cpp
+    ${imgui_SOURCE_DIR}/imgui_demo.cpp
+    ${imgui_SOURCE_DIR}/imgui_draw.cpp
+    ${imgui_SOURCE_DIR}/imgui_tables.cpp
+    ${imgui_SOURCE_DIR}/imgui_widgets.cpp
+    ${imgui_SOURCE_DIR}/backends/imgui_impl_opengl3.cpp
+)
+add_library(imgui STATIC ${IMGUI_SOURCES})
 
 ################################################################################
 
