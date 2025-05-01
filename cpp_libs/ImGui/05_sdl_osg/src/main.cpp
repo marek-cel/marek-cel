@@ -279,7 +279,8 @@ int main()
 
         viewer->frame();
 
-        if ( multi_viewports )
+        ImGuiIO& io = ImGui::GetIO();
+        if ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable )
         {
             ImGui::UpdatePlatformWindows();
             ImGui::RenderPlatformWindowsDefault();
