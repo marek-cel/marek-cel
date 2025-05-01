@@ -166,7 +166,7 @@ void initOSG()
     osg::ref_ptr<osg::Camera> camera = viewer->getCamera();
     const osg::GraphicsContext::Traits* traits = camera->getGraphicsContext()->getTraits();
     double w2h = static_cast<double>(traits->width) / static_cast<double>(traits->height);
-    camera->setClearColor(osg::Vec4(0.0, 0.0, 0.0, 1.0));
+    // camera->setClearColor(osg::Vec4(0.0, 0.0, 0.0, 1.0));
     camera->setViewport(new osg::Viewport(0, 0, traits->width, traits->height));
     const double z_near = 1.0;
     const double z_far = 1.0e5;
