@@ -1,5 +1,6 @@
 {
   "dependencies": [
+    "boost",
     "libjpeg-turbo",
     "libpng",
     "libxml2",

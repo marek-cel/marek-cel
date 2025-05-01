@@ -19,6 +19,7 @@
         "guiactionadapter": "cpp",
         "guieventhandler": "cpp",
         "orbitmanipulator": "cpp",
-        "standardmanipulator": "cpp"
+        "standardmanipulator": "cpp",
+        "iostream": "cpp"
     }
 }

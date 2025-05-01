@@ -1,4 +1,8 @@
+#include <filesystem>
 #include <iostream>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 #include <SDL.h>
 
@@ -16,12 +20,13 @@
 #include <gui/ImGuiApp.h>
 
 const bool multi_viewports = false;
-const int width = 800;
-const int height = 600;
 bool is_running = true;
 
 double time_step = 0.0;
 double time_prev = 0.0;
+
+const char* settings_file = "project.json";
+boost::property_tree::ptree pt;
 
 SDL_Window* window = nullptr;
 SDL_GLContext gl_context;
@@ -30,6 +35,50 @@ SDL_Renderer* renderer = nullptr;
 osg::ref_ptr<osgViewer::Viewer> viewer;
 osg::ref_ptr<osgViewer::GraphicsWindowEmbedded> gw;
 osg::ref_ptr<osgGA::EventQueue> eq;
+
+void initCfg()
+{
+    // Check if the config file exists. If not, create an empty one.
+    if ( !std::filesystem::exists(settings_file) )
+    {
+        boost::property_tree::ptree temp;
+        try
+        {
+            boost::property_tree::write_json(settings_file, temp);
+        }
+        catch(const std::exception& e)
+        {
+            std::cerr << "Error creating config file: " << e.what() << std::endl;
+            exit(1);
+        }
+    }
+
+    try
+    {
+        boost::property_tree::read_json(settings_file, pt);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error reading config file: " << e.what() << std::endl;
+        exit(1);
+    }
+}
+
+void saveCfg()
+{
+    int pos_x;
+    int pos_y;
+    SDL_GetWindowPosition(window, &pos_x, &pos_y);
+    pt.put("main_window.pos_x", pos_x);
+    pt.put("main_window.pos_y", pos_y);
+
+    int width;
+    int height;
+    SDL_GetWindowSize(window, &width, &height);
+    pt.put("main_window.width"  , width);
+    pt.put("main_window.height" , height);
+    boost::property_tree::write_json(settings_file, pt);
+}
 
 void initSDL()
 {
@@ -44,8 +93,12 @@ void initSDL()
         SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
     }
 
+    int pos_x  = pt.get<int>("main_window.pos_x"  , SDL_WINDOWPOS_CENTERED);
+    int pos_y  = pt.get<int>("main_window.pos_y"  , SDL_WINDOWPOS_CENTERED);
+    int width  = pt.get<int>("main_window.width"  , 800);
+    int height = pt.get<int>("main_window.height" , 600);
     Uint32 window_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
-    window = SDL_CreateWindow("ImGui - SDL - OSG", 100, 100, width, height, window_flags);
+    window = SDL_CreateWindow("ImGui - SDL - OSG", pos_x, pos_y, width, height, window_flags);
     if ( !window )
     {
         std::cerr << "Error creating window: " << SDL_GetError() << std::endl;
@@ -92,6 +145,9 @@ void initGUI()
 
 void initOSG()
 {
+    int width;
+    int height;
+    SDL_GetWindowSize(window, &width, &height);
     viewer = new osgViewer::Viewer();
     gw = viewer->setUpViewerAsEmbeddedInWindow(0, 0, width, height);
     eq = gw->getEventQueue();
@@ -206,6 +262,7 @@ void handleEvents()
 
 int main()
 {
+    initCfg();
     initSDL();
     initGUI();
     initOSG();
@@ -230,6 +287,8 @@ int main()
 
         SDL_GL_SwapWindow(window);
     }
+
+    saveCfg();
 
     return 0;
 }

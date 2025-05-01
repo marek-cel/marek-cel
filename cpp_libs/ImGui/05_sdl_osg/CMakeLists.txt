@@ -44,6 +44,11 @@ endif()
 
 ################################################################################
 
+find_package(Boost REQUIRED COMPONENTS locale)
+include_directories(${Boost_INCLUDE_DIRS})
+
+################################################################################
+
 find_package(LibXml2 REQUIRED)
 include_directories(${LIBXML2_INCLUDE_DIR})
 

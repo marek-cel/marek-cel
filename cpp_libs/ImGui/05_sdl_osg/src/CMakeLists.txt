@@ -22,6 +22,7 @@ endif()
 add_executable(${TARGET_NAME} ${SOURCES})
 
 set(LIBS
+    ${Boost_LIBRARIES}
     ${LIBXML2_LIBRARIES}
     ${OPENSCENEGRAPH_LIBRARIES}
     ${OPENGL_LIBRARIES}
