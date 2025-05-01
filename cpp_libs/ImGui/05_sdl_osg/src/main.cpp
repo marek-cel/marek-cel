@@ -25,6 +25,7 @@ double time_prev = 0.0;
 
 SDL_Window* window = nullptr;
 SDL_GLContext gl_context;
+SDL_Renderer* renderer = nullptr;
 
 osg::ref_ptr<osgViewer::Viewer> viewer;
 osg::ref_ptr<osgViewer::GraphicsWindowEmbedded> gw;
@@ -37,6 +38,11 @@ void initSDL()
         std::cerr << "Error initializing SDL: " << SDL_GetError() << std::endl;
         exit(1);
 	}
+
+    if ( multi_viewports )
+    {
+        SDL_GL_SetAttribute(SDL_GL_SHARE_WITH_CURRENT_CONTEXT, 1);
+    }
 
     Uint32 window_flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
     window = SDL_CreateWindow("ImGui - SDL - OSG", 100, 100, width, height, window_flags);
@@ -51,7 +57,7 @@ void initSDL()
     SDL_GL_SetSwapInterval(1); // Enable vsync
 
     Uint32 renderer_flags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, renderer_flags);
+    renderer = SDL_CreateRenderer(window, -1, renderer_flags);
     if ( !renderer )
     {
         std::cerr << "Error creating renderer: " << SDL_GetError() << std::endl;
@@ -75,11 +81,12 @@ void initGUI()
     }
     io.IniFilename = "project.ini";
 
-    // _gui->InitFonts();
-    // _gui->InitStyle();
+    // initFonts();
+    // initStyle();
 
     // Setup Platform/Renderer backends
     ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
+    // ImGui_ImplSDL2_InitForSDLRenderer(window, renderer);
 	ImGui_ImplOpenGL3_Init();
 }
 
