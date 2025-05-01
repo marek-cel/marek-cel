@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "libjpeg-turbo",
+    "libpng",
+    "libxml2",
+    "osg",
+    "sdl2",
+    "tiff"
+  ]
+}
