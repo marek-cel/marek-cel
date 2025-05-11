@@ -35,7 +35,7 @@ void write()
     pt_xml.put("config.setting2", true);
     pt_xml.put("config.setting4", 3.14);
     pt_xml.put("other.section1.option", "value3");
-    pt::write_xml("config.xml", pt_xml);
+    pt::write_xml("config.xml", pt_xml, std::locale(), pt::xml_writer_make_settings< std::string >(' ', 2));
 
     pt::ptree pt_json;
     pt_json.put("config.setting1", "value1");
@@ -60,6 +60,8 @@ void read()
     std::cout << "config.setting2 = " << pt_xml.get<bool>("config.setting2") << std::endl;
     std::cout << "config.setting4 = " << pt_xml.get<double>("config.setting4") << std::endl;
     std::cout << "other.section1.option = " << pt_xml.get<std::string>("other.section1.option") << std::endl;
+    pt::ptree pt_xml_other_1 = pt_xml.get_child("other");
+    std::cout << "section1.option = " << pt_xml_other_1.get<std::string>("section1.option") << std::endl;
     std::cout << std::endl;
 
     pt::ptree pt_json;
