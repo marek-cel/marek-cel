@@ -1,4 +1,4 @@
-set(TARGET_NAME ${PROJECT_NAME})
+set(TARGET_NAME app)
 
 ################################################################################
 
@@ -23,7 +23,7 @@ set(UIC_FILES
 
 add_executable(${TARGET_NAME} WIN32 ${CPP_FILES} ${MOC_FILES} ${UIC_FILES})
 
-qt5_use_modules(${PROJECT_NAME} Core Widgets)
+qt5_use_modules(${TARGET_NAME} Core Widgets)
 
 set(LIBS
     ${QT_LIBRARIES}

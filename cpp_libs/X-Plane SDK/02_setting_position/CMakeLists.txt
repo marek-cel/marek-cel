@@ -30,11 +30,15 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 if(UNIX)
     if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
         add_definitions(-D_LINUX_)
-        add_definitions(-DLIN)
+        add_definitions(-DAPL=0)
+        add_definitions(-DIBM=0)
+        add_definitions(-DLIN=1)
     endif()
 elseif(WIN32)
     add_definitions(-DWIN32)
-    add_definitions(-DIBM)
+    add_definitions(-DAPL=0)
+    add_definitions(-DIBM=1)
+    add_definitions(-DLIN=0)
     add_definitions(-D_WINDOWS)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -42,13 +46,19 @@ elseif(WIN32)
     add_definitions(-DNOMINMAX)
 endif()
 
+add_definitions(-DXPLM200=1)
+add_definitions(-DXPLM210=1)
+add_definitions(-DXPLM300=1)
+add_definitions(-DXPLM301=1)
+add_definitions(-DXPLM303=1)
+
 ################################################################################
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5 REQUIRED COMPONENTS Core Widgets)
+find_package(Qt5 REQUIRED COMPONENTS Core Widgets HINTS $ENV{QTDIR})
 
 ################################################################################
 
@@ -67,14 +77,6 @@ elseif(WIN32)
         endif()
     endif()
 endif()
-
-################################################################################
-
-add_definitions(-DXPLM200=1)
-add_definitions(-DXPLM210=1)
-add_definitions(-DXPLM300=1)
-add_definitions(-DXPLM301=1)
-add_definitions(-DXPLM303=1)
 
 ################################################################################
 

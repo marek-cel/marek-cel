@@ -8,11 +8,20 @@ set(SOURCES
 
 ################################################################################
 
-set(LIBS
+if(UNIX)
+    add_library(${PROJECT_NAME} SHARED ${SOURCES})
+elseif(WIN32)
+    add_library(${PROJECT_NAME} MODULE ${SOURCES})
+endif()
 
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_NAME}.xpl")
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES PREFIX "")
+SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SUFFIX "")
+
+################################################################################
+
+set(LIBS
 )
 
-add_library(${TARGET_NAME} SHARED ${SOURCES})
-
-target_link_libraries(${TARGET_NAME} ${LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBS})
 
