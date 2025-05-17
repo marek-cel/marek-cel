@@ -3,9 +3,12 @@
 
 #include <memory>
 
+#include <boost/asio.hpp>
+
 #include <QWidget>
 
-#include "XplaneToGUI.h"
+#include <databuf.h>
+#include <UdpSocket.h>
 
 namespace Ui {
 class GUI;
@@ -30,17 +33,27 @@ private:
 
     int _timerId;
 
-    XplaneToGUI _xplane_to_gui;
-
-    QString _remote_ip;
-    int _remote_port;
-    int _local_port;
+    std::string _remote_ip;
+    uint16_t _remote_port;
+    uint16_t _local_port;
 
     bool _connected = false;
+
+    UdpSocket _socket;
+
+    XPLANE_TO_GUI _xplane_to_gui;
+    GUI_TO_XPLANE _gui_to_xplane;
+
+    void connect();
+    void receive();
+    void send();
 
 private slots:
 
     void on_pushButton_Connect_clicked();
+    void on_pushButton_Disconnect_clicked();
+
+    void on_spinBox_data_valueChanged(int arg1);
 };
 
 #endif // GUI_H

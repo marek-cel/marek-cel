@@ -4,6 +4,7 @@ set(TARGET_NAME plugin)
 
 set(SOURCES
     plugin.cpp
+    ../UdpSocket.cpp
 )
 
 ################################################################################

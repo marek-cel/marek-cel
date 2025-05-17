@@ -9,6 +9,7 @@ add_subdirectory(plugin)
 set(CPP_FILES
     main.cpp
     GUI.cpp
+    UdpSocket.cpp
 )
 
 set(MOC_FILES
