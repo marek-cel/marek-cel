@@ -81,7 +81,7 @@ void Joystick::init(HWND winID)
             if ( joy_data.is_xinput_compatible )
             {
                 std::cout << "Joystick " << joy_data.name << " is XInput compatible." << std::endl;
-                joy_data.has_sine_wave
+                // joy_data.has_sine_wave
             }
             else
             {

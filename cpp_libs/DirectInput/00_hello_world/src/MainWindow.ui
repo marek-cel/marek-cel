@@ -48,6 +48,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxX">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -85,6 +86,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxRX">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -122,6 +124,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxSlider1">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -159,6 +162,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxY">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -196,6 +200,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxRY">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -233,6 +238,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxSlider2">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -270,6 +276,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxZ">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -307,6 +314,7 @@
         <widget class="QDoubleSpinBox" name="spinBoxRZ">
          <property name="font">
           <font>
+           <weight>75</weight>
            <bold>true</bold>
           </font>
          </property>
@@ -888,33 +896,7 @@ QPushButton:disabled:checked
        <string>Force Feedback</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="pushButtonForceX">
-         <property name="text">
-          <string>X</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="doubleSpinBoxForceX">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="minimum">
-          <double>-1.000000000000000</double>
-         </property>
-         <property name="maximum">
-          <double>1.000000000000000</double>
-         </property>
-         <property name="singleStep">
-          <double>0.010000000000000</double>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
+       <item row="1" column="1">
         <widget class="QDoubleSpinBox" name="doubleSpinBoxForceCoefX">
          <property name="enabled">
           <bool>false</bool>
@@ -933,17 +915,7 @@ QPushButton:disabled:checked
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButtonForceY">
-         <property name="text">
-          <string>Y</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
+       <item row="2" column="0">
         <widget class="QDoubleSpinBox" name="doubleSpinBoxForceY">
          <property name="enabled">
           <bool>false</bool>
@@ -959,7 +931,23 @@ QPushButton:disabled:checked
          </property>
         </widget>
        </item>
-       <item row="1" column="2">
+       <item row="1" column="0">
+        <widget class="QDoubleSpinBox" name="doubleSpinBoxForceX">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="minimum">
+          <double>-1.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>1.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.010000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
         <widget class="QDoubleSpinBox" name="doubleSpinBoxForceCoefY">
          <property name="enabled">
           <bool>false</bool>
@@ -975,6 +963,16 @@ QPushButton:disabled:checked
          </property>
          <property name="value">
           <double>1.000000000000000</double>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="2">
+        <widget class="QPushButton" name="pushButtonForce">
+         <property name="text">
+          <string>Enable</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -1002,7 +1000,7 @@ QPushButton:disabled:checked
      <x>0</x>
      <y>0</y>
      <width>385</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
