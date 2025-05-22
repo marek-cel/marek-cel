@@ -25,7 +25,8 @@ function installCreativeTools()
             openshot-qt \
             qpdf \
             screenkey \
-            texlive-full
+            texlive-full \
+            texstudio
     fi
 }
 

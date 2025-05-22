@@ -23,6 +23,7 @@ source install_UbuntuServer_file_server.sh
 source install_UbuntuServer_gitlab.sh
 source install_UbuntuServer_jenkins.sh
 source install_UbuntuServer_kvm.sh
+source install_UbuntuServer_minecraft.sh
 source install_UbuntuServer_web_server.sh
 source install_UbuntuServer_zone_minder.sh
 

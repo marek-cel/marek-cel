@@ -13,6 +13,12 @@ function installWebServer()
     then
         printGreen "Installing WEB SERVER ..."
 
+        sudo apt install -y \
+            curl \
+            gnupg \
+            software-properties-common \
+            unzip
+
         readBold "Do you want to install APACHE2?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -57,8 +63,17 @@ function installWebServer()
             printGreen "Installing PHP ..."
 
             sudo apt install -y \
+                composer \
+                libapache2-mod-php \
                 php \
-                php-intl
+                php-bcmath \
+                php-cli \
+                php-curl \
+                php-intl \
+                php-mbstring \
+                php-pgsql \
+                php-xml \
+                php-zip
         fi
 
         readBold "Do you want to install POSTGRESQL?"
