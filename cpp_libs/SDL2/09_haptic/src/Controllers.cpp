@@ -78,6 +78,8 @@ void Controllers::init()
 		joystick.product = SDL_JoystickGetProduct(joystick.joystick);
 		joystick.has_haptic = SDL_JoystickIsHaptic(joystick.joystick);
 
+		std::cout << "Vendor ID: " << joystick.vendor << " Product ID: " << joystick.product << std::endl;
+
         if ( joystick.has_haptic )
 		{
 			std::cout << "Joystick " << i << " has haptic feedback." << std::endl;
