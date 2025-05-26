@@ -29,4 +29,8 @@ set(LIBS
     ${SDL2_LIBRARIES}
 )
 
+if(WIN32)
+    set(LIBS ${LIBS} dinput8 dxguid)
+endif()
+
 target_link_libraries(${PROJECT_NAME} ${LIBS})

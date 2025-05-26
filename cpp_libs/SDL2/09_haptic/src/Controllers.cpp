@@ -184,6 +184,10 @@ void Controllers::init()
 				// joystick.friction_effect_id = initConstantEffect(joystick.haptic, &joystick.friction_effect);
 			}
 		}
+		else
+		{
+			std::cout << "Joystick " << i << " does NOT have haptic feedback." << std::endl;
+		}
 
 		_controllers.push_back(joystick);
 	}

@@ -41,8 +41,21 @@ public:
 private:
 
     IGameInput* _gameInput = nullptr;
+    GameInputCallbackToken _callbackToken = {};
 
     std::vector<Controller> _controllers;
+
+    static void CALLBACK DeviceCallback(
+        GameInputCallbackToken callbackToken,
+        void* context,
+        IGameInputDevice* device,
+        uint64_t timestamp,
+        GameInputDeviceStatus currentStatus,
+        GameInputDeviceStatus previousStatus)
+    {
+        Controllers* example = static_cast<Controllers*>(context);
+        // example->OnDeviceCallback(device, currentStatus, previousStatus);
+    }
 };
 
 #endif // CONTROLLERS_H
