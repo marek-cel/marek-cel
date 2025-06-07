@@ -3,7 +3,7 @@
 ################################################################################
 
 # Configuration
-TEMP_LIMIT=20  # Temperature limit in Celsius
+TEMP_LIMIT=95  # Temperature limit in Celsius
 EMAIL=$USER_EMAIL_ADDRESS
 HOSTNAME=$(hostname)
 LOG_FILE=$HOME"/temp_monitor.log"
@@ -53,6 +53,8 @@ fi
 
 # log_message "Current CPU temperature: ${CURRENT_TEMP}°C"
 
+RAW_SENSOR_OUTPUT=$(sensors)
+
 # Check if temperature exceeds limit
 if [ "$CURRENT_TEMP" -gt "$TEMP_LIMIT" ]; then
     log_message "ALERT: Temperature ${CURRENT_TEMP}°C exceeds limit of ${TEMP_LIMIT}°C"
@@ -74,8 +76,8 @@ System Information:
 $UPTIME
 Load Average: $LOAD_AVG
 
-Top Processes:
-$TOP_PROCESSES
+Sensors Output:
+$RAW_SENSOR_OUTPUT
 
 Please check the system immediately.
 EOF
