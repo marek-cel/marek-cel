@@ -41,6 +41,7 @@ function installEssentials()
             samba \
             smartmontools \
             smplayer \
+            synaptic \
             systemsettings \
             traceroute \
             tree \
