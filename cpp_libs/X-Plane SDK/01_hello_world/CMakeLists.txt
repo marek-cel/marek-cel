@@ -51,6 +51,8 @@ add_definitions(-DXPLM210=1)
 add_definitions(-DXPLM300=1)
 add_definitions(-DXPLM301=1)
 add_definitions(-DXPLM303=1)
+add_definitions(-DXPLM400=1)
+add_definitions(-DXPLM410=1)
 
 ################################################################################
 
@@ -73,9 +75,9 @@ endif()
 ################################################################################
 
 include_directories(./src)
-include_directories($ENV{XPSDK303_DIR}/CHeaders)
-include_directories($ENV{XPSDK303_DIR}/CHeaders/XPLM)
-include_directories($ENV{XPSDK303_DIR}/CHeaders/Widgets)
+include_directories($ENV{XPSDK_DIR}/CHeaders)
+include_directories($ENV{XPSDK_DIR}/CHeaders/XPLM)
+include_directories($ENV{XPSDK_DIR}/CHeaders/Widgets)
 
 ################################################################################
 
