@@ -82,10 +82,19 @@ endif()
 
 ################################################################################
 
+FetchContent_Declare(
+  xpsdk
+  URL https://developer.x-plane.com/wp-content/plugins/code-sample-generation/sdk_zip_files/XPSDK411.zip
+)
+FetchContent_MakeAvailable(xpsdk)
+
+include_directories(${xpsdk_SOURCE_DIR}/CHeaders)
+include_directories(${xpsdk_SOURCE_DIR}/CHeaders/XPLM)
+include_directories(${xpsdk_SOURCE_DIR}/CHeaders/Widgets)
+
+################################################################################
+
 include_directories(./src)
-include_directories($ENV{XPSDK_DIR}/CHeaders)
-include_directories($ENV{XPSDK_DIR}/CHeaders/XPLM)
-include_directories($ENV{XPSDK_DIR}/CHeaders/Widgets)
 
 ################################################################################
 
