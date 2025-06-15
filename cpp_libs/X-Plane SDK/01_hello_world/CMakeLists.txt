@@ -57,7 +57,7 @@ add_definitions(-DXPLM410=1)
 ################################################################################
 
 if(UNIX)
-    set(CMAKE_CXX_FLAGS "-Wall -std=c++20")
+    set(CMAKE_CXX_FLAGS "-Wall -std=c++20 -fvisibility=hidden")
     set(CMAKE_CXX_FLAGS_DEBUG   "-O0")
     set(CMAKE_CXX_FLAGS_RELEASE "-O2")
 elseif(WIN32)
