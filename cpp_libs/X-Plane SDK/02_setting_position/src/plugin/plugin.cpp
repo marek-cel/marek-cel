@@ -8,6 +8,7 @@
 #include <XPLMDataAccess.h>
 #include <XPLMUtilities.h>
 #include <XPLMProcessing.h>
+#include <XPLMGraphics.h>
 
 #include <databuf.h>
 #include <UdpSocket.h>
@@ -22,6 +23,10 @@ GUI_TO_XPLANE g_gui_to_xplane;
 int g_tick = -1;
 
 std::ofstream g_log_file;
+
+XPLMDataRef g_ref_x = nullptr;
+XPLMDataRef g_ref_y = nullptr;
+XPLMDataRef g_ref_z = nullptr;
 
 PLUGIN_API int XPluginStart(
     char *		outName,
@@ -67,6 +72,16 @@ PLUGIN_API int XPluginStart(
     }
 
     XPLMDebugString("Connected to GUI\n");
+
+    g_ref_x = XPLMFindDataRef("sim/flightmodel/position/local_x");
+    g_ref_y = XPLMFindDataRef("sim/flightmodel/position/local_y");
+    g_ref_z = XPLMFindDataRef("sim/flightmodel/position/local_z");
+    if (g_ref_x == nullptr || g_ref_y == nullptr || g_ref_z == nullptr)
+    {
+        XPLMDebugString("Error: DataRefs not found\n");
+        return 0;
+    }
+
 
     g_xplane_to_gui.tick = g_tick;
     g_socket.sendto((char*)(&g_xplane_to_gui), sizeof(g_xplane_to_gui), "127.0.0.1", 5501);
@@ -143,6 +158,27 @@ float flight_loop(float since_last, float since_last_fl, int count, void* refcon
         }
     }
 
+    if ( g_gui_to_xplane.tick > 0 )
+    {
+        double x = 0.0;
+        double y = 0.0;
+        double z = 0.0;
+        XPLMWorldToLocal(
+            g_gui_to_xplane.lat,
+            g_gui_to_xplane.lon,
+            g_gui_to_xplane.alt,
+            &x, &y, &z);
+        if (g_ref_x && g_ref_y && g_ref_z)
+        {
+            XPLMSetDataf(g_ref_x, static_cast<float>(x));
+            XPLMSetDataf(g_ref_y, static_cast<float>(y));
+            XPLMSetDataf(g_ref_z, static_cast<float>(z));
+        }
+        else
+        {
+            XPLMDebugString("Error: DataRefs not set\n");
+        }
+    }
 
 	return -1;
 }
