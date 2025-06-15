@@ -29,15 +29,15 @@ UdpSocket::UdpSocket()
         std::cerr << "Socket creation failed: " << strerror(errno) << std::endl;
         throw std::runtime_error("Socket creation failed");
     }
-
-#   ifdef _WIN32
-    WSACleanup();
-#   endif // _WIN32
 }
 
 UdpSocket::~UdpSocket()
 {
     close();
+
+#   ifdef _WIN32
+    WSACleanup();
+#   endif // _WIN32
 }
 
 bool UdpSocket::bind(const std::string& address, uint16_t port)
@@ -49,6 +49,7 @@ bool UdpSocket::bind(const std::string& address, uint16_t port)
 
     if ( address.empty() || address == "0.0.0.0" )
     {
+        std::cout << "Binding to all interfaces" << std::endl;
         addr.sin_addr.s_addr = INADDR_ANY;
     }
     else
@@ -63,7 +64,7 @@ bool UdpSocket::bind(const std::string& address, uint16_t port)
 
     if ( ::bind(_socket, (struct sockaddr*)&addr, sizeof(addr)) == SOCKET_ERROR )
     {
-        std::cerr << "Bind failed: " << strerror(errno) << std::endl;
+        std::cerr << "Bind failed: " << strerror(errno) << " " << errno << std::endl;
         return false;
     }
 

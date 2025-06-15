@@ -40,7 +40,11 @@ PLUGIN_API int XPluginStart(
     XPLMDebugString("XXX Extra Forces XXX\n");
 
     // std::filesystem::path file = std::filesystem::path(getenv("HOME")) / "xplane_to_gui.log";
+#   ifdef __linux__
     std::filesystem::path file = "/home/cel/xplane_to_gui.log";
+#   elif defined(WIN32)
+    std::filesystem::path file = "D:\\xplane_to_gui.log";
+#   endif // __linux__
     g_log_file.open(file, std::ios::out | std::ios::trunc);
     if (!g_log_file.is_open())
     {

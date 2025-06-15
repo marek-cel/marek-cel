@@ -36,6 +36,8 @@ void GUI::timerEvent(QTimerEvent *event)
 
 void GUI::connect()
 {
+    std::cerr << "Connecting..." << std::endl;
+
     if ( !_socket.bind("", _local_port) )
     {
         std::cerr << "Error: bind failed" << std::endl;

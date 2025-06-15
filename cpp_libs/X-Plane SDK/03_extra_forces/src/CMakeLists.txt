@@ -22,7 +22,7 @@ set(UIC_FILES
 
 ################################################################################
 
-add_executable(${TARGET_NAME} WIN32 ${CPP_FILES} ${MOC_FILES} ${UIC_FILES})
+add_executable(${TARGET_NAME} ${CPP_FILES} ${MOC_FILES} ${UIC_FILES})
 
 qt5_use_modules(${TARGET_NAME} Core Widgets)
 
