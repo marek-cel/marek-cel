@@ -5,12 +5,13 @@
 #include <fstream>
 #include <string>
 
+#include <UdpSocket.h>
+
 #include <XPLMDataAccess.h>
 #include <XPLMUtilities.h>
 #include <XPLMProcessing.h>
 
 #include <databuf.h>
-#include <UdpSocket.h>
 
 XPLMFlightLoopID flight_loop_id;
 float flight_loop(float since_last, float since_last_fl, int count, void* refcon);

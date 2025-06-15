@@ -24,7 +24,11 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SUFFIX "")
 if(UNIX)
     set(LIBS)
 elseif(WIN32)
-    set(LIBS ${xpsdk_SOURCE_DIR}/Libraries/Win/XPLM_64.lib)
+    set(LIBS
+        ${xpsdk_SOURCE_DIR}/Libraries/Win/XPLM_64.lib
+        ${xpsdk_SOURCE_DIR}/Libraries/Win/XPWidgets_64.lib
+        ws2_32
+    )
 endif()
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})

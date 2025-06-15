@@ -3,8 +3,6 @@
 
 #include <memory>
 
-#include <boost/asio.hpp>
-
 #include <QWidget>
 
 #include <databuf.h>

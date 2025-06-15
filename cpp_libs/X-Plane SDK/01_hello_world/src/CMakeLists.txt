@@ -16,8 +16,14 @@ SET_TARGET_PROPERTIES(${PROJECT_NAME} PROPERTIES SUFFIX "")
 
 ################################################################################
 
-set(LIBS
-)
+if(UNIX)
+    set(LIBS)
+elseif(WIN32)
+    set(LIBS
+        ${xpsdk_SOURCE_DIR}/Libraries/Win/XPLM_64.lib
+        ${xpsdk_SOURCE_DIR}/Libraries/Win/XPWidgets_64.lib
+    )
+endif()
 
 target_link_libraries(${PROJECT_NAME} ${LIBS})
 

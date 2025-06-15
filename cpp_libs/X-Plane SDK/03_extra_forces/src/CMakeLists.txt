@@ -30,6 +30,17 @@ set(LIBS
     ${QT_LIBRARIES}
 )
 
+if(UNIX)
+    set(LIBS
+        ${QT_LIBRARIES}
+    )
+elseif(WIN32)
+    set(LIBS
+        ${QT_LIBRARIES}
+        ws2_32
+    )
+endif()
+
 target_link_libraries(${TARGET_NAME}
     ${LIBS}
 )
