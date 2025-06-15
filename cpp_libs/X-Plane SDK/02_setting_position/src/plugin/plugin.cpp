@@ -134,6 +134,10 @@ float flight_loop(float since_last, float since_last_fl, int count, void* refcon
             if (g_log_file.is_open())
             {
                 g_log_file << "Current: " << g_tick << " Received: " << g_gui_to_xplane.tick << std::endl;
+                g_log_file << "Lat: " << g_gui_to_xplane.lat
+                           << ", Lon: " << g_gui_to_xplane.lon
+                           << ", Alt: " << g_gui_to_xplane.alt << std::endl;
+                g_log_file << "----------------------------------------" << std::endl;
                 g_log_file.flush();
             }
         }

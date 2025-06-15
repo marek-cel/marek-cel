@@ -11,6 +11,10 @@ GUI::GUI(QWidget *parent)
 {
     ui->setupUi(this);
     _timerId = startTimer(40); // Hz = 25
+
+    // lat = 47.805;
+    // lon = 12.997;
+    // alt = 1408.3; // ft
 }
 
 GUI::~GUI()
@@ -69,6 +73,9 @@ void GUI::receive()
 void GUI::send()
 {
     _gui_to_xplane.tick = _xplane_to_gui.tick;
+    _gui_to_xplane.lat = ui->spinBoxLat->value();
+    _gui_to_xplane.lon = ui->spinBoxLon->value();
+    _gui_to_xplane.alt = ui->spinBoxAlt->value();
     int size = _socket.sendto((char*)(&_gui_to_xplane), sizeof(_gui_to_xplane), _remote_ip, _remote_port);
     if ( size != sizeof(_gui_to_xplane) )
     {
