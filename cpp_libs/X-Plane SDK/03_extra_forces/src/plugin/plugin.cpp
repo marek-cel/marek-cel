@@ -13,7 +13,7 @@
 
 #include <databuf.h>
 
-XPLMFlightLoopID flight_loop_id;
+XPLMFlightLoopID flight_loop_id = nullptr;
 float flight_loop(float since_last, float since_last_fl, int count, void* refcon);
 
 UdpSocket g_socket;
@@ -92,7 +92,7 @@ PLUGIN_API int XPluginStart(
 	XPLMCreateFlightLoop_t params;
 	params.callbackFunc = flight_loop;
 	params.phase = 1;
-	params.refcon = NULL;
+	params.refcon = nullptr;
 	params.structSize = sizeof(params);
 	flight_loop_id = XPLMCreateFlightLoop(&params);
     XPLMScheduleFlightLoop(flight_loop_id, .1f, 1);
@@ -103,6 +103,14 @@ PLUGIN_API int XPluginStart(
 PLUGIN_API void	XPluginStop(void)
 {
     XPLMDebugString("XXX Extra Forces XXX: XPluginStop\n");
+
+    // Stop the flight loop
+    if (flight_loop_id != nullptr)
+    {
+        XPLMDebugString("Stopping flight loop\n");
+        XPLMDestroyFlightLoop(flight_loop_id);
+        flight_loop_id = nullptr;
+    }
 
     if (g_log_file.is_open())
     {
