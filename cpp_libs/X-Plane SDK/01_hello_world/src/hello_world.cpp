@@ -3,6 +3,9 @@
 
 #include <XPLMUtilities.h>
 
+#define SUCCESS 1
+#define FAILURE 0
+
 /**
  * This is called when the plugin is first loaded. You can use it to allocate
  * any permanent resources and register any other callbacks you need.
@@ -20,7 +23,7 @@ PLUGIN_API int XPluginStart(
     strcpy(outSig, "xplanesdk.examples.hello_world");
     strcpy(outDesc, "A test plugin.");
 
-    return true; // returns true to indicate success, if it returns false, the plugin would be unloaded immediately
+    return SUCCESS; // returns true to indicate success, if it returns false, the plugin would be unloaded immediately
 }
 
 /**
@@ -41,7 +44,7 @@ PLUGIN_API int XPluginEnable(void)
 {
     XPLMDebugString("XXX Hello World XXX XPluginEnable\n");
 
-	return true;
+	return SUCCESS;
 }
 
 /**
