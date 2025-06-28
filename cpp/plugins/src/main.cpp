@@ -122,8 +122,13 @@ int main()
 
     // Try to load some example plugins
     // These would be compiled as separate shared libraries
+#   ifdef __linux__
     manager.loadPlugin("../lib/libhello_plugin.so");
     manager.loadPlugin("../lib/libmath_plugin.so");
+#   elif defined(WIN32)
+    manager.loadPlugin("../lib/hello_plugin.dll");
+    manager.loadPlugin("../lib/math_plugin.dll");
+#   endif
 
     // List all loaded plugins
     manager.listPlugins();

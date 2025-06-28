@@ -19,10 +19,10 @@ public:
 };
 
 // Plugin factory functions
-extern "C" __attribute__((visibility("default"))) IPlugin* createPlugin() {
+PLUGIN_API IPlugin* createPlugin() {
         return new MathPlugin();
     }
 
-extern "C" __attribute__((visibility("default"))) void destroyPlugin(IPlugin* plugin) {
+PLUGIN_API void destroyPlugin(IPlugin* plugin) {
         delete plugin;
     }
