@@ -6,7 +6,7 @@
 #ifdef __linux__
 #   define PLUGIN_API extern "C" __attribute__((visibility("default")))
 #elif defined(WIN32)
-#   define PLUGIN_API __declspec(dllexport)
+#   define PLUGIN_API extern "C" __declspec(dllexport)
 #endif
 
 // Abstract base class that all plugins must implement
