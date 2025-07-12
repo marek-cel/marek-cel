@@ -1,5 +1,8 @@
 {
     "files.associations": {
+        "deque": "cpp",
+        "string": "cpp",
+        "vector": "cpp",
         "cctype": "cpp",
         "clocale": "cpp",
         "cmath": "cpp",
@@ -20,13 +23,10 @@
         "concepts": "cpp",
         "condition_variable": "cpp",
         "cstdint": "cpp",
-        "deque": "cpp",
         "list": "cpp",
         "map": "cpp",
         "set": "cpp",
-        "string": "cpp",
         "unordered_map": "cpp",
-        "vector": "cpp",
         "exception": "cpp",
         "algorithm": "cpp",
         "functional": "cpp",

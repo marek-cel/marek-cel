@@ -54,20 +54,7 @@ find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)
 
 ################################################################################
 
-find_package(VTK COMPONENTS
-    CommonCore
-    CommonDataModel
-    FiltersSources
-    GUISupportQt
-    InteractionStyle
-    RenderingContextOpenGL2
-    RenderingCore
-    RenderingFreeType
-    RenderingGL2PSOpenGL2
-    RenderingOpenGL2
-    GUISupportQt
-    RenderingQt
-)
+find_package(VTK REQUIRED)
 include_directories(${VTK_INCLUDE_DIRS})
 
 ################################################################################
