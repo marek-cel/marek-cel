@@ -48,16 +48,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 ################################################################################
 
-find_package(VTK COMPONENTS
-    CommonColor
-    CommonCore
-    FiltersSources
-    InteractionStyle
-    RenderingContextOpenGL2
-    RenderingCore
-    RenderingFreeType
-    RenderingGL2PSOpenGL2
-    RenderingOpenGL2
+find_package(VTK REQUIRED
 )
 include_directories(${VTK_INCLUDE_DIRS})
 

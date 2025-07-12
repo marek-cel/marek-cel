@@ -8,6 +8,7 @@
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkRenderer.h>
+#include <vtkCameraOrientationWidget.h>
 
 #include <array>
 
@@ -56,6 +57,10 @@ int main(int, char*[])
     renderWindow->SetSize(300, 300);
     renderWindow->AddRenderer(renderer);
     renderWindow->SetWindowName("Cylinder");
+
+    vtkNew<vtkCameraOrientationWidget> camOrientManipulator;
+    camOrientManipulator->SetParentRenderer(renderer);
+    camOrientManipulator->On();
 
     // The render window interactor captures mouse events
     // and will perform appropriate camera or actor manipulation
