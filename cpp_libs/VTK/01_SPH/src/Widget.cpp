@@ -12,6 +12,23 @@
 #include <vtkProperty.h>
 #include <vtkRenderer.h>
 
+#include <vtkActor.h>
+#include <vtkCamera.h>
+#include <vtkCellArray.h>
+#include <vtkFloatArray.h>
+#include <vtkInteractorStyleTrackballCamera.h>
+#include <vtkNamedColors.h>
+#include <vtkPointData.h>
+#include <vtkPoints.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
+#include <vtkProperty.h>
+#include <vtkRenderWindow.h>
+#include <vtkRenderWindowInteractor.h>
+#include <vtkRenderer.h>
+#include <vtkSmartPointer.h>
+#include <vtkVertexGlyphFilter.h>
+
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -38,7 +55,9 @@ void Widget::timerEvent(QTimerEvent *event)
     QWidget::timerEvent(event);
     double dt = 1.0 / 60.0; // Assuming 60 FPS
     _sph->update(dt);
-
+    updateVTK();
+    _ui->openGLWidget->renderWindow()->Render();
+    // _ui->openGLWidget->update();
 }
 
 void Widget::initVTK()
@@ -51,24 +70,26 @@ void Widget::initVTK()
     ///////////////////////////////////////////////////////
 
     // Create points.
-    vtkNew<vtkPointSource> src;
-    src->SetCenter(0, 0, 0);
-    src->SetNumberOfPoints(_sph->getParticles().size());
+    // Create the polydata, mapper, and actor
+    _polyData = vtkNew<vtkPolyData>();
+    _mapper = vtkNew<vtkPolyDataMapper>();
+    _actor = vtkNew<vtkActor>();
 
-    vtkNew<vtkPolyDataMapper> mapper;
-    mapper->SetInputConnection(src->GetOutputPort());
+    // Set up the visualization pipeline
+    _mapper->SetInputData(_polyData);
+    _actor->SetMapper(_mapper);
 
-    vtkNew<vtkActor> pointsCloudActor;
-    pointsCloudActor->SetMapper(mapper);
-    pointsCloudActor->GetProperty()->SetColor(
-        colors->GetColor4d("Tomato").GetData()
-    );
-    pointsCloudActor->GetProperty()->SetPointSize(5.0);
+    // Set point properties
+    _actor->GetProperty()->SetColor(1.0, 0.0, 0.0); // Red color
+    _actor->GetProperty()->SetPointSize(5.0f);
+    _actor->GetProperty()->SetRenderPointsAsSpheres(true);
+
+    updateVTK();
 
     ///////////////////////////////////////////////////////
 
     vtkNew<vtkRenderer> renderer;
-    renderer->AddActor(pointsCloudActor);
+    renderer->AddActor(_actor);
     renderer->ResetCamera();
     colors->SetColor("BkgColor", std::array<unsigned char, 4>{26, 51, 102, 255}.data());
     renderer->SetBackground(colors->GetColor3d("BkgColor").GetData());
@@ -79,5 +100,42 @@ void Widget::initVTK()
     _cameraOrientationWidget->SetParentRenderer(renderer);
     _cameraOrientationWidget->CreateDefaultRepresentation();
     _cameraOrientationWidget->On();
+}
 
+void Widget::updateVTK()
+{
+    std::vector<ParticleCoordinates> particles = _sph->getParticles();
+
+    // Create points
+    vtkSmartPointer<vtkPoints> points = vtkSmartPointer<vtkPoints>::New();
+
+    // Add particle coordinates to points
+    for (const auto& particle : particles)
+    {
+        points->InsertNextPoint(particle.x, particle.y, particle.z);
+    }
+
+    // Create vertices for each point
+    vtkSmartPointer<vtkCellArray> vertices = vtkSmartPointer<vtkCellArray>::New();
+    for (vtkIdType i = 0; i < points->GetNumberOfPoints(); ++i)
+    {
+        vertices->InsertNextCell(1, &i);
+    }
+
+    // Update the polydata
+    _polyData->SetPoints(points);
+    _polyData->SetVerts(vertices);
+
+    // Alternative approach using vertex glyph filter (commented out)
+    // This can be used for more advanced point rendering
+    /*
+    vtkSmartPointer<vtkVertexGlyphFilter> vertexFilter =
+        vtkSmartPointer<vtkVertexGlyphFilter>::New();
+    vertexFilter->SetInputData(_polyData);
+    vertexFilter->Update();
+    _mapper->SetInputConnection(vertexFilter->GetOutputPort());
+    */
+
+    // Mark the polydata as modified
+    _polyData->Modified();
 }

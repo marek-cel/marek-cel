@@ -6,7 +6,10 @@
 #include <QWidget>
 
 #include <QVTKOpenGLNativeWidget.h>
+#include <vtkActor.h>
 #include <vtkCameraOrientationWidget.h>
+#include <vtkPolyData.h>
+#include <vtkPolyDataMapper.h>
 
 #include <SPH.h>
 
@@ -41,7 +44,12 @@ private:
 
     vtkSmartPointer<vtkCameraOrientationWidget> _cameraOrientationWidget;
 
+    vtkSmartPointer<vtkPolyData> _polyData;
+    vtkSmartPointer<vtkPolyDataMapper> _mapper;
+    vtkSmartPointer<vtkActor> _actor;
+
     void initVTK();
+    void updateVTK();
 };
 
 #endif // WIDGET_H
