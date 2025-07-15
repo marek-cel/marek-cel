@@ -51,8 +51,8 @@ find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)
 
 ################################################################################
 
-find_package(VTK REQUIRED)
-include_directories(${VTK_INCLUDE_DIRS})
+find_package(OpenCL REQUIRED)
+include_directories(${OPENCL_INCLUDE_DIRS})
 
 ################################################################################
 
