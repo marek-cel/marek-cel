@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1024</width>
+    <height>768</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>VTK-Qt</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QVTKOpenGLNativeWidget" name="widgetVtk">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>10</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1024</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionViewDefault"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewTop"/>
+    <addaction name="actionViewBottom"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewLeft"/>
+    <addaction name="actionViewRight"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewBack"/>
+    <addaction name="actionViewFront"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewOrtho"/>
+    <addaction name="separator"/>
+    <addaction name="actionViewPoints"/>
+    <addaction name="actionViewSurface"/>
+   </widget>
+   <addaction name="menuView"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionViewOrtho">
+   <property name="text">
+    <string>Perspective/Orthographic (5)</string>
+   </property>
+  </action>
+  <action name="actionViewDefault">
+   <property name="text">
+    <string>Default (0)</string>
+   </property>
+  </action>
+  <action name="actionViewTop">
+   <property name="text">
+    <string>Top (7)</string>
+   </property>
+  </action>
+  <action name="actionViewBottom">
+   <property name="text">
+    <string>Bottom (Ctrl+7)</string>
+   </property>
+  </action>
+  <action name="actionViewLeft">
+   <property name="text">
+    <string>Left (1)</string>
+   </property>
+  </action>
+  <action name="actionViewRight">
+   <property name="text">
+    <string>Right (Ctrl+1)</string>
+   </property>
+  </action>
+  <action name="actionViewBack">
+   <property name="text">
+    <string>Back (3)</string>
+   </property>
+  </action>
+  <action name="actionViewFront">
+   <property name="text">
+    <string>Front (Ctrl+3)</string>
+   </property>
+  </action>
+  <action name="actionViewPoints">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Points</string>
+   </property>
+  </action>
+  <action name="actionViewSurface">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>ViewSurface</string>
+   </property>
+  </action>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKOpenGLNativeWidget</class>
+   <extends>QOpenGLWidget</extends>
+   <header location="global">QVTKOpenGLNativeWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
+</ui>

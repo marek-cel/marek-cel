@@ -43,9 +43,6 @@ endif()
 
 ################################################################################
 
-find_package(Boost REQUIRED COMPONENTS locale)
-include_directories(${Boost_INCLUDE_DIRS})
-
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)

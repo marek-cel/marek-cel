@@ -3,18 +3,19 @@ set(TARGET_NAME ${PROJECT_NAME})
 ################################################################################
 
 set(MOC_FILES
-    Widget.h
+    MainWindow.h
 )
 
 set(UIC_FILES
-    Widget.ui
+    MainWindow.ui
 )
 
 set(SOURCES
     ${MOC_FILES}
     ${UIC_FILES}
     main.cpp
-    Widget.cpp
+    MainWindow.cpp
+    Visualization.cpp
 )
 
 ################################################################################
@@ -22,7 +23,6 @@ set(SOURCES
 add_executable(${TARGET_NAME} ${SOURCES})
 
 set(LIBS
-    ${Boost_LIBRARIES}
     ${VTK_LIBRARIES}
 )
 

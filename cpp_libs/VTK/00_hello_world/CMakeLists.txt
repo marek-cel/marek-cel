@@ -48,8 +48,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 ################################################################################
 
-find_package(VTK REQUIRED
-)
+find_package(VTK REQUIRED)
 include_directories(${VTK_INCLUDE_DIRS})
 
 ################################################################################

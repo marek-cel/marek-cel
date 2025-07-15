@@ -4,7 +4,8 @@
 
 #include <QVTKOpenGLNativeWidget.h>
 
-#include <Widget.h>
+#include <defs.h>
+#include <MainWindow.h>
 
 int main(int argc, char* argv[])
 {
@@ -12,7 +13,11 @@ int main(int argc, char* argv[])
     QSurfaceFormat::setDefaultFormat(QVTKOpenGLNativeWidget::defaultFormat());
 
     QApplication app(argc, argv);
-    Widget widget;
-    widget.show();
+    app.setApplicationName    ( APP_NAME   );
+    app.setApplicationVersion ( APP_VER    );
+    app.setOrganizationDomain ( ORG_DOMAIN );
+    app.setOrganizationName   ( ORG_NAME   );
+    MainWindow win;
+    win.show();
     return app.exec();
 }
