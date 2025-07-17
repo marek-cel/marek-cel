@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QVTKOpenGLNativeWidget" name="widgetVtk">
+     <widget class="QOpenGLWidget" name="widgetCGI">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>10</horstretch>
@@ -122,16 +122,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QVTKOpenGLNativeWidget</class>
-   <extends>QOpenGLWidget</extends>
-   <header location="global">QVTKOpenGLNativeWidget.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>
