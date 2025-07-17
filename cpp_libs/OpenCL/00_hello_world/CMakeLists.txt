@@ -52,7 +52,10 @@ find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)
 ################################################################################
 
 find_package(OpenCL REQUIRED)
-include_directories(${OPENCL_INCLUDE_DIRS})
+include_directories(${OpenCL_INCLUDE_DIRS})
+
+message(STATUS "OpenCL include dirs: ${OpenCL_INCLUDE_DIRS}")
+message(STATUS "OpenCL libraries: ${OpenCL_LIBRARIES}")
 
 ################################################################################
 

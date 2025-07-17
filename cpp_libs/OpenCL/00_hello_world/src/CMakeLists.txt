@@ -11,7 +11,7 @@ set(SOURCES
 add_executable(${TARGET_NAME} ${SOURCES})
 
 set(LIBS
-    ${OPENCL_LIBRARIES}
+    ${OpenCL_LIBRARIES}
 )
 
 target_link_libraries(${TARGET_NAME}
