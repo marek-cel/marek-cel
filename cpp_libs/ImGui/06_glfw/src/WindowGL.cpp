@@ -31,6 +31,9 @@ bool WindowGL::Init()
     glfwMakeContextCurrent(window_);
     glfwSwapInterval(1); // Enable vsync
 
+    glfwSetWindowPos(window_, 200, 100);
+
+
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -70,9 +73,33 @@ void WindowGL::SceneSetup()
 
 void WindowGL::Run()
 {
-    while ( !glfwWindowShouldClose(window_))
+    while ( true )
     {
+        if ( glfwWindowShouldClose(window_) )
+        {
+            glfwSetWindowShouldClose(window_, GLFW_FALSE);
+            std::cout << "GLFW window closed" << std::endl;
+            break;
+        }
+
         glfwPollEvents();
+
+        // if 'f' pressed, toggle fullscreen
+        if ( glfwGetKey(window_, GLFW_KEY_F) == GLFW_PRESS )
+        {
+            static bool isFullscreen = false;
+            isFullscreen = !isFullscreen;
+            if ( isFullscreen )
+            {
+                glfwSetWindowMonitor(window_, glfwGetPrimaryMonitor(), 0, 0, viewportWidth_, viewportHeight_, GLFW_DONT_CARE);
+            }
+            else
+            {
+                glfwSetWindowMonitor(window_, nullptr, 200, 100, viewportWidth_, viewportHeight_, GLFW_DONT_CARE);
+            }
+        }
+
+
         if ( glfwGetWindowAttrib(window_, GLFW_ICONIFIED) != 0 )
         {
             ImGui_ImplGlfw_Sleep(10);
