@@ -25,8 +25,21 @@
 const char* vertCode = R"(
 #version 110
 
+varying vec3 vNormal;
+varying vec3 vPosition;
+varying vec3 vViewPosition;
+
 void main()
 {
+    // Transform vertex position to eye space
+    vViewPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
+
+    // Transform position to world space for lighting calculations
+    vPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
+
+    // Transform normal to eye space
+    vNormal = normalize(gl_NormalMatrix * gl_Normal);
+
     gl_Position = ftransform();
 }
 )";
@@ -34,9 +47,49 @@ void main()
 const char* fragCode = R"(
 #version 110
 
+varying vec3 vNormal;
+varying vec3 vPosition;
+varying vec3 vViewPosition;
+
 void main()
 {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    // Material properties
+    vec3 materialAmbient = vec3(0.2, 0.1, 0.1);
+    vec3 materialDiffuse = vec3(0.8, 0.2, 0.2);
+    vec3 materialSpecular = vec3(1.0, 1.0, 1.0);
+    float materialShininess = 32.0;
+
+    // Light properties (from OpenGL fixed pipeline light 0)
+    vec3 lightColor = vec3(1.0, 1.0, 1.0);
+    vec3 lightPosition = vec3(gl_LightSource[0].position);
+
+    // Normalize the normal vector
+    vec3 normal = normalize(vNormal);
+
+    // Calculate light direction
+    vec3 lightDir = normalize(lightPosition - vPosition);
+
+    // Calculate view direction (towards camera)
+    vec3 viewDir = normalize(-vViewPosition);
+
+    // Calculate reflection direction
+    vec3 reflectDir = reflect(-lightDir, normal);
+
+    // Ambient component
+    vec3 ambient = materialAmbient * lightColor;
+
+    // Diffuse component
+    float diff = max(dot(normal, lightDir), 0.0);
+    vec3 diffuse = diff * materialDiffuse * lightColor;
+
+    // Specular component
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), materialShininess);
+    vec3 specular = spec * materialSpecular * lightColor;
+
+    // Combine all components
+    vec3 result = ambient + diffuse + specular;
+
+    gl_FragColor = vec4(result, 1.0);
 }
 )";
 
