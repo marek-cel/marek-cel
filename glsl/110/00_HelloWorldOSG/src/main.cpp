@@ -61,12 +61,12 @@ varying vec3 vPosition;
 varying vec3 vViewPosition;
 varying vec2 vTexCoord;
 
-uniform sampler2D texture0;
+uniform sampler2D textureColorMap;
 
 void main()
 {
     // Sample the texture
-    vec3 textureColor = texture2D(texture0, vTexCoord).rgb;
+    vec3 textureColor = texture2D(textureColorMap, vTexCoord).rgb;
 
     // Material properties - now modulated by texture
     vec3 materialAmbient = vec3(0.2, 0.2, 0.2) * textureColor;
@@ -252,17 +252,31 @@ osg::Group* createScene()
 
     osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
 
-    osg::ref_ptr<osg::Texture2D> texture0 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Color.jpg");
-    if ( texture0.valid() )
+    osg::ref_ptr<osg::Texture2D> textureColorMap = readTextureFromFile("../../../data/DiamondPlate008C_1K_Color.jpg");
+    if ( textureColorMap.valid() )
     {
-        geodeStateSet->setTextureAttributeAndModes(0, texture0, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+        geodeStateSet->setTextureAttributeAndModes(0, textureColorMap, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
+    osg::ref_ptr<osg::Texture2D> textureNormalMap = readTextureFromFile("../../../data/DiamondPlate008C_1K_NormalGL.jpg");
+    if ( textureNormalMap.valid() )
+    {
+        geodeStateSet->setTextureAttributeAndModes(1, textureNormalMap, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
+    osg::ref_ptr<osg::Texture2D> textureRoughnessMap = readTextureFromFile("../../../data/DiamondPlate008C_1K_Roughness.jpg");
+    if ( textureRoughnessMap.valid() )
+    {
+        geodeStateSet->setTextureAttributeAndModes(2, textureRoughnessMap, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
     }
 
     osg::ref_ptr<osg::Program> program = new osg::Program;
     program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
     geodeStateSet->setAttributeAndModes(program.get());
-    geodeStateSet->addUniform(new osg::Uniform("texture0", 0));
+    geodeStateSet->addUniform(new osg::Uniform("textureColorMap", 0));
+    geodeStateSet->addUniform(new osg::Uniform("textureNormalMap", 1));
+    geodeStateSet->addUniform(new osg::Uniform("textureRoughnessMap", 2));
 
     return root.release();
 }
