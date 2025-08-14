@@ -70,7 +70,6 @@ include_directories(. ./src)
 
 set(SOURCES
     src/main.cpp
-    src/SceneRoot.cpp
 )
 
 ################################################################################

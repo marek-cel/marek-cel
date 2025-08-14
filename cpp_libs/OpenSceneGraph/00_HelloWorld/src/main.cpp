@@ -1,6 +1,8 @@
 #include <iostream>
 
 #include <osg/ArgumentParser>
+#include <osg/Geode>
+#include <osg/ShapeDrawable>
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -13,34 +15,6 @@
 #include <osgGA/AnimationPathManipulator>
 #include <osgGA/TerrainManipulator>
 #include <osgGA/SphericalManipulator>
-
-#include <SceneRoot.h>
-
-void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-
-int main(int argc, char* argv[])
-{
-    setlocale(LC_ALL, "");
-
-//#   ifdef _LINUX_
-//    setenv("LC_NUMERIC", "en_US", 1);
-//#   endif
-
-    osg::ArgumentParser arguments(&argc, argv);
-
-    osgViewer::Viewer viewer(arguments);
-
-    setupCameraManipulators(&viewer, &arguments);
-    setupEventHandlers(&viewer, &arguments);
-
-    SceneRoot sceneRoot;
-
-    viewer.setUpViewInWindow(400, 200, 800, 600);
-    viewer.setSceneData(sceneRoot.getNode());
-
-    return viewer.run();
-}
 
 void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments)
 {
@@ -101,3 +75,48 @@ void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* argument
     // add the screen capture handler
     viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
 }
+
+osg::Group* createScene()
+{
+    osg::ref_ptr<osg::Group> root = new osg::Group();
+
+    osg::ref_ptr<osg::StateSet> stateSet = root->getOrCreateStateSet();
+    stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    root->addChild(geode.get());
+
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 10.0, 10.0, 10.0);
+
+    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
+    geode->addDrawable(shape.get());
+
+    return root.release();
+}
+
+int main(int argc, char* argv[])
+{
+    setlocale(LC_ALL, "");
+
+    osg::ArgumentParser arguments(&argc, argv);
+
+    osgViewer::Viewer viewer(arguments);
+
+    setupCameraManipulators(&viewer, &arguments);
+    setupEventHandlers(&viewer, &arguments);
+
+    viewer.setUpViewInWindow(400, 200, 800, 600);
+    viewer.setSceneData(createScene());
+
+    return viewer.run();
+}
+
+
+
+
