@@ -56,50 +56,57 @@ varying vec2 vTexCoord;
 
 uniform sampler2D textureColorMap;
 uniform sampler2D textureNormalMap;
+uniform sampler2D textureRoughnessMap; // bound to unit 2 in your C++
 
 vec3 normalFromMap(in vec2 uv, in vec3 Ns, in vec3 P)
 {
     // Build TBN from derivatives (no vertex tangents needed)
-    vec3 dp1 = dFdx(P);
-    vec3 dp2 = dFdy(P);
+    vec3 dp1  = dFdx(P);
+    vec3 dp2  = dFdy(P);
     vec2 duv1 = dFdx(uv);
     vec2 duv2 = dFdy(uv);
 
-    // Robust-ish determinant handling
     float det = duv1.x * duv2.y - duv1.y * duv2.x;
-    // Fallback to avoid division by zero; scaling doesn’t matter after normalize
     float invDet = (abs(det) > 1e-8) ? (1.0 / det) : 0.0;
 
     vec3 T = normalize( (dp1 * duv2.y - dp2 * duv1.y) * invDet );
     vec3 B = normalize( (dp2 * duv1.x - dp1 * duv2.x) * invDet );
 
-    // Sample normal map (OpenGL convention: +Y is "up" in the map)
     vec3 nTex = texture2D(textureNormalMap, uv).xyz * 2.0 - 1.0;
+    // If you ever use a DirectX-style normal map, uncomment:
+    // nTex.g = -nTex.g;
 
-    // Transform from tangent space to eye space
     mat3 TBN = mat3(T, B, normalize(Ns));
     return normalize(TBN * nTex);
 }
 
 void main()
 {
-    // Textured albedo
-    vec3 textureColor = texture2D(textureColorMap, vTexCoord).rgb;
+    // Albedo
+    vec3 baseColor = texture2D(textureColorMap, vTexCoord).rgb;
 
-    // Material (kept simple)
-    vec3 materialAmbient  = vec3(0.2) * textureColor;
-    vec3 materialDiffuse  = textureColor;
-    vec3 materialSpecular = vec3(0.3);
-    float materialShininess = 32.0;
+    // Roughness: 0 = smooth (tight, strong spec), 1 = rough (broad, weak spec)
+    float roughness = texture2D(textureRoughnessMap, vTexCoord).r;
+    roughness = clamp(roughness, 0.0, 1.0);
 
-    // Light 0 from fixed pipeline (already in eye space when w=0/1)
+    // Convert to a "gloss" control; square to bias toward smoother highlights
+    float gloss = 1.0 - roughness;
+    float specIntensity = gloss * gloss;                 // scales specular color
+    float materialShininess = mix(8.0, 256.0, specIntensity); // Phong exponent
+
+    // Material
+    vec3 materialAmbient  = vec3(0.2) * baseColor;
+    vec3 materialDiffuse  = baseColor;
+    vec3 materialSpecular = vec3(0.3) * specIntensity; // dimmer when rough
+
+    // Light 0 (eye space)
     vec3 lightColor    = vec3(1.0);
     vec3 lightPosition = vec3(gl_LightSource[0].position);
 
-    // Use normal-mapped normal instead of interpolated normal
+    // Normal mapping
     vec3 N = normalFromMap(vTexCoord, normalize(vNormal), vPosition);
 
-    // Phong terms (eye space)
+    // Phong shading (eye space)
     vec3 L = normalize(lightPosition - vPosition);
     vec3 V = normalize(-vViewPosition);
     vec3 R = reflect(-L, N);
