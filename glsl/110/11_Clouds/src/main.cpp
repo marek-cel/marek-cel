@@ -158,7 +158,7 @@ osg::Group* createScene()
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     cloud->addChild(geode.get());
-    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, 5.0, 5.0);
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, .0, 5.0);
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
 
