@@ -197,6 +197,12 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     lightSource->setLocalStateSetModes(osg::StateAttribute::ON);
     lightSource->setStateSetModes(*root->getOrCreateStateSet(), osg::StateAttribute::ON);
 
+    // add sphere representing light source
+    osg::ref_ptr<osg::Sphere> lightSphere = new osg::Sphere(position, 0.1);
+    osg::ref_ptr<osg::ShapeDrawable> lightDrawable = new osg::ShapeDrawable(lightSphere.get());
+    lightDrawable->setColor(osg::Vec4(1.0, 1.0, 0.0, 1.0)); // yellow color
+    lightPat->addChild(lightDrawable.get());
+
     return lightPat.release();
 }
 
@@ -245,7 +251,7 @@ osg::Group* createScene()
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     root->addChild(geode.get());
 
-    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 10.0, 10.0, 10.0);
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, 5.0, 5.0);
 
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
