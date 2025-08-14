@@ -69,7 +69,6 @@ include_directories(. ./src ${OPENSCENEGRAPH_INCLUDE_DIRS})
 
 set(SOURCES
     src/main.cpp
-    src/SceneRoot.cpp
 )
 
 ################################################################################

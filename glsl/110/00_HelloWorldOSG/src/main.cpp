@@ -1,6 +1,16 @@
+#include <fstream>
 #include <iostream>
+#include <sstream>
 
 #include <osg/ArgumentParser>
+#include <osg/Geode>
+#include <osg/Group>
+#include <osg/Light>
+#include <osg/LightSource>
+#include <osg/PositionAttitudeTransform>
+#include <osg/ShapeDrawable>
+
+#include <osgDB/ReadFile>
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -14,33 +24,23 @@
 #include <osgGA/TerrainManipulator>
 #include <osgGA/SphericalManipulator>
 
-#include <SceneRoot.h>
+const char* vertCode = R"(
+#version 110
 
-void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-
-int main(int argc, char* argv[])
+void main()
 {
-    setlocale(LC_ALL, "");
-
-//#   ifdef _LINUX_
-//    setenv("LC_NUMERIC", "en_US", 1);
-//#   endif
-
-    osg::ArgumentParser arguments(&argc, argv);
-
-    osgViewer::Viewer viewer(arguments);
-
-    setupCameraManipulators(&viewer, &arguments);
-    setupEventHandlers(&viewer, &arguments);
-
-    SceneRoot sceneRoot;
-
-    viewer.setUpViewInWindow(0, 0, 800, 600);
-    viewer.setSceneData(sceneRoot.getNode());
-
-    return viewer.run();
+    gl_Position = ftransform();
 }
+)";
+
+const char* fragCode = R"(
+#version 110
+
+void main()
+{
+    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
+)";
 
 void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments)
 {
@@ -100,4 +100,135 @@ void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* argument
 
     // add the screen capture handler
     viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
+}
+
+osg::Texture2D* readTextureFromFile(const char* path)
+{
+    osg::ref_ptr<osg::Image> image = osgDB::readImageFile(path);
+    if ( image.valid() )
+    {
+        osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D();
+        texture->setImage(image.get());
+
+        texture->setWrap(osg::Texture2D::WRAP_S, osg::Texture::MIRROR);
+        texture->setWrap(osg::Texture2D::WRAP_T, osg::Texture::MIRROR);
+
+        texture->setNumMipmapLevels(4);
+        texture->setMaxAnisotropy(8.0);
+
+        texture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR_MIPMAP_NEAREST);
+        texture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+
+        return texture.release();
+    }
+    else
+    {
+        std::cerr << "Cannot open file: " << path << std::endl;
+    }
+
+    return nullptr;
+}
+
+osg::PositionAttitudeTransform* createLight(osg::Group* root)
+{
+    osg::ref_ptr<osg::PositionAttitudeTransform> lightPat = new osg::PositionAttitudeTransform();
+    root->addChild(lightPat.get());
+
+    osg::ref_ptr<osg::LightSource> lightSource = new osg::LightSource();
+    lightPat->addChild(lightSource.get());
+
+    osg::ref_ptr<osg::Light> lightSun = new osg::Light();
+
+    lightSun->setLightNum(0);
+
+    osg::Vec4 color(1.0, 1.0, 1.0, 1.0);
+    osg::Vec3d position(6.0, -2.0, 4.0);
+
+    lightSun->setPosition(osg::Vec4d(position, 1.0));
+    lightPat->setPosition(position);
+
+    lightSun->setAmbient  ( color );
+    lightSun->setDiffuse  ( color );
+    lightSun->setSpecular ( color );
+
+    lightSun->setConstantAttenuation(1.0);
+
+    lightSource->setLight(lightSun.get());
+
+    lightSource->setLocalStateSetModes(osg::StateAttribute::ON);
+    lightSource->setStateSetModes(*root->getOrCreateStateSet(), osg::StateAttribute::ON);
+
+    return lightPat.release();
+}
+
+osg::Group* createScene()
+{
+    osg::ref_ptr<osg::Group> root = new osg::Group();
+
+    osg::ref_ptr<osg::StateSet> stateSet = root->getOrCreateStateSet();
+    stateSet->setMode( GL_RESCALE_NORMAL , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_LIGHTING       , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_LIGHT0         , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_BLEND          , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_ALPHA_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DEPTH_TEST     , osg::StateAttribute::ON  );
+    stateSet->setMode( GL_DITHER         , osg::StateAttribute::OFF );
+
+    createLight(root.get());
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    root->addChild(geode.get());
+
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 10.0, 10.0, 10.0);
+
+    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
+    geode->addDrawable(shape.get());
+
+    osg::ref_ptr<osg::Texture2D> texture0 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Color.jpg");
+    if ( texture0.valid() )
+    {
+        stateSet->setTextureAttributeAndModes(0, texture0, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
+    osg::ref_ptr<osg::Texture2D> texture1 = readTextureFromFile("../../../data/DiamondPlate008C_1K_NormalGL.jpg");
+    if ( texture1.valid() )
+    {
+        stateSet->setTextureAttributeAndModes(1, texture1, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
+    osg::ref_ptr<osg::Texture2D> texture2 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Roughness.jpg");
+    if ( texture2.valid() )
+    {
+        stateSet->setTextureAttributeAndModes(2, texture2, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+    osg::ref_ptr<osg::Program> program = new osg::Program;
+    program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
+    program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
+
+
+
+    osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
+    geodeStateSet->setAttributeAndModes(program.get());
+    geodeStateSet->addUniform(new osg::Uniform("colorMap", 0));
+    geodeStateSet->addUniform(new osg::Uniform("normalMap", 1));
+    geodeStateSet->addUniform(new osg::Uniform("roughnessMap", 2));
+
+    return root.release();
+}
+
+int main(int argc, char* argv[])
+{
+    setlocale(LC_ALL, "");
+
+    osg::ArgumentParser arguments(&argc, argv);
+
+    osgViewer::Viewer viewer(arguments);
+
+    setupCameraManipulators(&viewer, &arguments);
+    setupEventHandlers(&viewer, &arguments);
+
+    viewer.setUpViewInWindow(0, 0, 800, 600);
+    viewer.setSceneData(createScene());
+
+    return viewer.run();
 }
