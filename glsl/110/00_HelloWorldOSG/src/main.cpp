@@ -36,16 +36,9 @@ varying vec2 vTexCoord;
 
 void main()
 {
-    // Transform vertex position to eye space
     vViewPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
-
-    // Transform position to world space for lighting calculations
     vPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
-
-    // Transform normal to eye space
     vNormal = normalize(gl_NormalMatrix * gl_Normal);
-
-    // Pass through texture coordinates
     vTexCoord = gl_MultiTexCoord0.xy;
 
     gl_Position = ftransform();
@@ -57,54 +50,72 @@ const char* fragCode = R"(
 #version 110
 
 varying vec3 vNormal;
-varying vec3 vPosition;
-varying vec3 vViewPosition;
+varying vec3 vPosition;      // eye space
+varying vec3 vViewPosition;  // eye space
 varying vec2 vTexCoord;
 
 uniform sampler2D textureColorMap;
+uniform sampler2D textureNormalMap;
+
+vec3 normalFromMap(in vec2 uv, in vec3 Ns, in vec3 P)
+{
+    // Build TBN from derivatives (no vertex tangents needed)
+    vec3 dp1 = dFdx(P);
+    vec3 dp2 = dFdy(P);
+    vec2 duv1 = dFdx(uv);
+    vec2 duv2 = dFdy(uv);
+
+    // Robust-ish determinant handling
+    float det = duv1.x * duv2.y - duv1.y * duv2.x;
+    // Fallback to avoid division by zero; scaling doesn’t matter after normalize
+    float invDet = (abs(det) > 1e-8) ? (1.0 / det) : 0.0;
+
+    vec3 T = normalize( (dp1 * duv2.y - dp2 * duv1.y) * invDet );
+    vec3 B = normalize( (dp2 * duv1.x - dp1 * duv2.x) * invDet );
+
+    // Sample normal map (OpenGL convention: +Y is "up" in the map)
+    vec3 nTex = texture2D(textureNormalMap, uv).xyz * 2.0 - 1.0;
+
+    // Transform from tangent space to eye space
+    mat3 TBN = mat3(T, B, normalize(Ns));
+    return normalize(TBN * nTex);
+}
 
 void main()
 {
-    // Sample the texture
+    // Textured albedo
     vec3 textureColor = texture2D(textureColorMap, vTexCoord).rgb;
 
-    // Material properties - now modulated by texture
-    vec3 materialAmbient = vec3(0.2, 0.2, 0.2) * textureColor;
-    vec3 materialDiffuse = textureColor;
-    vec3 materialSpecular = vec3(0.3, 0.3, 0.3);
+    // Material (kept simple)
+    vec3 materialAmbient  = vec3(0.2) * textureColor;
+    vec3 materialDiffuse  = textureColor;
+    vec3 materialSpecular = vec3(0.3);
     float materialShininess = 32.0;
 
-    // Light properties (from OpenGL fixed pipeline light 0)
-    vec3 lightColor = vec3(1.0, 1.0, 1.0);
+    // Light 0 from fixed pipeline (already in eye space when w=0/1)
+    vec3 lightColor    = vec3(1.0);
     vec3 lightPosition = vec3(gl_LightSource[0].position);
 
-    // Normalize the normal vector
-    vec3 normal = normalize(vNormal);
+    // Use normal-mapped normal instead of interpolated normal
+    vec3 N = normalFromMap(vTexCoord, normalize(vNormal), vPosition);
 
-    // Calculate light direction
-    vec3 lightDir = normalize(lightPosition - vPosition);
+    // Phong terms (eye space)
+    vec3 L = normalize(lightPosition - vPosition);
+    vec3 V = normalize(-vViewPosition);
+    vec3 R = reflect(-L, N);
 
-    // Calculate view direction (towards camera)
-    vec3 viewDir = normalize(-vViewPosition);
-
-    // Calculate reflection direction
-    vec3 reflectDir = reflect(-lightDir, normal);
-
-    // Ambient component
+    // Ambient
     vec3 ambient = materialAmbient * lightColor;
 
-    // Diffuse component
-    float diff = max(dot(normal, lightDir), 0.0);
+    // Diffuse
+    float diff = max(dot(N, L), 0.0);
     vec3 diffuse = diff * materialDiffuse * lightColor;
 
-    // Specular component
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), materialShininess);
+    // Specular
+    float spec = pow(max(dot(V, R), 0.0), materialShininess);
     vec3 specular = spec * materialSpecular * lightColor;
 
-    // Combine all components
-    vec3 result = ambient + diffuse + specular;
-
-    gl_FragColor = vec4(result, 1.0);
+    gl_FragColor = vec4(ambient + diffuse + specular, 1.0);
 }
 )";
 
