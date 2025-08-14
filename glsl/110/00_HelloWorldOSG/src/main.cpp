@@ -25,12 +25,14 @@
 #include <osgGA/TerrainManipulator>
 #include <osgGA/SphericalManipulator>
 
+// Vertex Shader
 const char* vertCode = R"(
 #version 110
 
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec3 vViewPosition;
+varying vec2 vTexCoord;
 
 void main()
 {
@@ -43,23 +45,33 @@ void main()
     // Transform normal to eye space
     vNormal = normalize(gl_NormalMatrix * gl_Normal);
 
+    // Pass through texture coordinates
+    vTexCoord = gl_MultiTexCoord0.xy;
+
     gl_Position = ftransform();
 }
 )";
 
+// Fragment Shader
 const char* fragCode = R"(
 #version 110
 
 varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec3 vViewPosition;
+varying vec2 vTexCoord;
+
+uniform sampler2D texture0;
 
 void main()
 {
-    // Material properties
-    vec3 materialAmbient = vec3(0.2, 0.1, 0.1);
-    vec3 materialDiffuse = vec3(0.8, 0.2, 0.2);
-    vec3 materialSpecular = vec3(1.0, 1.0, 1.0);
+    // Sample the texture
+    vec3 textureColor = texture2D(texture0, vTexCoord).rgb;
+
+    // Material properties - now modulated by texture
+    vec3 materialAmbient = vec3(0.2, 0.2, 0.2) * textureColor;
+    vec3 materialDiffuse = textureColor;
+    vec3 materialSpecular = vec3(0.3, 0.3, 0.3);
     float materialShininess = 32.0;
 
     // Light properties (from OpenGL fixed pipeline light 0)
