@@ -1,3 +1,11 @@
+/**
+ * Basic volumetric clooud example.
+ *
+ * The program creates a single simplified cumulus humilis cloud.
+ * This program is intended to be used in real time rendering applications on obselete
+ * hardware.
+ */
+
 #include <fstream>
 #include <iostream>
 #include <sstream>
