@@ -9,6 +9,9 @@
 #include <osg/LightSource>
 #include <osg/PositionAttitudeTransform>
 #include <osg/ShapeDrawable>
+#include <osg/Texture2D>
+
+#include <osgDB/ReadFile>
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -185,6 +188,33 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     return lightPat.release();
 }
 
+osg::Texture2D* readTextureFromFile(const char* path)
+{
+    osg::ref_ptr<osg::Image> image = osgDB::readImageFile(path);
+    if ( image.valid() )
+    {
+        osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D();
+        texture->setImage(image.get());
+
+        texture->setWrap(osg::Texture2D::WRAP_S, osg::Texture::MIRROR);
+        texture->setWrap(osg::Texture2D::WRAP_T, osg::Texture::MIRROR);
+
+        texture->setNumMipmapLevels(4);
+        texture->setMaxAnisotropy(8.0);
+
+        texture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR_MIPMAP_NEAREST);
+        texture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
+
+        return texture.release();
+    }
+    else
+    {
+        std::cerr << "Cannot open file: " << path << std::endl;
+    }
+
+    return nullptr;
+}
+
 osg::Group* createScene()
 {
     osg::ref_ptr<osg::Group> root = new osg::Group();
@@ -208,12 +238,19 @@ osg::Group* createScene()
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
 
+    osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
+
+    osg::ref_ptr<osg::Texture2D> texture0 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Color.jpg");
+    if ( texture0.valid() )
+    {
+        geodeStateSet->setTextureAttributeAndModes(0, texture0, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
     osg::ref_ptr<osg::Program> program = new osg::Program;
     program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
-
-    osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
     geodeStateSet->setAttributeAndModes(program.get());
+    geodeStateSet->addUniform(new osg::Uniform("texture0", 0));
 
     return root.release();
 }
