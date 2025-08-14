@@ -25,21 +25,104 @@
 #include <osgGA/TerrainManipulator>
 #include <osgGA/SphericalManipulator>
 
+// Vertex Shader
 const char* vertCode = R"(
 #version 110
 
+varying vec3 vNormal;
+varying vec3 vPosition;
+varying vec3 vViewPosition;
+varying vec2 vTexCoord;
+
 void main()
 {
+    vViewPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
+    vPosition = vec3(gl_ModelViewMatrix * gl_Vertex);
+    vNormal = normalize(gl_NormalMatrix * gl_Normal);
+    vTexCoord = gl_MultiTexCoord0.xy;
+
     gl_Position = ftransform();
 }
 )";
 
+// Fragment Shader
 const char* fragCode = R"(
 #version 110
 
+varying vec3 vNormal;
+varying vec3 vPosition;      // eye space
+varying vec3 vViewPosition;  // eye space
+varying vec2 vTexCoord;
+
+uniform sampler2D textureColorMap;
+uniform sampler2D textureNormalMap;
+uniform sampler2D textureRoughnessMap; // bound to unit 2 in your C++
+
+vec3 normalFromMap(in vec2 uv, in vec3 Ns, in vec3 P)
+{
+    // Build TBN from derivatives (no vertex tangents needed)
+    vec3 dp1  = dFdx(P);
+    vec3 dp2  = dFdy(P);
+    vec2 duv1 = dFdx(uv);
+    vec2 duv2 = dFdy(uv);
+
+    float det = duv1.x * duv2.y - duv1.y * duv2.x;
+    float invDet = (abs(det) > 1e-8) ? (1.0 / det) : 0.0;
+
+    vec3 T = normalize( (dp1 * duv2.y - dp2 * duv1.y) * invDet );
+    vec3 B = normalize( (dp2 * duv1.x - dp1 * duv2.x) * invDet );
+
+    vec3 nTex = texture2D(textureNormalMap, uv).xyz * 2.0 - 1.0;
+    // If you ever use a DirectX-style normal map, uncomment:
+    // nTex.g = -nTex.g;
+
+    mat3 TBN = mat3(T, B, normalize(Ns));
+    return normalize(TBN * nTex);
+}
+
 void main()
 {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    // Albedo
+    vec3 baseColor = texture2D(textureColorMap, vTexCoord).rgb;
+
+    // Roughness: 0 = smooth (tight, strong spec), 1 = rough (broad, weak spec)
+    float roughness = texture2D(textureRoughnessMap, vTexCoord).r;
+    roughness = clamp(roughness, 0.0, 1.0);
+
+    // Convert to a "gloss" control; square to bias toward smoother highlights
+    float gloss = 1.0 - roughness;
+    float specIntensity = gloss * gloss;                 // scales specular color
+    float materialShininess = mix(8.0, 256.0, specIntensity); // Phong exponent
+
+    // Material
+    vec3 materialAmbient  = vec3(0.2) * baseColor;
+    vec3 materialDiffuse  = baseColor;
+    vec3 materialSpecular = vec3(0.3) * specIntensity; // dimmer when rough
+
+    // Light 0 (eye space)
+    vec3 lightColor    = vec3(1.0);
+    vec3 lightPosition = vec3(gl_LightSource[0].position);
+
+    // Normal mapping
+    vec3 N = normalFromMap(vTexCoord, normalize(vNormal), vPosition);
+
+    // Phong shading (eye space)
+    vec3 L = normalize(lightPosition - vPosition);
+    vec3 V = normalize(-vViewPosition);
+    vec3 R = reflect(-L, N);
+
+    // Ambient
+    vec3 ambient = materialAmbient * lightColor;
+
+    // Diffuse
+    float diff = max(dot(N, L), 0.0);
+    vec3 diffuse = diff * materialDiffuse * lightColor;
+
+    // Specular
+    float spec = pow(max(dot(V, R), 0.0), materialShininess);
+    vec3 specular = spec * materialSpecular * lightColor;
+
+    gl_FragColor = vec4(ambient + diffuse + specular, 1.0);
 }
 )";
 
