@@ -158,21 +158,9 @@ osg::Group* createScene()
 
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     cloud->addChild(geode.get());
-    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 3.0, 4.0, 5.0);
+    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, 5.0, 5.0);
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
-
-    osg::ref_ptr<osg::Geode> geode2 = new osg::Geode();
-    cloud->addChild(geode2.get());
-    osg::ref_ptr<osg::Box> box2 = new osg::Box(osg::Vec3f(2.0, 3.0, 0.0), 4.0, 5.0, 2.0);
-    osg::ref_ptr<osg::ShapeDrawable> shape2 = new osg::ShapeDrawable(box2.get());
-    geode2->addDrawable(shape2.get());
-
-    osg::ref_ptr<osg::Geode> geode3 = new osg::Geode();
-    cloud->addChild(geode3.get());
-    osg::ref_ptr<osg::Box> box3 = new osg::Box(osg::Vec3f(0.0, -1.0, 3.0), 2.0, 3.0, 4.0);
-    osg::ref_ptr<osg::ShapeDrawable> shape3 = new osg::ShapeDrawable(box3.get());
-    geode3->addDrawable(shape3.get());
 
     osg::ref_ptr<osg::StateSet> cloudStateSet = cloud->getOrCreateStateSet();
 
