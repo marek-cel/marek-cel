@@ -10,8 +10,6 @@
 #include <osg/PositionAttitudeTransform>
 #include <osg/ShapeDrawable>
 
-#include <osgDB/ReadFile>
-
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
 
@@ -102,33 +100,6 @@ void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* argument
     viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
 }
 
-osg::Texture2D* readTextureFromFile(const char* path)
-{
-    osg::ref_ptr<osg::Image> image = osgDB::readImageFile(path);
-    if ( image.valid() )
-    {
-        osg::ref_ptr<osg::Texture2D> texture = new osg::Texture2D();
-        texture->setImage(image.get());
-
-        texture->setWrap(osg::Texture2D::WRAP_S, osg::Texture::MIRROR);
-        texture->setWrap(osg::Texture2D::WRAP_T, osg::Texture::MIRROR);
-
-        texture->setNumMipmapLevels(4);
-        texture->setMaxAnisotropy(8.0);
-
-        texture->setFilter(osg::Texture::MIN_FILTER, osg::Texture::LINEAR_MIPMAP_NEAREST);
-        texture->setFilter(osg::Texture::MAG_FILTER, osg::Texture::LINEAR);
-
-        return texture.release();
-    }
-    else
-    {
-        std::cerr << "Cannot open file: " << path << std::endl;
-    }
-
-    return nullptr;
-}
-
 osg::PositionAttitudeTransform* createLight(osg::Group* root)
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> lightPat = new osg::PositionAttitudeTransform();
@@ -184,34 +155,12 @@ osg::Group* createScene()
     osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
     geode->addDrawable(shape.get());
 
-    osg::ref_ptr<osg::Texture2D> texture0 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Color.jpg");
-    if ( texture0.valid() )
-    {
-        stateSet->setTextureAttributeAndModes(0, texture0, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
-    }
-
-    osg::ref_ptr<osg::Texture2D> texture1 = readTextureFromFile("../../../data/DiamondPlate008C_1K_NormalGL.jpg");
-    if ( texture1.valid() )
-    {
-        stateSet->setTextureAttributeAndModes(1, texture1, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
-    }
-
-    osg::ref_ptr<osg::Texture2D> texture2 = readTextureFromFile("../../../data/DiamondPlate008C_1K_Roughness.jpg");
-    if ( texture2.valid() )
-    {
-        stateSet->setTextureAttributeAndModes(2, texture2, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
-    }
     osg::ref_ptr<osg::Program> program = new osg::Program;
     program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
 
-
-
     osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
     geodeStateSet->setAttributeAndModes(program.get());
-    geodeStateSet->addUniform(new osg::Uniform("colorMap", 0));
-    geodeStateSet->addUniform(new osg::Uniform("normalMap", 1));
-    geodeStateSet->addUniform(new osg::Uniform("roughnessMap", 2));
 
     return root.release();
 }
