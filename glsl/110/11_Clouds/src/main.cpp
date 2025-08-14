@@ -27,7 +27,7 @@ const char* vertCode = R"(
 
 void main()
 {
-    gl_Position = ftransform();
+    // TODO: add cloads vertex shader
 }
 )";
 
@@ -36,7 +36,7 @@ const char* fragCode = R"(
 
 void main()
 {
-    gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);
+    // TODO: add clouds fragment shader
 }
 )";
 
@@ -156,11 +156,7 @@ osg::Group* createScene()
     osg::ref_ptr<osg::Group> cloud = new osg::Group();
     root->addChild(cloud.get());
 
-    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
-    cloud->addChild(geode.get());
-    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, .0, 5.0);
-    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
-    geode->addDrawable(shape.get());
+    // TODO: add cloads
 
     osg::ref_ptr<osg::StateSet> cloudStateSet = cloud->getOrCreateStateSet();
 
