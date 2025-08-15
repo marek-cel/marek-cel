@@ -2,8 +2,8 @@
  * Basic volumetric clooud example.
  *
  * The program creates a single simplified cumulus humilis cloud.
- * This program is intended to be used in real time rendering applications on obselete
- * hardware.
+ * This program is intended to be used in real time rendering applications on
+ * obselete hardware.
  */
 
 #include <fstream>
@@ -83,28 +83,13 @@ void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arg
 
 void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments)
 {
-    // add the state manipulator
     viewer->addEventHandler(new osgGA::StateSetManipulator(viewer->getCamera()->getOrCreateStateSet()));
-
-    // add the thread model handler
     viewer->addEventHandler(new osgViewer::ThreadingHandler);
-
-    // add the window size toggle handler
     viewer->addEventHandler(new osgViewer::WindowSizeHandler);
-
-    // add the stats handler
     viewer->addEventHandler(new osgViewer::StatsHandler);
-
-    // add the help handler
     viewer->addEventHandler(new osgViewer::HelpHandler(arguments->getApplicationUsage()));
-
-    // add the record camera path handler
     viewer->addEventHandler(new osgViewer::RecordCameraPathHandler);
-
-    // add the LOD Scale handler
     viewer->addEventHandler(new osgViewer::LODScaleHandler);
-
-    // add the screen capture handler
     viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
 }
 
