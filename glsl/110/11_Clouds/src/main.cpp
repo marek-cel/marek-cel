@@ -3,7 +3,7 @@
  *
  * The program creates a single simplified cumulus humilis cloud.
  * This program is intended to be used in real time rendering applications on
- * obselete hardware.
+ * low spec hardware.
  */
 
 #include <fstream>
