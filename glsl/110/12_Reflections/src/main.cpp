@@ -53,7 +53,7 @@ void createDome(osg::Geometry* geom, double radius,
 
 // Vertex Shader
 const char* vertCode = R"(
-#version 110
+#version 120
 
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -73,7 +73,7 @@ void main()
 
 // Fragment Shader
 const char* fragCode = R"(
-#version 110
+#version 120
 
 varying vec3 vNormal;
 varying vec3 vPosition;      // eye space
