@@ -503,6 +503,7 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     data.size_z = 120.0f;
     clouds.push_back(data);
 
+    int cloudIndex = 0;
     for ( auto cloud : clouds )
     {
         // --- Cloud proxy: cube enclosing a unit sphere ---
@@ -567,7 +568,7 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
         osg::ref_ptr<osg::Uniform> uBaseWarpAmp = new osg::Uniform("uBaseWarpAmp", 0.02f);
 
         // per-cloud random offset to make each cloud unique
-        static std::mt19937 rng(time(nullptr));
+        static std::mt19937 rng(time(nullptr) + cloudIndex);
         static std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
         osg::Vec3 cloudOffset(dist(rng), dist(rng), dist(rng));
         osg::ref_ptr<osg::Uniform> uCloudOffset = new osg::Uniform("uCloudOffset", cloudOffset);
@@ -582,10 +583,12 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
         cloudStateSet->addUniform(uBaseZ.get());
         cloudStateSet->addUniform(uBaseSoft.get());
         cloudStateSet->addUniform(uBaseWarpAmp.get());
-    cloudStateSet->addUniform(uCloudOffset.get());
+        cloudStateSet->addUniform(uCloudOffset.get());
 
         // Update the callback creation:
         cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
+
+        cloudIndex++;
     }
 
     return root.release();
