@@ -54,13 +54,16 @@ const char* fragCode = R"(
 
 varying vec3 vPosOS;
 
-uniform vec3 uCamPosOS;   // camera position in *object* space
-uniform float uDensity;   // overall density multiplier
-uniform int uSteps;       // march steps (e.g., 12–16)
-uniform float uStepMul;   // step length multiplier (e.g., 1.0/float(uSteps))
-uniform vec3 uLightDirOS; // normalized light dir in object space (to light)
-uniform vec3 uLightColor; // light color
-uniform int uShadowSteps; // shadow-ray steps (e.g., 4–8)
+uniform vec3 uCamPosOS;     // camera position in *object* space
+uniform float uDensity;     // overall density multiplier
+uniform int uSteps;         // march steps (e.g., 12–16)
+uniform float uStepMul;     // step length multiplier (e.g., 1.0/float(uSteps))
+uniform vec3 uLightDirOS;   // normalized light dir in object space (to light)
+uniform vec3 uLightColor;   // light color
+uniform int uShadowSteps;   // shadow-ray steps (e.g., 4–8)
+uniform float uBaseZ;       // cloud base z-coordinate
+uniform float uBaseSoft;    // softness (thickness of the base transition), e.g. 0.06
+uniform float uBaseWarpAmp; // amplitude of base waviness, e.g. 0.02
 
 // Simple 3D noise function
 float hash(vec3 p) {
@@ -100,23 +103,48 @@ float fbm(vec3 p) {
 
 // Cloud density function
 float cloudDensity(vec3 p) {
-    // Basic sphere falloff
+    // Stay inside the unit sphere
     float dist = length(p);
     if (dist > 1.0) return 0.0;
 
+    // ---- soft flat base (Z is up) ----
+    // tiny horizontal warp so it isn't a perfect plane
+    float baseWarp = (fbm(vec3(p.xz * 1.2, 0.0)) - 0.5) * 2.0 * uBaseWarpAmp;
+    float baseZ = uBaseZ + baseWarp;
+
+    // humidity ramp across the lifting condensation level
+    // 0 below, ~1 above, with softness controlled by uBaseSoft
+    float humid = smoothstep(baseZ - uBaseSoft, baseZ + uBaseSoft, p.z);
+    if (humid <= 0.0) return 0.0; // quick exit
+
+    // soft spherical falloff for top/sides
     float sphereFalloff = 1.0 - smoothstep(0.6, 1.0, dist);
 
-    // Add noise for cloud shape
-    vec3 noisePos = p * 2.0;
-    float cloudNoise = fbm(noisePos);
+    // normalized height above the (warped) base
+    float h = clamp((p.z - baseZ) / (1.0 - baseZ), 0.0, 1.0);
 
-    // Combine sphere and noise
-    float density = sphereFalloff * cloudNoise;
+    // silhouette (low freq) and detail (high freq); more detail higher up
+    vec3 q = p * 2.0;
+    float low  = fbm(q * 0.8);
+    float high = fbm(q * 3.0);
+    float n = mix(low, high, h * h);
 
-    // Add some variation in height (make bottom more dense)
-    density *= 1.0 + 0.3 * (1.0 - (p.y + 1.0) * 0.5);
+    // billowy lobes
+    n = 1.0 - abs(2.0 * n - 1.0);
 
-    return max(0.0, density - 0.3); // threshold to create gaps
+    // combine pieces
+    float d = sphereFalloff * n;
+
+    // keep underside cleaner; fuller higher up
+    d *= mix(0.6, 1.0, h);
+
+    // apply humidity ramp (soft base)
+    d *= humid;
+
+    // softer threshold to open gaps without hard cutting
+    d = smoothstep(0.18, 0.45, d);
+
+    return d;
 }
 
 // Calculate shadow attenuation by marching toward the light
@@ -404,8 +432,16 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
 
     cloudGeode->addDrawable(cloudCube.get());
 
+    // float size_x = 150.0f;
+    // float size_y = 150.0f;
+    // float size_z = 80.0f;
+
+    float size_x = 150.0f;
+    float size_y = 250.0f;
+    float size_z = 160.0f;
+
     // Place & scale the cloud node in world (adjust to your liking)
-    osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(150.0f, 150.0f, 80.0f)) *  // non-uniform later
+    osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(size_x, size_y, size_z)) *  // non-uniform later
                             osg::Matrix::translate(osg::Vec3(0.0f, 0.0f, 1.5f));
     osg::ref_ptr<osg::MatrixTransform> cloudMT = new osg::MatrixTransform(cloudXform);
     cloudMT->addChild(cloudGeode.get());
@@ -421,7 +457,7 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     // small box at the origin
     // root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f));
     // scaled up and translated box
-    root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 1.5f), 150.0f, 150.0f, 80.0f));
+    root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 1.5f), size_x, size_y, size_z));
 
     osg::ref_ptr<osg::StateSet> cloudStateSet = cloudMT->getOrCreateStateSet();
 
@@ -455,6 +491,9 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     osg::ref_ptr<osg::Uniform> uLightDirOS  = new osg::Uniform("uLightDirOS", lightDir);
     osg::ref_ptr<osg::Uniform> uLightColor  = new osg::Uniform("uLightColor", lightColor);
     osg::ref_ptr<osg::Uniform> uShadowSteps = new osg::Uniform("uShadowSteps", 6);
+    osg::ref_ptr<osg::Uniform> uBaseZ       = new osg::Uniform("uBaseZ", -0.00f); // as before
+    osg::ref_ptr<osg::Uniform> uBaseSoft    = new osg::Uniform("uBaseSoft", 0.06f);
+    osg::ref_ptr<osg::Uniform> uBaseWarpAmp = new osg::Uniform("uBaseWarpAmp", 0.02f);
 
     cloudStateSet->addUniform(uCamPosOS.get());
     cloudStateSet->addUniform(uDensity.get());
@@ -463,6 +502,9 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     cloudStateSet->addUniform(uLightDirOS.get());
     cloudStateSet->addUniform(uLightColor.get());
     cloudStateSet->addUniform(uShadowSteps.get());
+    cloudStateSet->addUniform(uBaseZ.get());
+    cloudStateSet->addUniform(uBaseSoft.get());
+    cloudStateSet->addUniform(uBaseWarpAmp.get());
 
     // Update the callback creation:
     cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
