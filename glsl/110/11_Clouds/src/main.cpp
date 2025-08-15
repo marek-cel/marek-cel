@@ -119,6 +119,31 @@ float cloudDensity(vec3 p) {
     return max(0.0, density - 0.3); // threshold to create gaps
 }
 
+// Calculate shadow attenuation by marching toward the light
+float calculateShadow(vec3 pos, vec3 lightDir, float shadowStepSize) {
+    float shadowDensity = 0.0;
+
+    // March toward the light
+    for (int i = 0; i < 32; ++i) { // static upper bound for GLSL 1.20
+        if (i >= uShadowSteps) break;
+
+        vec3 shadowPos = pos + lightDir * shadowStepSize * float(i + 1);
+
+        // Check if we're still inside the unit sphere (our cloud bounds)
+        if (length(shadowPos) > 1.0) break;
+
+        float density = cloudDensity(shadowPos);
+        shadowDensity += 5.0 * density * shadowStepSize;
+
+        // Early exit if we've accumulated enough shadow
+        if (shadowDensity > 3.0) break;
+    }
+
+    // Convert accumulated density to shadow attenuation
+    // Higher shadowDensity = more shadowed = lower attenuation
+    return exp(-shadowDensity * 2.0); // Exponential falloff for realistic shadowing
+}
+
 // Ray-sphere intersection for sphere at origin, radius 1
 bool intersectUnitSphere(vec3 ro, vec3 rd, out float t0, out float t1)
 {
@@ -146,10 +171,13 @@ void main()
     float t = max(t0, 0.0);
     float dt = (t1 - t) * uStepMul;
 
-    vec3 col = vec3(1.0); // start with white
+    // Calculate shadow step size (should be larger than primary ray step for performance)
+    float shadowStepSize = dt * 2.0;
+
+    vec3 col = vec3(0.9, 0.95, 1.0); // slightly blue-tinted base color (sky influence)
     float alpha = 0.0;
 
-    // Front-to-back alpha compositing with noise-based density
+    // Front-to-back alpha compositing with noise-based density and self-shadowing
     for (int i = 0; i < 64; ++i) // static upper bound for GLSL 1.20
     {
         if (i >= uSteps) break;
@@ -157,10 +185,22 @@ void main()
         vec3 p = ro + rd * (t + dt * float(i));
 
         float density = cloudDensity(p) * uDensity;
+        if (density <= 0.0) continue; // Skip empty space
+
+        // Calculate lighting with self-shadowing
+        float shadowAttenuation = calculateShadow(p, uLightDirOS, shadowStepSize);
+
+        // Apply lighting: base ambient + directional light with shadows
+        float ambient = 0.3; // Some ambient lighting so shadows aren't completely black
+        float lighting = ambient + (1.0 - ambient) * shadowAttenuation;
+
+        // Color the cloud based on lighting
+        vec3 cloudColor = uLightColor * lighting;
+
         float a = 1.0 - exp(-density * dt * 8.0); // Beer-Lambert absorption
 
-        // front-to-back compositing
-        col = mix(col, vec3(1.0), a * (1.0 - alpha));
+        // Front-to-back compositing
+        col = mix(col, cloudColor, a * (1.0 - alpha));
         alpha += a * (1.0 - alpha);
 
         if (alpha >= 0.98) break; // early-out
@@ -399,7 +439,7 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
 
     // (Optional) Soften depth sorting issues a bit:
     osg::ref_ptr<osg::Depth> depth = new osg::Depth;
-    depth->setWriteMask(false); // don’t write depth (we’re translucent)
+    depth->setWriteMask(false); // don't write depth (we're translucent)
     cloudStateSet->setAttributeAndModes(depth.get(), osg::StateAttribute::ON);
 
     osg::ref_ptr<osg::Program> program = new osg::Program;
