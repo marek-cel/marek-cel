@@ -58,6 +58,9 @@ uniform vec3 uCamPosOS;   // camera position in *object* space
 uniform float uDensity;   // overall density multiplier
 uniform int uSteps;       // march steps (e.g., 12–16)
 uniform float uStepMul;   // step length multiplier (e.g., 1.0/float(uSteps))
+uniform vec3 uLightDirOS; // normalized light dir in object space (to light)
+uniform vec3 uLightColor; // light color
+uniform int uShadowSteps; // shadow-ray steps (e.g., 4–8)
 
 // Simple 3D noise function
 float hash(vec3 p) {
@@ -412,8 +415,6 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     osg::ref_ptr<osg::Uniform> uLightDirOS  = new osg::Uniform("uLightDirOS", lightDir);
     osg::ref_ptr<osg::Uniform> uLightColor  = new osg::Uniform("uLightColor", lightColor);
     osg::ref_ptr<osg::Uniform> uShadowSteps = new osg::Uniform("uShadowSteps", 6);
-    osg::ref_ptr<osg::Uniform> uPhaseG      = new osg::Uniform("uPhaseG", 0.55f);
-    osg::ref_ptr<osg::Uniform> uScatterMul  = new osg::Uniform("uScatterMul", 1.0f);
 
     cloudStateSet->addUniform(uCamPosOS.get());
     cloudStateSet->addUniform(uDensity.get());
@@ -422,8 +423,6 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     cloudStateSet->addUniform(uLightDirOS.get());
     cloudStateSet->addUniform(uLightColor.get());
     cloudStateSet->addUniform(uShadowSteps.get());
-    cloudStateSet->addUniform(uPhaseG.get());
-    cloudStateSet->addUniform(uScatterMul.get());
 
     // Update the callback creation:
     cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
