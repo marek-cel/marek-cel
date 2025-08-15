@@ -34,11 +34,8 @@ const osg::Vec3 lightPosition(
     skyRadius * sin(osg::DegreesToRadians(54.0))
 );
 
-
 void setupCameraManipulators(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-
 void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments);
-
 osg::Texture2D* readTextureFromFile(const char* path);
 
 enum class Projection
@@ -51,7 +48,7 @@ void createDome(osg::Geometry* geom, double radius,
                 bool texCoords = false, Projection projection = Projection::Cylindrical,
                 int lat_segments = 18, int lon_segments = 36);
 
-// Vertex Shader
+// Vertex Shader - Updated to pass world space normal and position
 const char* vertCode = R"(
 #version 120
 
@@ -59,6 +56,8 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 varying vec3 vViewPosition;
 varying vec2 vTexCoord;
+varying vec3 vWorldPosition;
+varying vec3 vWorldNormal;
 
 void main()
 {
@@ -67,11 +66,15 @@ void main()
     vNormal = normalize(gl_NormalMatrix * gl_Normal);
     vTexCoord = gl_MultiTexCoord0.xy;
 
+    // World space position and normal for reflection calculations
+    vWorldPosition = vec3(gl_Vertex);
+    vWorldNormal = normalize(gl_Normal);
+
     gl_Position = ftransform();
 }
 )";
 
-// Fragment Shader
+// Fragment Shader - Updated with sky reflection
 const char* fragCode = R"(
 #version 120
 
@@ -79,10 +82,28 @@ varying vec3 vNormal;
 varying vec3 vPosition;      // eye space
 varying vec3 vViewPosition;  // eye space
 varying vec2 vTexCoord;
+varying vec3 vWorldPosition;
+varying vec3 vWorldNormal;
 
 uniform sampler2D textureColorMap;
 uniform sampler2D textureNormalMap;
-uniform sampler2D textureRoughnessMap; // bound to unit 2 in your C++
+uniform sampler2D textureRoughnessMap;
+uniform sampler2D textureMetlnessMap;
+uniform sampler2D textureSkyMap;     // Sky texture for reflections
+
+uniform mat4 osg_ViewMatrixInverse;  // To get camera world position
+
+// Convert world space direction to cylindrical sky texture coordinates
+vec2 worldDirectionToSkyUV(vec3 dir) {
+    // Normalize the direction
+    vec3 d = normalize(dir);
+
+    // Convert to spherical coordinates
+    float u = 0.5 + atan(d.x, d.z) / (2.0 * 3.14159265);
+    float v = 0.5 - asin(d.y) / 3.14159265;
+
+    return vec2(u, v);
+}
 
 vec3 normalFromMap(in vec2 uv, in vec3 Ns, in vec3 P)
 {
@@ -115,22 +136,45 @@ void main()
     float roughness = texture2D(textureRoughnessMap, vTexCoord).r;
     roughness = clamp(roughness, 0.0, 1.0);
 
+    // Metalness: 0 = dielectric, 1 = metal
+    float metalness = texture2D(textureMetlnessMap, vTexCoord).r;
+    metalness = clamp(metalness, 0.0, 1.0);
+
     // Convert to a "gloss" control; square to bias toward smoother highlights
     float gloss = 1.0 - roughness;
     float specIntensity = gloss * gloss;                 // scales specular color
     float materialShininess = mix(8.0, 256.0, specIntensity); // Phong exponent
 
-    // Material
-    vec3 materialAmbient  = vec3(0.2) * baseColor;
-    vec3 materialDiffuse  = baseColor;
-    vec3 materialSpecular = vec3(0.3) * specIntensity; // dimmer when rough
+    // Material properties based on metalness
+    vec3 f0 = mix(vec3(0.04), baseColor, metalness); // Base reflectance
+    vec3 materialAmbient  = vec3(0.2) * baseColor * (1.0 - metalness);
+    vec3 materialDiffuse  = baseColor * (1.0 - metalness); // Metals don't have diffuse
+    vec3 materialSpecular = f0;
 
     // Light 0 (eye space)
     vec3 lightColor    = vec3(1.0);
     vec3 lightPosition = vec3(gl_LightSource[0].position);
 
-    // Normal mapping
+    // Normal mapping (in eye space)
     vec3 N = normalFromMap(vTexCoord, normalize(vNormal), vPosition);
+
+    // For reflection, we need world space normal
+    vec3 worldN = normalize(vWorldNormal);
+    // Apply normal mapping in world space (approximate)
+    vec3 worldNormalMapped = worldN; // Simplified - ideally transform the normal map to world space
+
+    // Calculate reflection
+    vec3 cameraWorldPos = vec3(osg_ViewMatrixInverse[3]);
+    vec3 worldViewDir = normalize(cameraWorldPos - vWorldPosition);
+    vec3 reflectionDir = reflect(-worldViewDir, worldNormalMapped);
+
+    // Sample sky texture using reflection direction
+    vec2 skyUV = worldDirectionToSkyUV(reflectionDir);
+    vec3 skyColor = texture2D(textureSkyMap, skyUV).rgb;
+
+    // Calculate Fresnel effect (Schlick approximation)
+    float cosTheta = max(dot(worldViewDir, worldNormalMapped), 0.0);
+    vec3 fresnel = f0 + (1.0 - f0) * pow(1.0 - cosTheta, 5.0);
 
     // Phong shading (eye space)
     vec3 L = normalize(lightPosition - vPosition);
@@ -148,7 +192,14 @@ void main()
     float spec = pow(max(dot(V, R), 0.0), materialShininess);
     vec3 specular = spec * materialSpecular * lightColor;
 
-    gl_FragColor = vec4(ambient + diffuse + specular, 1.0);
+    // Reflection contribution
+    float reflectionStrength = mix(0.1, 1.0, metalness) * (1.0 - roughness);
+    vec3 reflection = skyColor * fresnel * reflectionStrength;
+
+    // Combine all lighting components
+    vec3 finalColor = ambient + diffuse + specular + reflection;
+
+    gl_FragColor = vec4(finalColor, 1.0);
 }
 )";
 
@@ -228,9 +279,12 @@ osg::Group* createScene()
     osg::ref_ptr<osg::Geode> geode = new osg::Geode();
     root->addChild(geode.get());
 
-    osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, 5.0, 5.0);
+    //osg::ref_ptr<osg::Box> box = new osg::Box(osg::Vec3f(), 5.0, 5.0, 5.0);
+    //osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
 
-    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(box.get());
+    osg::ref_ptr<osg::Sphere> sphere = new osg::Sphere(osg::Vec3f(), 5.0);
+    osg::ref_ptr<osg::ShapeDrawable> shape = new osg::ShapeDrawable(sphere.get());
+
     geode->addDrawable(shape.get());
 
     osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
@@ -259,14 +313,24 @@ osg::Group* createScene()
         geodeStateSet->setTextureAttributeAndModes(3, textureMetlnessMap, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
     }
 
+    // Add sky texture for reflections (reuse the same sky texture)
+    osg::ref_ptr<osg::Texture2D> textureSkyMap = readTextureFromFile("../../../data/sky.jpg");
+    if ( textureSkyMap.valid() )
+    {
+        geodeStateSet->setTextureAttributeAndModes(4, textureSkyMap, osg::StateAttribute::ON | osg::StateAttribute::OVERRIDE);
+    }
+
     osg::ref_ptr<osg::Program> program = new osg::Program;
     program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
     geodeStateSet->setAttributeAndModes(program.get());
+
+    // Add uniforms for all textures including sky map
     geodeStateSet->addUniform(new osg::Uniform("textureColorMap", 0));
     geodeStateSet->addUniform(new osg::Uniform("textureNormalMap", 1));
     geodeStateSet->addUniform(new osg::Uniform("textureRoughnessMap", 2));
     geodeStateSet->addUniform(new osg::Uniform("textureMetlnessMap", 3));
+    geodeStateSet->addUniform(new osg::Uniform("textureSkyMap", 4));
 
     return root.release();
 }
