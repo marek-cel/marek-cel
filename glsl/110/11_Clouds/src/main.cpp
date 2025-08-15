@@ -11,6 +11,7 @@
 #include <sstream>
 
 #include <osg/ArgumentParser>
+#include <osg/CullFace>
 #include <osg/Depth>
 #include <osg/Geode>
 #include <osg/Group>
@@ -262,8 +263,6 @@ osg::Group* createBoxWireframe(const osg::Vec3& center, float size_x, float size
     v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() + size_z));
     v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() + size_z));
 
-
-
     n->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
     c->push_back(osg::Vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
@@ -296,9 +295,6 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
 
     createLight(root.get());
 
-    osg::ref_ptr<osg::Group> cloud = new osg::Group();
-    root->addChild(cloud.get());
-
     // --- Cloud proxy: cube enclosing a unit sphere ---
     osg::ref_ptr<osg::Geode> cloudGeode = new osg::Geode();
     osg::ref_ptr<osg::ShapeDrawable> cloudCube =
@@ -306,7 +302,6 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     // size=2 → unit radius sphere fits inside cube (-1..1)
 
     cloudGeode->addDrawable(cloudCube.get());
-    cloud->addChild(cloudGeode.get());
 
     // Place & scale the cloud node in world (adjust to your liking)
     osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(150.0f, 150.0f, 80.0f)) *  // non-uniform later
@@ -315,10 +310,21 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     cloudMT->addChild(cloudGeode.get());
     root->addChild(cloudMT.get());
 
+    // small box at the origin
+    // root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f));
+    // scaled up and translated box
     root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 1.5f), 150.0f, 150.0f, 80.0f));
 
-
     osg::ref_ptr<osg::StateSet> cloudStateSet = cloudMT->getOrCreateStateSet();
+
+    // cloudStateSet->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
+    // osg::ref_ptr<osg::CullFace> cull = new osg::CullFace;
+    // cull->setMode(osg::CullFace::BACK);  // draw only front faces
+    // cloudStateSet->setAttributeAndModes(cull.get(), osg::StateAttribute::ON);
+
+    // (optional) disable fixed-pipeline lighting on the proxy
+    cloudStateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+
     cloudStateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
     cloudStateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
     cloudStateSet->setMode(GL_ALPHA_TEST, osg::StateAttribute::OFF);
