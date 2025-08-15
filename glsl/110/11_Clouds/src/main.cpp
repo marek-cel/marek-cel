@@ -34,6 +34,9 @@
 #include <osgGA/TerrainManipulator>
 #include <osgGA/SphericalManipulator>
 
+const osg::Vec3 lightPosition(50.0f, -100.0f, 200.0f);
+const osg::Vec3 lightColor(1.0f, 1.0f, 1.0f);
+
 const char* vertCode = R"(
 #version 120
 
@@ -221,11 +224,10 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
 
     lightSun->setLightNum(0);
 
-    osg::Vec4 color(1.0, 1.0, 1.0, 1.0);
-    osg::Vec3d position(50.0, -100.0, 200.0);
+    osg::Vec4 color(lightColor, 1.0f);
 
-    lightSun->setPosition(osg::Vec4d(position, 1.0));
-    lightPat->setPosition(position);
+    lightSun->setPosition(osg::Vec4d(lightPosition, 1.0));
+    lightPat->setPosition(lightPosition);
 
     lightSun->setAmbient  ( color );
     lightSun->setDiffuse  ( color );
@@ -239,7 +241,7 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     lightSource->setStateSetModes(*root->getOrCreateStateSet(), osg::StateAttribute::ON);
 
     // add sphere representing light source
-    osg::ref_ptr<osg::Sphere> lightSphere = new osg::Sphere(position, 10.0);
+    osg::ref_ptr<osg::Sphere> lightSphere = new osg::Sphere(lightPosition, 10.0);
     osg::ref_ptr<osg::ShapeDrawable> lightDrawable = new osg::ShapeDrawable(lightSphere.get());
     lightDrawable->setColor(osg::Vec4(1.0, 1.0, 0.0, 1.0)); // yellow color
     lightPat->addChild(lightDrawable.get());
@@ -366,6 +368,13 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     cloudMT->addChild(cloudGeode.get());
     root->addChild(cloudMT.get());
 
+    osg::Matrixd localToWorld = cloudMT->getMatrix();
+    osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
+
+    osg::Vec3d lightObj = lightPosition * worldToLocal;   // into cloud's object space
+    osg::Vec3  lightDir = osg::Vec3(lightObj) - osg::Vec3(0,0,0);
+    lightDir.normalize();
+
     // small box at the origin
     // root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f));
     // scaled up and translated box
@@ -396,15 +405,25 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     cloudStateSet->setAttributeAndModes(program.get(), osg::StateAttribute::ON);
 
     // Uniforms
-    osg::ref_ptr<osg::Uniform> uCamPosOS = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
-    osg::ref_ptr<osg::Uniform> uDensity  = new osg::Uniform("uDensity", 0.6f);
-    osg::ref_ptr<osg::Uniform> uSteps    = new osg::Uniform("uSteps", 16); // increased steps for better quality
-    osg::ref_ptr<osg::Uniform> uStepMul  = new osg::Uniform("uStepMul", 1.0f / 16.0f);
+    osg::ref_ptr<osg::Uniform> uCamPosOS    = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
+    osg::ref_ptr<osg::Uniform> uDensity     = new osg::Uniform("uDensity", 0.6f);
+    osg::ref_ptr<osg::Uniform> uSteps       = new osg::Uniform("uSteps", 16); // increased steps for better quality
+    osg::ref_ptr<osg::Uniform> uStepMul     = new osg::Uniform("uStepMul", 1.0f / 16.0f);
+    osg::ref_ptr<osg::Uniform> uLightDirOS  = new osg::Uniform("uLightDirOS", lightDir);
+    osg::ref_ptr<osg::Uniform> uLightColor  = new osg::Uniform("uLightColor", lightColor);
+    osg::ref_ptr<osg::Uniform> uShadowSteps = new osg::Uniform("uShadowSteps", 6);
+    osg::ref_ptr<osg::Uniform> uPhaseG      = new osg::Uniform("uPhaseG", 0.55f);
+    osg::ref_ptr<osg::Uniform> uScatterMul  = new osg::Uniform("uScatterMul", 1.0f);
 
     cloudStateSet->addUniform(uCamPosOS.get());
     cloudStateSet->addUniform(uDensity.get());
     cloudStateSet->addUniform(uSteps.get());
     cloudStateSet->addUniform(uStepMul.get());
+    cloudStateSet->addUniform(uLightDirOS.get());
+    cloudStateSet->addUniform(uLightColor.get());
+    cloudStateSet->addUniform(uShadowSteps.get());
+    cloudStateSet->addUniform(uPhaseG.get());
+    cloudStateSet->addUniform(uScatterMul.get());
 
     // Update the callback creation:
     cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
