@@ -1,7 +1,7 @@
 /**
- * Basic volumetric clooud example.
+ * Basic volumetric cloud example.
  *
- * The program creates a single simplified cumulus humilis cloud.
+ * The program creates a single simplified static cumulus humilis cloud.
  * This program is intended to be used in real time rendering applications on
  * a relatively low spec hardware (integrated graphics).
  */
@@ -35,7 +35,7 @@
 #include <osgGA/SphericalManipulator>
 
 const char* vertCode = R"(
-#version 110
+#version 120
 
 varying vec3 vPosOS; // object-space position at the fragment
 
@@ -47,7 +47,7 @@ void main()
 )";
 
 const char* fragCode = R"(
-#version 110
+#version 120
 
 varying vec3 vPosOS;
 
@@ -55,6 +55,63 @@ uniform vec3 uCamPosOS;   // camera position in *object* space
 uniform float uDensity;   // overall density multiplier
 uniform int uSteps;       // march steps (e.g., 12–16)
 uniform float uStepMul;   // step length multiplier (e.g., 1.0/float(uSteps))
+
+// Simple 3D noise function
+float hash(vec3 p) {
+    p = fract(p * 0.3183099 + 0.1);
+    p *= 17.0;
+    return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+}
+
+float noise(vec3 x) {
+    vec3 i = floor(x);
+    vec3 f = fract(x);
+    f = f * f * (3.0 - 2.0 * f);
+
+    return mix(mix(mix(hash(i + vec3(0, 0, 0)),
+                       hash(i + vec3(1, 0, 0)), f.x),
+                   mix(hash(i + vec3(0, 1, 0)),
+                       hash(i + vec3(1, 1, 0)), f.x), f.y),
+               mix(mix(hash(i + vec3(0, 0, 1)),
+                       hash(i + vec3(1, 0, 1)), f.x),
+                   mix(hash(i + vec3(0, 1, 1)),
+                       hash(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+}
+
+// Fractional Brownian Motion (fBm) for more complex noise
+float fbm(vec3 p) {
+    float value = 0.0;
+    float amplitude = 0.5;
+    float frequency = 1.0;
+
+    for (int i = 0; i < 4; i++) {
+        value += amplitude * noise(p * frequency);
+        amplitude *= 0.5;
+        frequency *= 2.0;
+    }
+    return value;
+}
+
+// Cloud density function
+float cloudDensity(vec3 p) {
+    // Basic sphere falloff
+    float dist = length(p);
+    if (dist > 1.0) return 0.0;
+
+    float sphereFalloff = 1.0 - smoothstep(0.6, 1.0, dist);
+
+    // Add noise for cloud shape
+    vec3 noisePos = p * 2.0;
+    float cloudNoise = fbm(noisePos);
+
+    // Combine sphere and noise
+    float density = sphereFalloff * cloudNoise;
+
+    // Add some variation in height (make bottom more dense)
+    density *= 1.0 + 0.3 * (1.0 - (p.y + 1.0) * 0.5);
+
+    return max(0.0, density - 0.3); // threshold to create gaps
+}
 
 // Ray-sphere intersection for sphere at origin, radius 1
 bool intersectUnitSphere(vec3 ro, vec3 rd, out float t0, out float t1)
@@ -83,24 +140,21 @@ void main()
     float t = max(t0, 0.0);
     float dt = (t1 - t) * uStepMul;
 
-    vec3 col = vec3(1.0); // flat white for now
+    vec3 col = vec3(1.0); // start with white
     float alpha = 0.0;
 
-    // Very cheap constant density medium
-    // Front-to-back alpha compositing
-    for (int i = 0; i < 64; ++i) // static upper bound for GLSL 1.10
+    // Front-to-back alpha compositing with noise-based density
+    for (int i = 0; i < 64; ++i) // static upper bound for GLSL 1.20
     {
         if (i >= uSteps) break;
 
         vec3 p = ro + rd * (t + dt * float(i));
-        // Optional: fade near boundary to reduce hard edge
-        float d = clamp(1.0 - length(p), 0.0, 1.0);
 
-        float density = uDensity * d; // slightly thicker in the core
-        float a = 1.0 - exp(-density * dt * 3.0); // Beer-Lambert-ish
+        float density = cloudDensity(p) * uDensity;
+        float a = 1.0 - exp(-density * dt * 8.0); // Beer-Lambert absorption
 
         // front-to-back compositing
-        col = mix(col, vec3(1.0), a * (1.0 - alpha)); // white fog
+        col = mix(col, vec3(1.0), a * (1.0 - alpha));
         alpha += a * (1.0 - alpha);
 
         if (alpha >= 0.98) break; // early-out
@@ -193,35 +247,6 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     return lightPat.release();
 }
 
-struct CamPosUpdater : public osg::NodeCallback
-{
-    osgViewer::Viewer* viewer;
-    osg::Uniform* uCamPosOS;
-    CamPosUpdater(osgViewer::Viewer* v, osg::Uniform* u) : viewer(v), uCamPosOS(u) {}
-
-    virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
-    {
-        osg::Matrixd view = viewer->getCamera()->getViewMatrix();
-        osg::Matrixd invView = osg::Matrixd::inverse(view);
-
-        // camera world position = transform of origin by inverse view
-        osg::Vec3d camWorld = osg::Vec3d(0.0, 0.0, 0.0) * invView;
-
-        // object (cloud) local-to-world
-        osg::Matrixd localToWorld;
-        if (auto* mt = dynamic_cast<osg::MatrixTransform*>(node))
-            localToWorld = mt->getMatrix();
-        else
-            localToWorld.makeIdentity();
-
-        osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
-        osg::Vec3d camObject = camWorld * worldToLocal;
-
-        uCamPosOS->set(osg::Vec3(camObject));
-        traverse(node, nv);
-    }
-};
-
 osg::Group* createBoxWireframe(const osg::Vec3& center, float size_x, float size_y, float size_z)
 {
     osg::ref_ptr<osg::Group> wireframe = new osg::Group();
@@ -264,6 +289,7 @@ osg::Group* createBoxWireframe(const osg::Vec3& center, float size_x, float size
     v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() + size_z));
 
     n->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
+    // magenta
     c->push_back(osg::Vec4(1.0f, 0.0f, 1.0f, 1.0f));
 
     geom->setVertexArray(v.get());
@@ -279,6 +305,36 @@ osg::Group* createBoxWireframe(const osg::Vec3& center, float size_x, float size
 
     return wireframe.release();
 }
+
+struct CamPosUpdater : public osg::NodeCallback
+{
+    osgViewer::Viewer* viewer;
+    osg::Uniform* uCamPosOS;
+
+    CamPosUpdater(osgViewer::Viewer* v, osg::Uniform* camPos)
+        : viewer(v), uCamPosOS(camPos) {}
+
+    virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
+    {
+        // Update camera position (existing code)
+        osg::Matrixd view = viewer->getCamera()->getViewMatrix();
+        osg::Matrixd invView = osg::Matrixd::inverse(view);
+        osg::Vec3d camWorld = osg::Vec3d(0.0, 0.0, 0.0) * invView;
+
+        osg::Matrixd localToWorld;
+        if (auto* mt = dynamic_cast<osg::MatrixTransform*>(node))
+            localToWorld = mt->getMatrix();
+        else
+            localToWorld.makeIdentity();
+
+        osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
+        osg::Vec3d camObject = camWorld * worldToLocal;
+
+        uCamPosOS->set(osg::Vec3(camObject));
+
+        traverse(node, nv);
+    }
+};
 
 osg::Group* createScene(osgViewer::Viewer* viewer)
 {
@@ -342,15 +398,15 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
     // Uniforms
     osg::ref_ptr<osg::Uniform> uCamPosOS = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
     osg::ref_ptr<osg::Uniform> uDensity  = new osg::Uniform("uDensity", 0.6f);
-    osg::ref_ptr<osg::Uniform> uSteps    = new osg::Uniform("uSteps", 14);
-    osg::ref_ptr<osg::Uniform> uStepMul  = new osg::Uniform("uStepMul", 1.0f / 14.0f);
+    osg::ref_ptr<osg::Uniform> uSteps    = new osg::Uniform("uSteps", 16); // increased steps for better quality
+    osg::ref_ptr<osg::Uniform> uStepMul  = new osg::Uniform("uStepMul", 1.0f / 16.0f);
 
     cloudStateSet->addUniform(uCamPosOS.get());
     cloudStateSet->addUniform(uDensity.get());
     cloudStateSet->addUniform(uSteps.get());
     cloudStateSet->addUniform(uStepMul.get());
 
-    // Attach the updater to the cloud transform node (after creating uniforms)
+    // Update the callback creation:
     cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
 
     return root.release();
