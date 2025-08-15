@@ -409,6 +409,14 @@ struct CamPosUpdater : public osg::NodeCallback
     }
 };
 
+struct CloudData
+{
+    osg::Vec3 center;
+    float size_x;
+    float size_y;
+    float size_z;
+};
+
 osg::Group* createScene(osgViewer::Viewer* viewer)
 {
     osg::ref_ptr<osg::Group> root = new osg::Group();
@@ -424,90 +432,104 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
 
     createLight(root.get());
 
-    // --- Cloud proxy: cube enclosing a unit sphere ---
-    osg::ref_ptr<osg::Geode> cloudGeode = new osg::Geode();
-    osg::ref_ptr<osg::ShapeDrawable> cloudCube =
-        new osg::ShapeDrawable(new osg::Box(osg::Vec3(0.f, 0.f, 0.f), 2.f));
-    // size=2 → unit radius sphere fits inside cube (-1..1)
+    CloudData data;
+    std::vector<CloudData> clouds;
 
-    cloudGeode->addDrawable(cloudCube.get());
+    data.center = osg::Vec3(0.0f, 0.0f, 1.5f);
+    data.size_x = 150.0f;
+    data.size_y = 250.0f;
+    data.size_z = 160.0f;
+    clouds.push_back(data);
 
-    // float size_x = 150.0f;
-    // float size_y = 150.0f;
-    // float size_z = 80.0f;
+    data.center = osg::Vec3(200.0f, 300.0f, 0.0f);
+    data.size_x = 150.0f;
+    data.size_y = 150.0f;
+    data.size_z = 80.0f;
+    clouds.push_back(data);
 
-    float size_x = 150.0f;
-    float size_y = 250.0f;
-    float size_z = 160.0f;
+    data.center = osg::Vec3(-200.0f, 300.0f, 0.0f);
+    data.size_x = 150.0f;
+    data.size_y = 250.0f;
+    data.size_z = 120.0f;
+    clouds.push_back(data);
 
-    // Place & scale the cloud node in world (adjust to your liking)
-    osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(size_x, size_y, size_z)) *  // non-uniform later
-                            osg::Matrix::translate(osg::Vec3(0.0f, 0.0f, 1.5f));
-    osg::ref_ptr<osg::MatrixTransform> cloudMT = new osg::MatrixTransform(cloudXform);
-    cloudMT->addChild(cloudGeode.get());
-    root->addChild(cloudMT.get());
+    for ( auto cloud : clouds )
+    {
+        // --- Cloud proxy: cube enclosing a unit sphere ---
+        osg::ref_ptr<osg::Geode> cloudGeode = new osg::Geode();
+        osg::ref_ptr<osg::ShapeDrawable> cloudCube =
+            new osg::ShapeDrawable(new osg::Box(osg::Vec3(0.f, 0.f, 0.f), 2.f));
+        // size=2 → unit radius sphere fits inside cube (-1..1)
 
-    osg::Matrixd localToWorld = cloudMT->getMatrix();
-    osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
+        cloudGeode->addDrawable(cloudCube.get());
 
-    osg::Vec3d lightObj = lightPosition * worldToLocal;   // into cloud's object space
-    osg::Vec3  lightDir = osg::Vec3(lightObj) - osg::Vec3(0,0,0);
-    lightDir.normalize();
+        // Place & scale the cloud node in world (adjust to your liking)
+        osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(cloud.size_x, cloud.size_y, cloud.size_z)) *  // non-uniform later
+                                osg::Matrix::translate(cloud.center);
+        osg::ref_ptr<osg::MatrixTransform> cloudMT = new osg::MatrixTransform(cloudXform);
+        cloudMT->addChild(cloudGeode.get());
+        root->addChild(cloudMT.get());
 
-    // small box at the origin
-    // root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 0.0f), 1.0f, 1.0f, 1.0f));
-    // scaled up and translated box
-    root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 1.5f), size_x, size_y, size_z));
+        osg::Matrixd localToWorld = cloudMT->getMatrix();
+        osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
 
-    osg::ref_ptr<osg::StateSet> cloudStateSet = cloudMT->getOrCreateStateSet();
+        osg::Vec3d lightObj = lightPosition * worldToLocal;   // into cloud's object space
+        osg::Vec3  lightDir = osg::Vec3(lightObj) - osg::Vec3(0,0,0);
+        lightDir.normalize();
 
-    // cloudStateSet->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
-    // osg::ref_ptr<osg::CullFace> cull = new osg::CullFace;
-    // cull->setMode(osg::CullFace::BACK);  // draw only front faces
-    // cloudStateSet->setAttributeAndModes(cull.get(), osg::StateAttribute::ON);
+        // debug wireframe
+        root->addChild(createBoxWireframe(cloud.center, cloud.size_x, cloud.size_y, cloud.size_z));
 
-    // (optional) disable fixed-pipeline lighting on the proxy
-    cloudStateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
+        osg::ref_ptr<osg::StateSet> cloudStateSet = cloudMT->getOrCreateStateSet();
 
-    cloudStateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
-    cloudStateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
-    cloudStateSet->setMode(GL_ALPHA_TEST, osg::StateAttribute::OFF);
+        // cloudStateSet->setMode(GL_CULL_FACE, osg::StateAttribute::ON);
+        // osg::ref_ptr<osg::CullFace> cull = new osg::CullFace;
+        // cull->setMode(osg::CullFace::BACK);  // draw only front faces
+        // cloudStateSet->setAttributeAndModes(cull.get(), osg::StateAttribute::ON);
 
-    // (Optional) Soften depth sorting issues a bit:
-    osg::ref_ptr<osg::Depth> depth = new osg::Depth;
-    depth->setWriteMask(false); // don't write depth (we're translucent)
-    cloudStateSet->setAttributeAndModes(depth.get(), osg::StateAttribute::ON);
+        // (optional) disable fixed-pipeline lighting on the proxy
+        cloudStateSet->setMode(GL_LIGHTING, osg::StateAttribute::OFF);
 
-    osg::ref_ptr<osg::Program> program = new osg::Program;
-    program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
-    program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
-    cloudStateSet->setAttributeAndModes(program.get(), osg::StateAttribute::ON);
+        cloudStateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+        cloudStateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+        cloudStateSet->setMode(GL_ALPHA_TEST, osg::StateAttribute::OFF);
 
-    // Uniforms
-    osg::ref_ptr<osg::Uniform> uCamPosOS    = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
-    osg::ref_ptr<osg::Uniform> uDensity     = new osg::Uniform("uDensity", 0.6f);
-    osg::ref_ptr<osg::Uniform> uSteps       = new osg::Uniform("uSteps", 16); // increased steps for better quality
-    osg::ref_ptr<osg::Uniform> uStepMul     = new osg::Uniform("uStepMul", 1.0f / 16.0f);
-    osg::ref_ptr<osg::Uniform> uLightDirOS  = new osg::Uniform("uLightDirOS", lightDir);
-    osg::ref_ptr<osg::Uniform> uLightColor  = new osg::Uniform("uLightColor", lightColor);
-    osg::ref_ptr<osg::Uniform> uShadowSteps = new osg::Uniform("uShadowSteps", 6);
-    osg::ref_ptr<osg::Uniform> uBaseZ       = new osg::Uniform("uBaseZ", -0.00f); // as before
-    osg::ref_ptr<osg::Uniform> uBaseSoft    = new osg::Uniform("uBaseSoft", 0.06f);
-    osg::ref_ptr<osg::Uniform> uBaseWarpAmp = new osg::Uniform("uBaseWarpAmp", 0.02f);
+        // (Optional) Soften depth sorting issues a bit:
+        osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+        depth->setWriteMask(false); // don't write depth (we're translucent)
+        cloudStateSet->setAttributeAndModes(depth.get(), osg::StateAttribute::ON);
 
-    cloudStateSet->addUniform(uCamPosOS.get());
-    cloudStateSet->addUniform(uDensity.get());
-    cloudStateSet->addUniform(uSteps.get());
-    cloudStateSet->addUniform(uStepMul.get());
-    cloudStateSet->addUniform(uLightDirOS.get());
-    cloudStateSet->addUniform(uLightColor.get());
-    cloudStateSet->addUniform(uShadowSteps.get());
-    cloudStateSet->addUniform(uBaseZ.get());
-    cloudStateSet->addUniform(uBaseSoft.get());
-    cloudStateSet->addUniform(uBaseWarpAmp.get());
+        osg::ref_ptr<osg::Program> program = new osg::Program;
+        program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
+        program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
+        cloudStateSet->setAttributeAndModes(program.get(), osg::StateAttribute::ON);
 
-    // Update the callback creation:
-    cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
+        // Uniforms
+        osg::ref_ptr<osg::Uniform> uCamPosOS    = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
+        osg::ref_ptr<osg::Uniform> uDensity     = new osg::Uniform("uDensity", 0.6f);
+        osg::ref_ptr<osg::Uniform> uSteps       = new osg::Uniform("uSteps", 16); // increased steps for better quality
+        osg::ref_ptr<osg::Uniform> uStepMul     = new osg::Uniform("uStepMul", 1.0f / 16.0f);
+        osg::ref_ptr<osg::Uniform> uLightDirOS  = new osg::Uniform("uLightDirOS", lightDir);
+        osg::ref_ptr<osg::Uniform> uLightColor  = new osg::Uniform("uLightColor", lightColor);
+        osg::ref_ptr<osg::Uniform> uShadowSteps = new osg::Uniform("uShadowSteps", 6);
+        osg::ref_ptr<osg::Uniform> uBaseZ       = new osg::Uniform("uBaseZ", -0.00f); // as before
+        osg::ref_ptr<osg::Uniform> uBaseSoft    = new osg::Uniform("uBaseSoft", 0.06f);
+        osg::ref_ptr<osg::Uniform> uBaseWarpAmp = new osg::Uniform("uBaseWarpAmp", 0.02f);
+
+        cloudStateSet->addUniform(uCamPosOS.get());
+        cloudStateSet->addUniform(uDensity.get());
+        cloudStateSet->addUniform(uSteps.get());
+        cloudStateSet->addUniform(uStepMul.get());
+        cloudStateSet->addUniform(uLightDirOS.get());
+        cloudStateSet->addUniform(uLightColor.get());
+        cloudStateSet->addUniform(uShadowSteps.get());
+        cloudStateSet->addUniform(uBaseZ.get());
+        cloudStateSet->addUniform(uBaseSoft.get());
+        cloudStateSet->addUniform(uBaseWarpAmp.get());
+
+        // Update the callback creation:
+        cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
+    }
 
     return root.release();
 }
