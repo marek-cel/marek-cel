@@ -8,6 +8,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <sstream>
 
 #include <osg/ArgumentParser>
@@ -55,6 +56,7 @@ const char* fragCode = R"(
 varying vec3 vPosOS;
 
 uniform vec3 uCamPosOS;     // camera position in *object* space
+uniform vec3 uCloudOffset;  // per-cloud random offset for noise variation
 uniform float uDensity;     // overall density multiplier
 uniform int uSteps;         // march steps (e.g., 12–16)
 uniform float uStepMul;     // step length multiplier (e.g., 1.0/float(uSteps))
@@ -65,26 +67,71 @@ uniform float uBaseZ;       // cloud base z-coordinate
 uniform float uBaseSoft;    // softness (thickness of the base transition), e.g. 0.06
 uniform float uBaseWarpAmp; // amplitude of base waviness, e.g. 0.02
 
-// Simple 3D noise function
-float hash(vec3 p) {
-    p = fract(p * 0.3183099 + 0.1);
-    p *= 17.0;
-    return fract(p.x * p.y * p.z * (p.x + p.y + p.z));
+// GLSL 1.20 — 3D Perlin (gradient) noise, returns [-1, 1]
+float fade(float t) { return t*t*t*(t*(t*6.0 - 15.0) + 10.0); }
+
+// Hash -> pseudo-random unit-ish gradient per integer lattice point
+vec3 grad3(vec3 i)
+{
+    // independent hashes for x,y,z components
+    vec3 s = vec3(
+        dot(i, vec3(127.1, 311.7,  74.7)),
+        dot(i, vec3(269.5, 183.3, 246.1)),
+        dot(i, vec3(113.5, 271.9, 124.6))
+    );
+    vec3 g = fract(sin(s) * 43758.5453) * 2.0 - 1.0;
+    // normalize to unit length (approx)
+    return g * inversesqrt(dot(g, g) + 1e-6);
 }
 
-float noise(vec3 x) {
-    vec3 i = floor(x);
-    vec3 f = fract(x);
-    f = f * f * (3.0 - 2.0 * f);
+float perlinNoise(vec3 P)
+{
+    vec3 Pi = floor(P);
+    vec3 Pf = P - Pi;
 
-    return mix(mix(mix(hash(i + vec3(0, 0, 0)),
-                       hash(i + vec3(1, 0, 0)), f.x),
-                   mix(hash(i + vec3(0, 1, 0)),
-                       hash(i + vec3(1, 1, 0)), f.x), f.y),
-               mix(mix(hash(i + vec3(0, 0, 1)),
-                       hash(i + vec3(1, 0, 1)), f.x),
-                   mix(hash(i + vec3(0, 1, 1)),
-                       hash(i + vec3(1, 1, 1)), f.x), f.y), f.z);
+    // Corner offsets
+    vec3 c000 = vec3(0.0, 0.0, 0.0);
+    vec3 c100 = vec3(1.0, 0.0, 0.0);
+    vec3 c010 = vec3(0.0, 1.0, 0.0);
+    vec3 c110 = vec3(1.0, 1.0, 0.0);
+    vec3 c001 = vec3(0.0, 0.0, 1.0);
+    vec3 c101 = vec3(1.0, 0.0, 1.0);
+    vec3 c011 = vec3(0.0, 1.0, 1.0);
+    vec3 c111 = vec3(1.0, 1.0, 1.0);
+
+    // Gradients at cube corners (hashed by lattice coords)
+    vec3 g000 = grad3(Pi + c000);
+    vec3 g100 = grad3(Pi + c100);
+    vec3 g010 = grad3(Pi + c010);
+    vec3 g110 = grad3(Pi + c110);
+    vec3 g001 = grad3(Pi + c001);
+    vec3 g101 = grad3(Pi + c101);
+    vec3 g011 = grad3(Pi + c011);
+    vec3 g111 = grad3(Pi + c111);
+
+    // Dot with displacement to corners
+    float n000 = dot(g000, Pf - c000);
+    float n100 = dot(g100, Pf - c100);
+    float n010 = dot(g010, Pf - c010);
+    float n110 = dot(g110, Pf - c110);
+    float n001 = dot(g001, Pf - c001);
+    float n101 = dot(g101, Pf - c101);
+    float n011 = dot(g011, Pf - c011);
+    float n111 = dot(g111, Pf - c111);
+
+    // Quintic fade and trilinear interpolation
+    vec3 u = vec3(fade(Pf.x), fade(Pf.y), fade(Pf.z));
+
+    float nx00 = mix(n000, n100, u.x);
+    float nx10 = mix(n010, n110, u.x);
+    float nx01 = mix(n001, n101, u.x);
+    float nx11 = mix(n011, n111, u.x);
+
+    float nxy0 = mix(nx00, nx10, u.y);
+    float nxy1 = mix(nx01, nx11, u.y);
+
+    //return mix(nxy0, nxy1, u.z); // in [-1, 1]
+    return (mix(nxy0, nxy1, u.z) + 0.5) * 0.5;
 }
 
 // Fractional Brownian Motion (fBm) for more complex noise
@@ -94,7 +141,8 @@ float fbm(vec3 p) {
     float frequency = 1.0;
 
     for (int i = 0; i < 4; i++) {
-        value += amplitude * noise(p * frequency);
+        // apply cloud offset to each octave to avoid identical repetition
+        value += amplitude * perlinNoise((p + uCloudOffset * 0.002) * frequency);
         amplitude *= 0.5;
         frequency *= 2.0;
     }
@@ -109,7 +157,8 @@ float cloudDensity(vec3 p) {
 
     // ---- soft flat base (Z is up) ----
     // tiny horizontal warp so it isn't a perfect plane
-    float baseWarp = (fbm(vec3(p.xz * 1.2, 0.0)) - 0.5) * 2.0 * uBaseWarpAmp;
+    // include per-cloud offset in the base warp sampling
+    float baseWarp = (fbm(vec3((p.xz + uCloudOffset.xz) * 1.2, 0.0)) - 0.5) * 2.0 * uBaseWarpAmp;
     float baseZ = uBaseZ + baseWarp;
 
     // humidity ramp across the lifting condensation level
@@ -125,8 +174,9 @@ float cloudDensity(vec3 p) {
 
     // silhouette (low freq) and detail (high freq); more detail higher up
     vec3 q = p * 2.0;
-    float low  = fbm(q * 0.8);
-    float high = fbm(q * 3.0);
+    // offset high/low frequency sampling to break symmetry between clouds
+    float low  = fbm(q * 0.8 + uCloudOffset * 0.3);
+    float high = fbm(q * 3.0 + uCloudOffset * 0.6);
     float n = mix(low, high, h * h);
 
     // billowy lobes
@@ -516,6 +566,12 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
         osg::ref_ptr<osg::Uniform> uBaseSoft    = new osg::Uniform("uBaseSoft", 0.06f);
         osg::ref_ptr<osg::Uniform> uBaseWarpAmp = new osg::Uniform("uBaseWarpAmp", 0.02f);
 
+        // per-cloud random offset to make each cloud unique
+        static std::mt19937 rng(time(nullptr));
+        static std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+        osg::Vec3 cloudOffset(dist(rng), dist(rng), dist(rng));
+        osg::ref_ptr<osg::Uniform> uCloudOffset = new osg::Uniform("uCloudOffset", cloudOffset);
+
         cloudStateSet->addUniform(uCamPosOS.get());
         cloudStateSet->addUniform(uDensity.get());
         cloudStateSet->addUniform(uSteps.get());
@@ -526,6 +582,7 @@ osg::Group* createScene(osgViewer::Viewer* viewer)
         cloudStateSet->addUniform(uBaseZ.get());
         cloudStateSet->addUniform(uBaseSoft.get());
         cloudStateSet->addUniform(uBaseWarpAmp.get());
+    cloudStateSet->addUniform(uCloudOffset.get());
 
         // Update the callback creation:
         cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
