@@ -11,10 +11,13 @@
 #include <sstream>
 
 #include <osg/ArgumentParser>
+#include <osg/Depth>
 #include <osg/Geode>
 #include <osg/Group>
 #include <osg/Light>
 #include <osg/LightSource>
+#include <osg/LineWidth>
+#include <osg/MatrixTransform>
 #include <osg/PositionAttitudeTransform>
 #include <osg/ShapeDrawable>
 
@@ -33,18 +36,76 @@
 const char* vertCode = R"(
 #version 110
 
+varying vec3 vPosOS; // object-space position at the fragment
+
 void main()
 {
-    // TODO: add cloads vertex shader
+    vPosOS = gl_Vertex.xyz; // because our Box is defined in object space (-1..1)
+    gl_Position = ftransform(); // fixed-function transform
 }
 )";
 
 const char* fragCode = R"(
 #version 110
 
+varying vec3 vPosOS;
+
+uniform vec3 uCamPosOS;   // camera position in *object* space
+uniform float uDensity;   // overall density multiplier
+uniform int uSteps;       // march steps (e.g., 12–16)
+uniform float uStepMul;   // step length multiplier (e.g., 1.0/float(uSteps))
+
+// Ray-sphere intersection for sphere at origin, radius 1
+bool intersectUnitSphere(vec3 ro, vec3 rd, out float t0, out float t1)
+{
+    float b = dot(ro, rd);
+    float c = dot(ro, ro) - 1.0;
+    float disc = b*b - c;
+    if (disc < 0.0) return false;
+    float s = sqrt(disc);
+    t0 = -b - s;
+    t1 = -b + s;
+    return t1 > 0.0; // there is an intersection in front
+}
+
 void main()
 {
-    // TODO: add clouds fragment shader
+    // Entry point on the front faces ~ vPosOS (approx cube front entry)
+    // Build ray from camera to entry point
+    vec3 ro = uCamPosOS;
+    vec3 rd = normalize(vPosOS - uCamPosOS);
+
+    float t0, t1;
+    if (!intersectUnitSphere(ro, rd, t0, t1)) discard; // miss the sphere
+
+    // Clamp start to where the ray *enters* the sphere
+    float t = max(t0, 0.0);
+    float dt = (t1 - t) * uStepMul;
+
+    vec3 col = vec3(1.0); // flat white for now
+    float alpha = 0.0;
+
+    // Very cheap constant density medium
+    // Front-to-back alpha compositing
+    for (int i = 0; i < 64; ++i) // static upper bound for GLSL 1.10
+    {
+        if (i >= uSteps) break;
+
+        vec3 p = ro + rd * (t + dt * float(i));
+        // Optional: fade near boundary to reduce hard edge
+        float d = clamp(1.0 - length(p), 0.0, 1.0);
+
+        float density = uDensity * d; // slightly thicker in the core
+        float a = 1.0 - exp(-density * dt * 3.0); // Beer-Lambert-ish
+
+        // front-to-back compositing
+        col = mix(col, vec3(1.0), a * (1.0 - alpha)); // white fog
+        alpha += a * (1.0 - alpha);
+
+        if (alpha >= 0.98) break; // early-out
+    }
+
+    gl_FragColor = vec4(col, alpha);
 }
 )";
 
@@ -106,7 +167,7 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     lightSun->setLightNum(0);
 
     osg::Vec4 color(1.0, 1.0, 1.0, 1.0);
-    osg::Vec3d position(6.0, -2.0, 4.0);
+    osg::Vec3d position(50.0, -100.0, 200.0);
 
     lightSun->setPosition(osg::Vec4d(position, 1.0));
     lightPat->setPosition(position);
@@ -123,7 +184,7 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     lightSource->setStateSetModes(*root->getOrCreateStateSet(), osg::StateAttribute::ON);
 
     // add sphere representing light source
-    osg::ref_ptr<osg::Sphere> lightSphere = new osg::Sphere(position, 0.1);
+    osg::ref_ptr<osg::Sphere> lightSphere = new osg::Sphere(position, 10.0);
     osg::ref_ptr<osg::ShapeDrawable> lightDrawable = new osg::ShapeDrawable(lightSphere.get());
     lightDrawable->setColor(osg::Vec4(1.0, 1.0, 0.0, 1.0)); // yellow color
     lightPat->addChild(lightDrawable.get());
@@ -131,7 +192,96 @@ osg::PositionAttitudeTransform* createLight(osg::Group* root)
     return lightPat.release();
 }
 
-osg::Group* createScene()
+struct CamPosUpdater : public osg::NodeCallback
+{
+    osgViewer::Viewer* viewer;
+    osg::Uniform* uCamPosOS;
+    CamPosUpdater(osgViewer::Viewer* v, osg::Uniform* u) : viewer(v), uCamPosOS(u) {}
+
+    virtual void operator()(osg::Node* node, osg::NodeVisitor* nv)
+    {
+        osg::Matrixd view = viewer->getCamera()->getViewMatrix();
+        osg::Matrixd invView = osg::Matrixd::inverse(view);
+
+        // camera world position = transform of origin by inverse view
+        osg::Vec3d camWorld = osg::Vec3d(0.0, 0.0, 0.0) * invView;
+
+        // object (cloud) local-to-world
+        osg::Matrixd localToWorld;
+        if (auto* mt = dynamic_cast<osg::MatrixTransform*>(node))
+            localToWorld = mt->getMatrix();
+        else
+            localToWorld.makeIdentity();
+
+        osg::Matrixd worldToLocal = osg::Matrixd::inverse(localToWorld);
+        osg::Vec3d camObject = camWorld * worldToLocal;
+
+        uCamPosOS->set(osg::Vec3(camObject));
+        traverse(node, nv);
+    }
+};
+
+osg::Group* createBoxWireframe(const osg::Vec3& center, float size_x, float size_y, float size_z)
+{
+    osg::ref_ptr<osg::Group> wireframe = new osg::Group();
+
+    osg::ref_ptr<osg::Geode> geode = new osg::Geode();
+    wireframe->addChild(geode.get());
+
+    osg::ref_ptr<osg::Geometry> geom = new osg::Geometry();
+    geode->addDrawable(geom.get());
+
+    osg::ref_ptr<osg::Vec3Array> v = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec3Array> n = new osg::Vec3Array();
+    osg::ref_ptr<osg::Vec4Array> c = new osg::Vec4Array();
+
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() + size_z));
+
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() + size_z));
+
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() - size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() - size_x, center.y() + size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() - size_y, center.z() + size_z));
+    v->push_back(osg::Vec3(center.x() + size_x, center.y() + size_y, center.z() + size_z));
+
+
+
+    n->push_back(osg::Vec3(0.0f, 0.0f, 1.0f));
+    c->push_back(osg::Vec4(1.0f, 0.0f, 1.0f, 1.0f));
+
+    geom->setVertexArray(v.get());
+    geom->addPrimitiveSet(new osg::DrawArrays(osg::PrimitiveSet::LINES, 0, v->size()));
+    geom->setNormalArray(n.get());
+    geom->setNormalBinding( osg::Geometry::BIND_OVERALL);
+    geom->setColorArray(c.get());
+    geom->setColorBinding(osg::Geometry::BIND_OVERALL);
+
+    osg::ref_ptr<osg::LineWidth> lineWidth = new osg::LineWidth();
+    lineWidth->setWidth(2.0f);
+    geode->getOrCreateStateSet()->setAttributeAndModes(lineWidth, osg::StateAttribute::ON);
+
+    return wireframe.release();
+}
+
+osg::Group* createScene(osgViewer::Viewer* viewer)
 {
     osg::ref_ptr<osg::Group> root = new osg::Group();
 
@@ -149,14 +299,53 @@ osg::Group* createScene()
     osg::ref_ptr<osg::Group> cloud = new osg::Group();
     root->addChild(cloud.get());
 
-    // TODO: add cloads
+    // --- Cloud proxy: cube enclosing a unit sphere ---
+    osg::ref_ptr<osg::Geode> cloudGeode = new osg::Geode();
+    osg::ref_ptr<osg::ShapeDrawable> cloudCube =
+        new osg::ShapeDrawable(new osg::Box(osg::Vec3(0.f, 0.f, 0.f), 2.f));
+    // size=2 → unit radius sphere fits inside cube (-1..1)
 
-    osg::ref_ptr<osg::StateSet> cloudStateSet = cloud->getOrCreateStateSet();
+    cloudGeode->addDrawable(cloudCube.get());
+    cloud->addChild(cloudGeode.get());
+
+    // Place & scale the cloud node in world (adjust to your liking)
+    osg::Matrix cloudXform = osg::Matrix::scale(osg::Vec3(150.0f, 150.0f, 80.0f)) *  // non-uniform later
+                            osg::Matrix::translate(osg::Vec3(0.0f, 0.0f, 1.5f));
+    osg::ref_ptr<osg::MatrixTransform> cloudMT = new osg::MatrixTransform(cloudXform);
+    cloudMT->addChild(cloudGeode.get());
+    root->addChild(cloudMT.get());
+
+    root->addChild(createBoxWireframe(osg::Vec3(0.0f, 0.0f, 1.5f), 150.0f, 150.0f, 80.0f));
+
+
+    osg::ref_ptr<osg::StateSet> cloudStateSet = cloudMT->getOrCreateStateSet();
+    cloudStateSet->setMode(GL_BLEND, osg::StateAttribute::ON);
+    cloudStateSet->setRenderingHint(osg::StateSet::TRANSPARENT_BIN);
+    cloudStateSet->setMode(GL_ALPHA_TEST, osg::StateAttribute::OFF);
+
+    // (Optional) Soften depth sorting issues a bit:
+    osg::ref_ptr<osg::Depth> depth = new osg::Depth;
+    depth->setWriteMask(false); // don’t write depth (we’re translucent)
+    cloudStateSet->setAttributeAndModes(depth.get(), osg::StateAttribute::ON);
 
     osg::ref_ptr<osg::Program> program = new osg::Program;
     program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
-    cloudStateSet->setAttributeAndModes(program.get());
+    cloudStateSet->setAttributeAndModes(program.get(), osg::StateAttribute::ON);
+
+    // Uniforms
+    osg::ref_ptr<osg::Uniform> uCamPosOS = new osg::Uniform("uCamPosOS", osg::Vec3(0,0,0));
+    osg::ref_ptr<osg::Uniform> uDensity  = new osg::Uniform("uDensity", 0.6f);
+    osg::ref_ptr<osg::Uniform> uSteps    = new osg::Uniform("uSteps", 14);
+    osg::ref_ptr<osg::Uniform> uStepMul  = new osg::Uniform("uStepMul", 1.0f / 14.0f);
+
+    cloudStateSet->addUniform(uCamPosOS.get());
+    cloudStateSet->addUniform(uDensity.get());
+    cloudStateSet->addUniform(uSteps.get());
+    cloudStateSet->addUniform(uStepMul.get());
+
+    // Attach the updater to the cloud transform node (after creating uniforms)
+    cloudMT->setUpdateCallback(new CamPosUpdater(viewer, uCamPosOS.get()));
 
     return root.release();
 }
@@ -173,7 +362,7 @@ int main(int argc, char* argv[])
     setupEventHandlers(&viewer, &arguments);
 
     viewer.setUpViewInWindow(0, 0, 800, 600);
-    viewer.setSceneData(createScene());
+    viewer.setSceneData(createScene(&viewer));
 
     return viewer.run();
 }
