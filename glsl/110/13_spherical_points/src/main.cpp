@@ -38,33 +38,6 @@ void main()
 }
 )";
 
-void setupEventHandlers(osgViewer::Viewer* viewer, osg::ArgumentParser* arguments)
-{
-    // add the state manipulator
-    viewer->addEventHandler(new osgGA::StateSetManipulator(viewer->getCamera()->getOrCreateStateSet()));
-
-    // add the thread model handler
-    viewer->addEventHandler(new osgViewer::ThreadingHandler);
-
-    // add the window size toggle handler
-    viewer->addEventHandler(new osgViewer::WindowSizeHandler);
-
-    // add the stats handler
-    viewer->addEventHandler(new osgViewer::StatsHandler);
-
-    // add the help handler
-    viewer->addEventHandler(new osgViewer::HelpHandler(arguments->getApplicationUsage()));
-
-    // add the record camera path handler
-    viewer->addEventHandler(new osgViewer::RecordCameraPathHandler);
-
-    // add the LOD Scale handler
-    viewer->addEventHandler(new osgViewer::LODScaleHandler);
-
-    // add the screen capture handler
-    viewer->addEventHandler(new osgViewer::ScreenCaptureHandler);
-}
-
 osg::PositionAttitudeTransform* createLight(osg::Group* root)
 {
     osg::ref_ptr<osg::PositionAttitudeTransform> lightPat = new osg::PositionAttitudeTransform();
@@ -142,7 +115,7 @@ osg::Group* createScene()
     osg::ref_ptr<osg::StateSet> geodeStateSet = geode->getOrCreateStateSet();
 
     osg::ref_ptr<osg::Program> program = new osg::Program;
-    // program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
+    program->addShader(new osg::Shader(osg::Shader::VERTEX   , vertCode));
     program->addShader(new osg::Shader(osg::Shader::FRAGMENT , fragCode));
     geodeStateSet->setAttributeAndModes(program.get());
 
