@@ -43,14 +43,6 @@ endif()
 
 ################################################################################
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-find_package(Qt5 COMPONENTS Core Widgets OpenGL REQUIRED)
-
-################################################################################
-
 find_package(OpenCL REQUIRED)
 include_directories(${OpenCL_INCLUDE_DIRS})
 

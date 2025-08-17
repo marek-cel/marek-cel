@@ -1,82 +1,109 @@
-#include <cstring>
+#define CL_HPP_TARGET_OPENCL_VERSION 300
+#define CL_HPP_MINIMUM_OPENCL_VERSION 120
+#include <CL/opencl.hpp>
 #include <iostream>
 #include <vector>
+#include <string>
 
-#include <CL/cl.h>
+int main() {
+    try {
+        // Get all available OpenCL platforms
+        std::vector<cl::Platform> platforms;
+        cl::Platform::get(&platforms);
 
-const char* kernelSource = R"CLC(
-__kernel void hello(__global int* out) {
-    out[0] = 42;
-}
-)CLC";
+        if (platforms.empty()) {
+            std::cerr << "No OpenCL platforms found!" << std::endl;
+            return -1;
+        }
 
-int main(int argc, char** argv)
-{
-    std::cout << "Hello, OpenCL!" << std::endl;
+        std::cout << "Found " << platforms.size() << " OpenCL platform(s):" << std::endl;
 
-    cl_int err;
+        // Iterate through all platforms and their devices
+        for (size_t i = 0; i < platforms.size(); ++i) {
+            auto& platform = platforms[i];
 
-    // Step 1: Get platforms
-    cl_uint numPlatforms = 0;
-    err = clGetPlatformIDs(0, nullptr, &numPlatforms);
-    if (err != CL_SUCCESS || numPlatforms == 0) {
-        std::cerr << "Failed to find any OpenCL platforms." << std::endl;
-        return 1;
+            // Get platform information
+            std::string platform_name = platform.getInfo<CL_PLATFORM_NAME>();
+            std::string platform_vendor = platform.getInfo<CL_PLATFORM_VENDOR>();
+            std::string platform_version = platform.getInfo<CL_PLATFORM_VERSION>();
+
+            std::cout << "\n--- Platform " << i << " ---" << std::endl;
+            std::cout << "Name: " << platform_name << std::endl;
+            std::cout << "Vendor: " << platform_vendor << std::endl;
+            std::cout << "Version: " << platform_version << std::endl;
+
+            // Get all devices for this platform
+            std::vector<cl::Device> devices;
+            platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
+
+            std::cout << "Devices: " << devices.size() << std::endl;
+
+            // Display information about each device
+            for (size_t j = 0; j < devices.size(); ++j) {
+                auto& device = devices[j];
+
+                std::string device_name = device.getInfo<CL_DEVICE_NAME>();
+                std::string device_vendor = device.getInfo<CL_DEVICE_VENDOR>();
+                cl_device_type device_type = device.getInfo<CL_DEVICE_TYPE>();
+                cl_uint compute_units = device.getInfo<CL_DEVICE_MAX_COMPUTE_UNITS>();
+                cl_ulong global_mem_size = device.getInfo<CL_DEVICE_GLOBAL_MEM_SIZE>();
+
+                std::cout << "  Device " << j << ":" << std::endl;
+                std::cout << "    Name: " << device_name << std::endl;
+                std::cout << "    Vendor: " << device_vendor << std::endl;
+                std::cout << "    Type: ";
+
+                // Decode device type
+                if (device_type & CL_DEVICE_TYPE_CPU) {
+                    std::cout << "CPU ";
+                }
+                if (device_type & CL_DEVICE_TYPE_GPU) {
+                    std::cout << "GPU ";
+                }
+                if (device_type & CL_DEVICE_TYPE_ACCELERATOR) {
+                    std::cout << "Accelerator ";
+                }
+                std::cout << std::endl;
+
+                std::cout << "    Compute Units: " << compute_units << std::endl;
+                std::cout << "    Global Memory: " << (global_mem_size / (1024 * 1024)) << " MB" << std::endl;
+            }
+        }
+
+        // Try to create a simple context with the first available device
+        std::cout << "\n--- Testing Context Creation ---" << std::endl;
+
+        // Get the first platform and its first device
+        cl::Platform default_platform = platforms[0];
+        std::vector<cl::Device> devices;
+        default_platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
+
+        if (devices.empty()) {
+            std::cerr << "No devices found on the default platform!" << std::endl;
+            return -1;
+        }
+
+        cl::Device default_device = devices[0];
+        std::cout << "Using device: " << default_device.getInfo<CL_DEVICE_NAME>() << std::endl;
+
+        // Create OpenCL context
+        cl::Context context(default_device);
+        std::cout << "✓ Context created successfully" << std::endl;
+
+        // Create command queue
+        cl::CommandQueue queue(context, default_device);
+        std::cout << "✓ Command queue created successfully" << std::endl;
+
+        std::cout << "\nOpenCL environment test completed successfully!" << std::endl;
+        std::cout << "Your system is ready for OpenCL development." << std::endl;
+
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+        return -1;
+    } catch (...) {
+        std::cerr << "Unknown error occurred" << std::endl;
+        return -1;
     }
-    std::vector<cl_platform_id> platforms(numPlatforms);
-    clGetPlatformIDs(numPlatforms, platforms.data(), nullptr);
-
-    // Step 2: Get a device
-    cl_device_id device;
-    err = clGetDeviceIDs(platforms[0], CL_DEVICE_TYPE_DEFAULT, 1, &device, nullptr);
-    if (err != CL_SUCCESS) {
-        std::cerr << "Failed to get device ID." << std::endl;
-        return 1;
-    }
-
-    // Step 3: Create context
-    cl_context context = clCreateContext(nullptr, 1, &device, nullptr, nullptr, &err);
-
-    // Step 4: Create command queue (or clCreateCommandQueueWithProperties for OpenCL 2.0+)
-    cl_command_queue queue = clCreateCommandQueue(context, device, 0, &err);
-
-    // Step 5: Create program
-    const size_t sourceSize = std::strlen(kernelSource);
-    cl_program program = clCreateProgramWithSource(context, 1, &kernelSource, &sourceSize, &err);
-    err = clBuildProgram(program, 1, &device, nullptr, nullptr, nullptr);
-    if (err != CL_SUCCESS) {
-        // Print build log
-        char log[2048];
-        clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG, sizeof(log), log, nullptr);
-        std::cerr << "Build failed:\n" << log << std::endl;
-        return 1;
-    }
-
-    // Step 6: Create kernel
-    cl_kernel kernel = clCreateKernel(program, "hello", &err);
-
-    // Step 7: Create buffer
-    cl_mem buffer = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(int), nullptr, &err);
-
-    // Step 8: Set kernel argument
-    clSetKernelArg(kernel, 0, sizeof(cl_mem), &buffer);
-
-    // Step 9: Launch kernel
-    size_t globalWorkSize = 1;
-    err = clEnqueueNDRangeKernel(queue, kernel, 1, nullptr, &globalWorkSize, nullptr, 0, nullptr, nullptr);
-
-    // Step 10: Read result
-    int result = 0;
-    clEnqueueReadBuffer(queue, buffer, CL_TRUE, 0, sizeof(int), &result, 0, nullptr, nullptr);
-
-    std::cout << "Result from OpenCL kernel: " << result << std::endl;
-
-    // Cleanup
-    clReleaseMemObject(buffer);
-    clReleaseKernel(kernel);
-    clReleaseProgram(program);
-    clReleaseCommandQueue(queue);
-    clReleaseContext(context);
 
     return 0;
 }
