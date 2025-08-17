@@ -1,17 +1,22 @@
 #define CL_HPP_TARGET_OPENCL_VERSION 300
 #define CL_HPP_MINIMUM_OPENCL_VERSION 120
-#include <CL/opencl.hpp>
+
 #include <iostream>
 #include <vector>
 #include <string>
 
-int main() {
-    try {
+#include <CL/opencl.hpp>
+
+int main()
+{
+    try
+    {
         // Get all available OpenCL platforms
         std::vector<cl::Platform> platforms;
         cl::Platform::get(&platforms);
 
-        if (platforms.empty()) {
+        if ( platforms.empty() )
+        {
             std::cerr << "No OpenCL platforms found!" << std::endl;
             return -1;
         }
@@ -19,7 +24,8 @@ int main() {
         std::cout << "Found " << platforms.size() << " OpenCL platform(s):" << std::endl;
 
         // Iterate through all platforms and their devices
-        for (size_t i = 0; i < platforms.size(); ++i) {
+        for ( size_t i = 0; i < platforms.size(); ++i )
+        {
             auto& platform = platforms[i];
 
             // Get platform information
@@ -39,7 +45,8 @@ int main() {
             std::cout << "Devices: " << devices.size() << std::endl;
 
             // Display information about each device
-            for (size_t j = 0; j < devices.size(); ++j) {
+            for ( size_t j = 0; j < devices.size(); ++j )
+            {
                 auto& device = devices[j];
 
                 std::string device_name = device.getInfo<CL_DEVICE_NAME>();
@@ -54,13 +61,16 @@ int main() {
                 std::cout << "    Type: ";
 
                 // Decode device type
-                if (device_type & CL_DEVICE_TYPE_CPU) {
+                if ( device_type & CL_DEVICE_TYPE_CPU )
+                {
                     std::cout << "CPU ";
                 }
-                if (device_type & CL_DEVICE_TYPE_GPU) {
+                if ( device_type & CL_DEVICE_TYPE_GPU )
+                {
                     std::cout << "GPU ";
                 }
-                if (device_type & CL_DEVICE_TYPE_ACCELERATOR) {
+                if ( device_type & CL_DEVICE_TYPE_ACCELERATOR )
+                {
                     std::cout << "Accelerator ";
                 }
                 std::cout << std::endl;
@@ -78,7 +88,8 @@ int main() {
         std::vector<cl::Device> devices;
         default_platform.getDevices(CL_DEVICE_TYPE_ALL, &devices);
 
-        if (devices.empty()) {
+        if ( devices.empty() )
+        {
             std::cerr << "No devices found on the default platform!" << std::endl;
             return -1;
         }
@@ -97,10 +108,14 @@ int main() {
         std::cout << "\nOpenCL environment test completed successfully!" << std::endl;
         std::cout << "Your system is ready for OpenCL development." << std::endl;
 
-    } catch (const std::exception& e) {
+    }
+    catch ( const std::exception& e )
+    {
         std::cerr << "Error: " << e.what() << std::endl;
         return -1;
-    } catch (...) {
+    }
+    catch (...)
+    {
         std::cerr << "Unknown error occurred" << std::endl;
         return -1;
     }
