@@ -4,6 +4,7 @@
 #include <osg/ShapeDrawable>
 
 #include <osgGA/StateSetManipulator>
+#include <osgGA/CameraManipulator>
 
 #include <osgViewer/Viewer>
 #include <osgViewer/ViewerEventHandlers>
@@ -11,7 +12,136 @@
 constexpr double fov_y = 50.0;
 constexpr double fov_y_2 = fov_y / 2.0;
 
-// TODO: implement a custom ortho projection camera manipulator class
+// Custom orthographic projection camera manipulator class
+class OrthoCameraManipulator : public osgGA::CameraManipulator
+{
+public:
+    OrthoCameraManipulator()
+        : _center(0.0, 0.0, 0.0)
+        , _distance(100.0)
+        , _isPanning(false)
+    {
+    }
+
+    virtual const char* className() const override { return "OrthoCameraManipulator"; }
+
+    virtual void setByMatrix(const osg::Matrixd& matrix) override
+    {
+        _center = osg::Vec3d(0.0, 0.0, 0.0);
+        _distance = matrix.getTrans().length();
+    }
+
+    virtual void setByInverseMatrix(const osg::Matrixd& matrix) override
+    {
+        setByMatrix(osg::Matrixd::inverse(matrix));
+    }
+
+    virtual osg::Matrixd getMatrix() const override
+    {
+        return osg::Matrixd::translate(0.0, 0.0, _distance) * osg::Matrixd::translate(_center);
+    }
+
+    virtual osg::Matrixd getInverseMatrix() const override
+    {
+        return osg::Matrixd::translate(-_center) * osg::Matrixd::translate(0.0, 0.0, -_distance);
+    }
+
+    virtual void home(double /*currentTime*/) override
+    {
+        _center.set(0.0, 0.0, 0.0);
+        _distance = 100.0;
+    }
+
+    virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa) override
+    {
+        switch(ea.getEventType())
+        {
+            case osgGA::GUIEventAdapter::PUSH:
+            {
+                if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON ||
+                    ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
+                {
+                    _isPanning = true;
+                    _lastMouseX = ea.getX();
+                    _lastMouseY = ea.getY();
+                    return true;
+                }
+                break;
+            }
+
+            case osgGA::GUIEventAdapter::RELEASE:
+            {
+                if (ea.getButton() == osgGA::GUIEventAdapter::MIDDLE_MOUSE_BUTTON ||
+                    ea.getButton() == osgGA::GUIEventAdapter::LEFT_MOUSE_BUTTON)
+                {
+                    _isPanning = false;
+                    return true;
+                }
+                break;
+            }
+
+            case osgGA::GUIEventAdapter::DRAG:
+            {
+                if (_isPanning)
+                {
+                    float dx = ea.getX() - _lastMouseX;
+                    float dy = ea.getY() - _lastMouseY;
+
+                    // Get the camera and viewport dimensions
+                    osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
+                    if (view)
+                    {
+                        osg::Camera* camera = view->getCamera();
+                        const osg::Viewport* viewport = camera->getViewport();
+                        
+                        if (viewport)
+                        {
+                            double w2h = viewport->width() / viewport->height();
+                            
+                            // Scale pan movement to match orthographic projection scale
+                            double scaleX = (fov_y * w2h) / viewport->width();
+                            double scaleY = fov_y / viewport->height();
+                            
+                            _center.x() -= dx * scaleX;
+                            _center.y() -= dy * scaleY;
+                        }
+                    }
+
+                    _lastMouseX = ea.getX();
+                    _lastMouseY = ea.getY();
+                    return true;
+                }
+                break;
+            }
+
+            case osgGA::GUIEventAdapter::SCROLL:
+            {
+                // Optional: Add zoom functionality via scroll wheel
+                if (ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP)
+                {
+                    _distance *= 0.9;
+                }
+                else if (ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_DOWN)
+                {
+                    _distance *= 1.1;
+                }
+                return true;
+            }
+
+            default:
+                break;
+        }
+
+        return false;
+    }
+
+private:
+    osg::Vec3d _center;
+    double _distance;
+    bool _isPanning;
+    float _lastMouseX;
+    float _lastMouseY;
+};
 
 
 void setupEventHandlers(osgViewer::Viewer* viewer)
@@ -28,7 +158,8 @@ void setupEventHandlers(osgViewer::Viewer* viewer)
     // add the stats handler
     viewer->addEventHandler(new osgViewer::StatsHandler);
 
-    // TODO: set the ortho projection camera manipulator
+    // set the ortho projection camera manipulator
+    viewer->setCameraManipulator(new OrthoCameraManipulator());
 }
 
 void setupCamera(osgViewer::Viewer* viewer)
