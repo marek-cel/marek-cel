@@ -11,6 +11,9 @@
 constexpr double fov_y = 50.0;
 constexpr double fov_y_2 = fov_y / 2.0;
 
+// TODO: implement a custom ortho projection camera manipulator class
+
+
 void setupEventHandlers(osgViewer::Viewer* viewer)
 {
     // add the state manipulator
