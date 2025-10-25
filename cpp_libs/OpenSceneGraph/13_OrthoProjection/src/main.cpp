@@ -19,6 +19,7 @@ public:
     OrthoCameraManipulator()
         : _center(0.0, 0.0, 0.0)
         , _distance(100.0)
+        , _zoom(1.0)
         , _isPanning(false)
     {
     }
@@ -50,6 +51,7 @@ public:
     {
         _center.set(0.0, 0.0, 0.0);
         _distance = 100.0;
+        _zoom = 1.0;
     }
 
     virtual bool handle(const osgGA::GUIEventAdapter& ea, osgGA::GUIActionAdapter& aa) override
@@ -99,8 +101,9 @@ public:
                             double w2h = viewport->width() / viewport->height();
                             
                             // Scale pan movement to match orthographic projection scale
-                            double scaleX = (fov_y * w2h) / viewport->width();
-                            double scaleY = fov_y / viewport->height();
+                            // Multiply by _zoom to account for current zoom level
+                            double scaleX = (fov_y * w2h * _zoom) / viewport->width();
+                            double scaleY = (fov_y * _zoom) / viewport->height();
                             
                             _center.x() -= dx * scaleX;
                             _center.y() -= dy * scaleY;
@@ -116,14 +119,16 @@ public:
 
             case osgGA::GUIEventAdapter::SCROLL:
             {
-                // Optional: Add zoom functionality via scroll wheel
+                // Zoom in/out by adjusting the orthographic scale
                 if (ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_UP)
                 {
-                    _distance *= 0.9;
+                    _zoom *= 0.9;
+                    updateOrthoProjection(aa);
                 }
                 else if (ea.getScrollingMotion() == osgGA::GUIEventAdapter::SCROLL_DOWN)
                 {
-                    _distance *= 1.1;
+                    _zoom *= 1.1;
+                    updateOrthoProjection(aa);
                 }
                 return true;
             }
@@ -138,9 +143,31 @@ public:
 private:
     osg::Vec3d _center;
     double _distance;
+    double _zoom;
     bool _isPanning;
     float _lastMouseX;
     float _lastMouseY;
+
+    void updateOrthoProjection(osgGA::GUIActionAdapter& aa)
+    {
+        osgViewer::View* view = dynamic_cast<osgViewer::View*>(&aa);
+        if (view)
+        {
+            osg::Camera* camera = view->getCamera();
+            const osg::Viewport* viewport = camera->getViewport();
+            
+            if (viewport)
+            {
+                double w2h = viewport->width() / viewport->height();
+                double scaledFovY = fov_y_2 * _zoom;
+                camera->setProjectionMatrixAsOrtho(
+                    -scaledFovY * w2h, scaledFovY * w2h, 
+                    -scaledFovY, scaledFovY, 
+                    0.1, 1000000.0
+                );
+            }
+        }
+    }
 };
 
 
