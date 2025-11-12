@@ -108,6 +108,7 @@ function installDevelopEssentials()
                 libgl1-mesa-dev \
                 libegl1-mesa-dev \
                 libgnuplot-iostream-dev \
+                libgtk-3-dev \
                 libimgui-dev \
                 libopenal-dev \
                 libproj-dev \
@@ -127,6 +128,16 @@ function installDevelopEssentials()
                 zipcmp \
                 zipmerge \
                 ziptool
+        fi
+
+        # DBEAVER
+        readBold "Do you want to install DBEAVER?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing DBEAVER ..."
+
+            sudo flatpak install flathub \
+                io.dbeaver.DBeaverCommunity
         fi
 
         # DIA2CODE
@@ -166,25 +177,6 @@ function installDevelopEssentials()
             sudo apt install gh
             gh auth login
             gh extension install github/gh-copilot
-        fi
-
-        # IDEs
-        readBold "Do you want to install IDEs?"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing IDEs ..."
-
-            sudo apt-get install wget gpg
-            wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-            sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
-            sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
-            rm -f packages.microsoft.gpg
-
-            sudo apt install apt-transport-https
-            sudo apt update
-            sudo apt install code
-
-            sudo flatpak install flathub org.shadered.SHADERed
         fi
 
         # JAVA
@@ -240,11 +232,29 @@ function installDevelopEssentials()
                 lua5.4
         fi
 
-        # OpenGL
-        readBold "Do you want to install OpenGL LIBS?"
+        # OpenCL
+        readBold "Do you want to install OpenCL?"
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
-            printGreen "Installing OpenGL LIBS ..."
+            printGreen "Installing OpenCL ..."
+
+            sudo apt install -y \
+                clinfo \
+                intel-opencl-icd \
+                mesa-opencl-icd \
+                nvidia-opencl-dev \
+                ocl-icd-opencl-dev \
+                opencl-headers \
+                opencl-c-headers \
+                pocl-opencl-icd
+        fi
+
+
+        # OpenGL
+        readBold "Do you want to install OpenGL?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing OpenGL ..."
 
             sudo apt install -y \
                 freeglut3-dev \
@@ -322,37 +332,19 @@ function installDevelopEssentials()
             sudo apt install -y \
                 idle \
                 jupyter \
-                libpyside2-dev \
-                pyqt5-dev-tools \
-                pyside2-tools \
-                python3-all \
-                python3-all-dev \
-                python3-astropy \
-                python3-ephem \
-                python3-fluids \
-                python3-gnuplotlib \
-                python3-matplotlib \
-                python3-numpy \
-                python3-pandas \
-                python3-paraview \
-                python3-pendulum \
-                python3-pip \
-                python3-psycopg2 \
-                python3-pyproj \
-                python3-pyside2.qtcore \
-                python3-pyside2.qtgui \
-                python3-pyside2.qtlocation \
-                python3-pyside2.qtnetwork \
-                python3-pyside2.qtopengl \
-                python3-pyside2.qtsvg \
-                python3-pyside2.qtuitools \
-                python3-pyqt5 \
-                python3-pysph \
-                python3-scipy \
-                python3-setuptools \
-                python3-sunpy
+                python3 \
+                python3-venv \
+                pipx
 
-            pip3 install ussa1976
+            pipx ensurepath
+            pipx install --include-deps gnuplotlib
+            pipx install --include-deps matplotlib
+            pipx install --include-deps numpy
+            pipx install --include-deps pandas
+            pipx install --include-deps pyproj
+            pipx install --include-deps PySide2
+            pipx install --include-deps scipy
+            pipx install --include-deps ussa1976
         fi
 
         # QT
@@ -362,8 +354,6 @@ function installDevelopEssentials()
             printGreen "Installing QT ..."
 
             sudo apt install -y \
-                libmarble-dev \
-                libmarblewidget-qt5-28 \
                 libqt5charts5-dev \
                 libqt5gamepad5-dev \
                 libqt5opengl5-dev \
@@ -406,16 +396,17 @@ function installDevelopEssentials()
 
                 cp /usr/lib/x86_64-linux-gnu/qt5/examples $(HOME)/dev/qt5-examples
             fi
-        fi
 
-        # SCRATCH
-        readBold "Do you want to install SCRATCH?"
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            printGreen "Installing SCRATCH ..."
+            # QT EXTRA LIBS
+            readBold "Do you want to install QT EXTRA LIBS?"
+            if [[ $REPLY =~ ^[Yy]$ ]]
+            then
+                printGreen "Installing QT EXTRA LIBS ..."
 
-            sudo apt install -y \
-                scratch
+                sudo apt install -y \
+                    libmarble-dev \
+                    libmarblewidget-qt5-28
+            fi
         fi
 
         # SFML
@@ -426,6 +417,23 @@ function installDevelopEssentials()
 
             sudo apt install -y \
                 libsfml-dev
+        fi
+
+        # VSCODE
+        readBold "Do you want to install VSCODE?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing VSCODE ..."
+
+            sudo apt-get install wget gpg
+            wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+            sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+            sudo sh -c 'echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" > /etc/apt/sources.list.d/vscode.list'
+            rm -f packages.microsoft.gpg
+
+            sudo apt install apt-transport-https
+            sudo apt update
+            sudo apt install code
         fi
 
         # VTK

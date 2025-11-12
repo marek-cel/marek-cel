@@ -14,12 +14,8 @@ function installAiTools()
         printGreen "Installing AI TOOLS ..."
 
         sudo apt install -y \
-            libmlpack-dev \
-            python3-all \
-            python3-all-dev \
-            python3-pip \
-            python3-setuptools
-        pip3 install deep-daze
+            libmlpack-dev
+        pipx install deep-daze
     fi
 
     readBold "Do you want to install OLLAMA?"
@@ -27,7 +23,6 @@ function installAiTools()
     then
         printGreen "Installing OLLAMA ..."
         curl -fsSL https://ollama.com/install.sh | sh
-        ollama run llama3.1
     fi
 }
 

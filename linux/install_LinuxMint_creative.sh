@@ -15,16 +15,20 @@ function installCreativeTools()
 
         sudo apt install -y \
             audacity \
+            biber \
             blender \
             fontforge \
             gimp \
             gummi \
             inkscape \
             kdenlive \
+            krita \
             obs-studio \
             openshot-qt \
+            pandoc \
             qpdf \
             screenkey \
+            texlive \
             texlive-full \
             texstudio
     fi

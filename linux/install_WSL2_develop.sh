@@ -109,24 +109,19 @@ function installDevelopEssentials()
             printGreen "Installing PYTHON3 ..."
 
             sudo apt install -y \
-                python3-all \
-                python3-all-dev \
-                python3-fluids \
-                python3-matplotlib \
-                python3-numpy \
-                python3-pip \
-                python3-pyproj \
-                python3-pyqt5 \
-                python3-scipy \
-                python3-setuptools \
-                python3-vtk7
+                python3 \
+                python3-venv \
+                pipx
 
-            pip3 install \
-                cpplint \
-                numpy \
-                pendulum \
-                pyfoam \
-                scipy
+            pipx ensurepath
+            pipx install --include-deps gnuplotlib
+            pipx install --include-deps matplotlib
+            pipx install --include-deps numpy
+            pipx install --include-deps pandas
+            pipx install --include-deps pyproj
+            pipx install --include-deps PySide2
+            pipx install --include-deps scipy
+            pipx install --include-deps ussa1976
         fi
 
         # QT

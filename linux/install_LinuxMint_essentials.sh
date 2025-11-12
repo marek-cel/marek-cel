@@ -53,10 +53,25 @@ function installEssentials()
             whois \
             xboxdrv
 
-        sudo flatpak install flathub \
-            md.obsidian.Obsidian \
-            com.bitwarden.desktop \
-            io.dbeaver.DBeaverCommunity
+        # OBSIDIAN
+        readBold "Do you want to install OBSIDIAN?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing OBSIDIAN ..."
+
+            sudo flatpak install flathub \
+                md.obsidian.Obsidian
+        fi
+
+        # BITWARDEN
+        readBold "Do you want to install BITWARDEN?"
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            printGreen "Installing BITWARDEN ..."
+
+            sudo flatpak install flathub \
+                com.bitwarden.desktop
+        fi
 
         # BRAVE BROWSER
         readBold "Do you want to install BRAVE BROWSER?"

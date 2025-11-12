@@ -50,33 +50,19 @@ function installEssentials()
             printGreen "Installing PYTHON3 ..."
 
             sudo apt install -y \
-                libpyside2-dev \
-                pyqt5-dev-tools \
-                pyside2-tools \
-                python3-all \
-                python3-all-dev \
-                python3-astropy \
-                python3-ephem \
-                python3-fluids \
-                python3-gnuplotlib \
-                python3-matplotlib \
-                python3-numpy \
-                python3-pandas \
-                python3-pendulum \
-                python3-pip \
-                python3-psycopg2 \
-                python3-pyproj \
-                python3-pyside2.qtcore \
-                python3-pyside2.qtgui \
-                python3-pyside2.qtlocation \
-                python3-pyside2.qtnetwork \
-                python3-pyside2.qtopengl \
-                python3-pyside2.qtsvg \
-                python3-pyside2.qtuitools \
-                python3-pyqt5 \
-                python3-scipy \
-                python3-setuptools \
-                python3-sunpy
+                python3 \
+                python3-venv \
+                pipx
+
+            pipx ensurepath
+            pipx install --include-deps gnuplotlib
+            pipx install --include-deps matplotlib
+            pipx install --include-deps numpy
+            pipx install --include-deps pandas
+            pipx install --include-deps pyproj
+            pipx install --include-deps PySide2
+            pipx install --include-deps scipy
+            pipx install --include-deps ussa1976
         fi
 
         # QT

@@ -15,6 +15,7 @@ function installEssentials()
 
         sudo apt install -y \
             bridge-utils \
+            lm-sensors \
             mc \
             net-tools \
             network-manager \

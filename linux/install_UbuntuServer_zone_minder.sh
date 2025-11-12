@@ -13,6 +13,8 @@ function installZoneMinder()
     then
         printGreen "Installing ZONE MINDER ..."
 
+        sudo apt install -y mysql-server
+
         sudo apt install -y software-properties-common
         sudo add-apt-repository ppa:iconnor/zoneminder-1.36
         sudo apt update
