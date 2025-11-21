@@ -1,0 +1,56 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "linux-common-conf",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Unix Makefiles",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            }
+        },
+        {
+            "name": "Debug (Linux)",
+            "inherits": "linux-common-conf",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "Release (Linux)",
+            "inherits": "linux-common-conf",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "windows-common-conf",
+            "hidden": true,
+            "binaryDir": "${sourceDir}/build",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            }
+        },
+        {
+            "name": "Debug (Windows)",
+            "inherits": "windows-common-conf",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "Release (Windows)",
+            "inherits": "windows-common-conf",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
+}
