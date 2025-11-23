@@ -78,6 +78,8 @@ function installDevelopEssentials()
                 autoconf \
                 automake \
                 build-essential \
+                clang \
+                clang-tidy \
                 cmake \
                 cmake-qt-gui \
                 cppcheck \

@@ -132,10 +132,10 @@ function installCaxGisScientific()
 
             curl -s https://dl.openfoam.com/add-debian-repo.sh | sudo bash
             wget -q -O - https://dl.openfoam.com/add-debian-repo.sh | sudo bash
-            sudo apt-get install openfoam2306-default
+            sudo apt-get install openfoam2406-default
             sudo apt-get install paraview
 
-            source /usr/lib/openfoam/openfoam2306/etc/bashrc
+            source /usr/lib/openfoam/openfoam2406/etc/bashrc
             mkdir -p $FOAM_RUN
 
             echo "Installing PyFoam"
