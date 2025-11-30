@@ -33,7 +33,11 @@ function installDcoker()
 
         # Install Docker Engine
         sudo apt-get -y update
-        sudo apt install -y docker-ce docker-ce-cli containerd.io
+        sudo apt install -y \
+            docker-ce \
+            docker-ce-cli \
+            docker-compose-plugin \
+            containerd.io
 
         # https://docs.docker.com/engine/install/linux-postinstall/
 
