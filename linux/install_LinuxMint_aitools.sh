@@ -39,10 +39,11 @@ function installAiTools()
         then
             printGreen "Installing OLLAMA MODELS ..."
             ollama pull llama3.1:8b
-            ollama pull fluffy/l3-8b-stheno-v3.2
-            ollama pull artifish/llama3.2-uncensored
             ollama pull deepseek-r1:7b
             ollama pull deepseek-r1:14b
+            ollama pull codellama:7b-instruct
+            ollama pull deepseek-coder:6.7b
+            ollama pull qwen2.5-coder:7b
         fi
 
         readBold "Do you want to install OPEN WEBUI?"
