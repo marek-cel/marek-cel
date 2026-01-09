@@ -23,6 +23,13 @@ local nothing = nil
 -- indexing starts at 1 !!!
 local table = {1, "hello", false}
 
+-- append to a table
+table[4] = 3.14
+
+for i = 1, 4 do
+    print("table[" .. i .. "] = " .. tostring(table[i]))
+end
+
 local map = {
     ["hello"] = "world",
     ["foo"] = "bar",

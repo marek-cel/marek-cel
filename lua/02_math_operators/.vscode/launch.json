@@ -1,0 +1,16 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "release",
+            "type": "lua-local",
+            "request": "launch",
+            "program": {
+                "lua": "lua5.4",
+                "file": "${workspaceFolder}/src/main.lua"
+            },
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
