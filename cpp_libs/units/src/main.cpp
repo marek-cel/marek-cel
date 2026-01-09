@@ -242,6 +242,8 @@ int main(int argc, char* argv[])
 
     test();
 
+    std::cout << std::endl;
+
 
     // units::length::meter_t l1 = 1.0_m;
     // units::angular_velocity::radians_per_second_t w1 = 1.0_rad_per_s;
@@ -249,18 +251,22 @@ int main(int argc, char* argv[])
     // v1 = l1 * w1;
     // std::cout << "v1 = " << v1 << std::endl;
 
-    units::length::meter_t l2_m = 1.0_m;
-    units::length::foot_t l2_ft = 1.0_m;
-    double l2_m_d = static_cast<double>(l2_m);
-    std::cout << "l2_m_d = " << l2_m_d << std::endl;
-    double l2_ft_d = static_cast<double>(l2_ft);
-    std::cout << "l2_ft_d = " << l2_ft_d << std::endl;
+    // units::length::meter_t l2_m = 1.0_m;
+    // units::length::foot_t l2_ft = 1.0_m;
+    // double l2_m_d = static_cast<double>(l2_m);
+    // std::cout << "l2_m_d = " << l2_m_d << std::endl;
+    // double l2_ft_d = static_cast<double>(l2_ft);
+    // std::cout << "l2_ft_d = " << l2_ft_d << std::endl;
 
-    double l3_d = 2.0;
-    units::length::meter_t l3_m = static_cast<units::length::meter_t>(l3_d);
-    std::cout << "l3_m = " << l3_m << std::endl;
-    units::length::foot_t l3_ft = static_cast<units::length::foot_t>(l3_d);
-    std::cout << "l3_ft = " << l3_ft << std::endl;
+    // double l3_d = 2.0;
+    // units::length::meter_t l3_m = static_cast<units::length::meter_t>(l3_d);
+    // std::cout << "l3_m = " << l3_m << std::endl;
+    // units::length::foot_t l3_ft = static_cast<units::length::foot_t>(l3_d);
+    // std::cout << "l3_ft = " << l3_ft << std::endl;
+
+    units::length::meter_t l4_m = 1.0_m;
+    units::length::foot_t l4_ft = static_cast<units::length::foot_t>(l4_m);
+    std::cout << "l4_ft = " << l4_ft << std::endl;
 
     return 0;
 }
