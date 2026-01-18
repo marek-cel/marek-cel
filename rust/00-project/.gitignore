@@ -1,0 +1,31 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+
+# Cargo.lock is typically committed for binaries, but not for libraries
+# Uncomment the following line if this is a library-only project:
+# Cargo.lock
+
+# IDE
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Debug
+*.pdb
+
+# Coverage reports
+*.profraw
+*.profdata
+coverage/
+tarpaulin-report.html

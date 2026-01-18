@@ -1,0 +1,17 @@
+# Clippy (Rust linter) configuration
+# See: https://doc.rust-lang.org/clippy/configuration.html
+
+# Minimum supported Rust version
+msrv = "1.75.0"
+
+# Cognitive complexity threshold for functions
+cognitive-complexity-threshold = 25
+
+# Maximum lines in a function before triggering too_many_lines
+too-many-lines-threshold = 100
+
+# Array size threshold for suggesting using vec![] instead
+array-size-threshold = 512000
+
+# Allow certain patterns (customize as needed)
+# allowed-scripts = ["Latin"]

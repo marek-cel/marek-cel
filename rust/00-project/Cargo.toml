@@ -1,0 +1,49 @@
+[package]
+name = "rust_hello_world"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "A Hello World Rust project template"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/yourusername/rust_hello_world"
+keywords = ["template", "hello-world"]
+categories = ["command-line-utilities"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+# Add your dependencies here, e.g.:
+# serde = { version = "1.0", features = ["derive"] }
+# tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+# Dependencies only used for testing/development
+# criterion = "0.5"  # For benchmarking
+
+[profile.dev]
+# Development profile - prioritize fast compilation
+opt-level = 0
+debug = true
+
+[profile.release]
+# Release profile - prioritize performance
+opt-level = 3
+lto = true           # Link-time optimization
+codegen-units = 1    # Better optimization, slower compile
+strip = true         # Strip symbols from binary
+
+[profile.test]
+# Test profile inherits from dev
+opt-level = 0
+debug = true
+
+# Uncomment to add binary targets
+# [[bin]]
+# name = "another_binary"
+# path = "src/bin/another.rs"
+
+# Uncomment if you want to create a library as well
+# [lib]
+# name = "rust_hello_world"
+# path = "src/lib.rs"

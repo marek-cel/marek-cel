@@ -1,0 +1,40 @@
+# Rust formatting configuration
+# See: https://rust-lang.github.io/rustfmt/
+
+# Use the 2021 edition style
+edition = "2021"
+
+# Maximum line width
+max_width = 100
+
+# Use spaces, not tabs
+hard_tabs = false
+tab_spaces = 4
+
+# Imports
+imports_granularity = "Module"
+group_imports = "StdExternalCrate"
+reorder_imports = true
+reorder_modules = true
+
+# Comments
+wrap_comments = true
+comment_width = 100
+normalize_comments = true
+normalize_doc_attributes = true
+
+# Functions
+fn_params_layout = "Tall"
+
+# Match arms
+match_arm_blocks = true
+match_block_trailing_comma = true
+
+# Use field init shorthand where possible
+use_field_init_shorthand = true
+
+# Struct formatting
+struct_lit_single_line = true
+
+# Chains
+chain_width = 60
