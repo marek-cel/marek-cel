@@ -2,28 +2,32 @@
 
 ## Initial Setup
 
-### Creating a Virtual Environment
+### Prerequisites
+
+Make sure you have [Anaconda](https://www.anaconda.com/download) or [Miniconda](https://docs.conda.io/en/latest/miniconda.html) installed.
+
+### Creating the Conda Environment
 
 ```bash
-python3 -m venv .venv
+conda env create -f environment.yml
 ```
 
-### Activating the Virtual Environment
-
-- On Windows:
+### Activating the Environment
 
 ```bash
-.venv\Scripts\activate
+conda activate sample-project
 ```
 
-- On Unix or MacOS:
+### Updating the Environment
+
+If `environment.yml` changes, sync your environment with:
 
 ```bash
-source .venv/bin/activate
+conda env update -f environment.yml --prune
 ```
 
-### Installing Dependencies
+### Deactivating the Environment
 
 ```bash
-pip install -r requirements.txt
+conda deactivate
 ```
