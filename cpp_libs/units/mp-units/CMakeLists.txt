@@ -26,13 +26,25 @@ elseif(WIN32)
 endif()
 
 ################################################################################
+# mp-units (https://github.com/mpusz/mp-units)
+#
+# mp-units is normally consumed via Conan + find_package(mp-units), which is
+# the officially recommended route (it pulls in the correct versions of its
+# own dependencies, e.g. gsl-lite for contract checks). Since this project
+# fetches it directly instead, we disable contract-checking dependencies and
+# the install target so a plain FetchContent build works with no extra
+# package manager. If you later switch to Conan, drop this block and use
+# find_package(mp-units REQUIRED) instead.
 
-FetchContent_Declare(LIBUNITS
-    GIT_REPOSITORY https://github.com/nholthaus/units.git
-    GIT_TAG origin/main
-    SOURCE_DIR "${CMAKE_BINARY_DIR}/units")
-FetchContent_MakeAvailable(LIBUNITS)
-include_directories(${CMAKE_BINARY_DIR}/units/include)
+set(MP_UNITS_BUILD_INSTALL OFF CACHE BOOL "" FORCE)
+set(MP_UNITS_API_CONTRACTS "NONE" CACHE STRING "" FORCE)
+
+FetchContent_Declare(mp-units
+    GIT_REPOSITORY https://github.com/mpusz/mp-units.git
+    GIT_TAG v2.5.0
+    SOURCE_DIR "${CMAKE_BINARY_DIR}/mp-units"
+    SOURCE_SUBDIR src)
+FetchContent_MakeAvailable(mp-units)
 
 ################################################################################
 
@@ -62,4 +74,4 @@ add_subdirectory(src)
 
 ################################################################################
 
-target_link_libraries(${PROJECT_NAME})
+target_link_libraries(${PROJECT_NAME} PRIVATE mp-units::mp-units)
