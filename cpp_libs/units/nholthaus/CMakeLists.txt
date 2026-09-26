@@ -29,9 +29,9 @@ endif()
 
 FetchContent_Declare(LIBUNITS
     GIT_REPOSITORY https://github.com/nholthaus/units.git
-    GIT_TAG origin/master
+    GIT_TAG origin/main
     SOURCE_DIR "${CMAKE_BINARY_DIR}/units")
-    FetchContent_MakeAvailable(LIBUNITS)
+FetchContent_MakeAvailable(LIBUNITS)
 include_directories(${CMAKE_BINARY_DIR}/units/include)
 
 ################################################################################
@@ -45,9 +45,9 @@ elseif(WIN32)
     set(CMAKE_CXX_FLAGS_RELEASE "-Wall -std=c++20 -O2")
     if (MSVC_VERSION GREATER_EQUAL "1900")
         include(CheckCXXCompilerFlag)
-        CHECK_CXX_COMPILER_FLAG("/std:c++17" _cpp_latest_flag_supported)
+        CHECK_CXX_COMPILER_FLAG("/std:c++20" _cpp_latest_flag_supported)
         if (_cpp_latest_flag_supported)
-            add_compile_options("/std:c++17")
+            add_compile_options("/std:c++20")
         endif()
     endif()
 endif()
